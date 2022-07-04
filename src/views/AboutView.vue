@@ -1,39 +1,42 @@
 <template>
   <b-container fluid class="text-center">
-    <b-row>
+    <b-row class="">
       <b-col cols="6" class="d-flex">
         <b-col cols="6">
           <b-dropdown id="dropdown-left" text="Horario 1" variant="outline-success" class="m-2">
             <b-dropdown-item href="#">Horario 1</b-dropdown-item>
-            <b-dropdown-item href="#">Horario 2</b-dropdown-item>
-            <b-dropdown-item href="#">Agregar</b-dropdown-item>
           </b-dropdown>
 
         </b-col>
-        <b-col cols="6" class="bg-warning">
-          <p>Horario 1
-             <i class="bi bi-pencil"></i>
-          </p>
-          
+        <b-col cols="6" class="my-auto mx-auto">
+          <div class="input-group mb-3">
+
+            <input type="text" class="form-control" placeholder="Horario..." aria-label="Username"
+              aria-describedby="basic-addon1">
+            <div class="input-group-prepend">
+              <span class="input-group-text" @click="create" id="basic-addon"><i
+                  class="bi bi-plus-circle-fill"></i></span>
+              <span class="input-group-text" @click="edit" id="basic-addon1"><i class="bi bi-pencil"></i></span>
+            </div>
+          </div>
         </b-col>
       </b-col>
       <b-col class="bg-secondary">
-        <h1>TEXTO 2</h1>
+        <p class="h4">Horario 1</p>
       </b-col>
     </b-row>
     <b-row class="">
-      <b-col class="p-2  ">
+      <b-col class=" ">
         <b-card>
-          <b-col class="">
-            <p class="h5 d-flex justify-content-between">
-              <b-button variant="success" class="text-center">
-                Materia
-              </b-button>
-              <b-button variant="success" class="text-center">
-                Actividad
-              </b-button>
-            </p>
-          </b-col>
+          <b-row class="justify-content-around">
+            <b-col class="align-self-center">
+              <b-button variant="success" class="text-center">Actividad</b-button>
+            </b-col>
+            <b-col class="align-self-center">
+              <b-button variant="success" class="text-center">Materia</b-button>
+            </b-col>
+          </b-row>
+
           <b-row>
             <b-col>
 
@@ -48,6 +51,13 @@
         <h2>SUBTEXTO2</h2>
       </b-col>
     </b-row>
+
+
+
+    <footer class="bg-success">
+    <img src="../assets/unc.png" class="justify-self-end" alt="">
+  </footer>
+ 
   </b-container>
 
 </template>
@@ -55,36 +65,58 @@
 export default {
   data() {
     return {
-      sortBy: 'age',
+      timetable: [],
+
+      sortBy: 'cuatrimestre',
       sortDesc: false,
       fields: [
         { key: 'tipo_actividad', sortable: true },
         { key: 'first_name', sortable: true },
-        { key: 'age', sortable: true },
+        { key: 'cuatrimestre', sortable: true },
 
       ],
       items: [
-        { age: 40, first_name: 'Dickerson', tipo_actividad: 'Macdonald' },
-        { age: 21, first_name: 'Larsen', tipo_actividad: 'Shaw' },
-        { age: 89, first_name: 'Geneva', tipo_actividad: 'Wilson' },
-        { age: 38, first_name: 'Jami', tipo_actividad: 'Carney' }
+        { cuatrimestre: 1, first_name: 'Dickerson', tipo_actividad: 'Macdonald' },
+        { cuatrimestre: 1, first_name: 'Larsen', tipo_actividad: 'Shaw' },
+        { cuatrimestre: 3, first_name: 'Geneva', tipo_actividad: 'Wilson' },
+        { cuatrimestre: 5, first_name: 'Jami', tipo_actividad: 'Carney' }
       ]
+    }
+  },
+  methods: {
+    create() {
+      if (this.hasValidInput()) {
+        const timetableName = `${this.last}, ${this.first}`
+        if (!this.timetable.includes(timetableName)) {
+          this.timetable.push(timetableName)
+          this.first = this.last = ''
+        }
+      }
+    },
+    update() {
+      if (this.hasValidInput() && this.selected) {
+        const i = this.timetable.indexOf(this.selected)
+        this.timetable[i] = this.selected = `${this.last}, ${this.first}`
+      }
+    },
+    del() {
+      if (this.selected) {
+        const i = this.timetable.indexOf(this.selected)
+        this.timetable.splice(i, 1)
+        this.selected = this.first = this.last = ''
+      }
+    },
+    hasValidInput() {
+      return this.first.trim() && this.last.trim()
     }
   }
 }
 </script>
+  
+}
+</script>
 <style>
-.btn-circle {
-  max-width: 30px;
-  width: 100%;
-
-  max-height: 30px;
-  height: 100%;
-  padding: 6px 0px;
-  border-radius: 15px;
-  text-align: center;
-  font-size: 15px;
-  text-shadow: 1px 1px 1px black;
-  line-height: 50%;
+.basic-addon1 {
+  color: green;
 }
 </style>
