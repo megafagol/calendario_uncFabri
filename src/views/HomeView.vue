@@ -1,5 +1,5 @@
 <template>
-  <div class="fondo">
+  <diva>
     <b-row class="abs-center">
 
       <b-card no-body style="max-width: 20rem;">
@@ -31,7 +31,7 @@
     <b-button variant="primary">Save</b-button>
   </b-form>
 </div>
-        <div>
+        <!-- <div>
           <b-form @submit="onSubmit" @reset="onReset" v-if="show">
             <b-form-group id="input-group-1" label="Ingrese usuario:" label-for="input-1"
               description="Nunca se compartirá su información">
@@ -54,7 +54,7 @@
             
             <!-- hay que moverlo a la derecha para acomodarlo -->
 
-            <b-form-group id="input-group-3" label="Tengo un Horario:" label-for="input-3">
+            <!-- <b-form-group id="input-group-3" label="Tengo un Horario:" label-for="input-3">
               <b-form-input id="input-2" v-model="form.id" placeholder="Ingrese un ID..." ></b-form-input>
             </b-form-group>
           </b-form>
@@ -62,7 +62,7 @@
           <b-card class="mt-3" header="Visualizar datos">
             <pre class="m-0">{{ form }}</pre>
           </b-card>
-        </div>
+        </div>  -->
       </b-card>
 
       <img src="" class="w-75">
