@@ -2,17 +2,22 @@
   "name": "calendario-unc",
   "version": "0.1.0",
   "private": true,
+  "description": "## Project setup ``` npm install ```",
+  "author": "",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build",
+    "start": "vue-cli-service serve --open"
   },
+  "main": "babel.config.js",
   "dependencies": {
     "bootstrap": "^5.2.0-beta1",
     "bootstrap-icons": "^1.8.3",
     "bootstrap-vue": "^2.22.0",
     "core-js": "^3.8.3",
+    "mdb-vue-ui-kit": "^1.14.0",
     "vue": "^2.6.14",
-    "vue-router": "^3.5.1",
+    "vue-router": "^3.5.4",
     "vuex": "^3.6.2"
   },
   "devDependencies": {
@@ -22,6 +27,7 @@
     "@vue/cli-service": "~5.0.0",
     "sass": "^1.32.7",
     "sass-loader": "^12.0.0",
+    "vue-cli-plugin-mdb5": "~1.2.0",
     "vue-template-compiler": "^2.6.14"
   },
   "browserslist": [
@@ -29,8 +35,5 @@
     "last 2 versions",
     "not dead"
   ],
-  "description": "## Project setup ``` npm install ```",
-  "main": "babel.config.js",
-  "author": "",
   "license": "ISC"
 }

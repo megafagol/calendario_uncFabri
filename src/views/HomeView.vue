@@ -1,119 +1,118 @@
-
 <template>
-  <div class="home bg-light">
-    <img alt="Vue logo" src="">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  <footer class="bg-success mt-5">
-    <img src="../assets/unc.png" alt="unclogo">
-  </footer>
+  <div class="fondo">
+    <b-row class="abs-center">
+
+      <b-card no-body style="max-width: 20rem;">
+      <p class="h3">UNC Calendar</p>
+      <div>
+  <b-form inline>
+    <label class="sr-only" for="inline-form-input-name">Name</label>
+    <b-form-input
+      id="inline-form-input-name"
+      class="mb-2 mr-sm-2 mb-sm-0"
+      placeholder="Email"
+    ></b-form-input>
+
+    <label class="sr-only" for="inline-form-input-username">Username</label>
+    <b-input-group prepend="@" class="mb-2 mr-sm-2 mb-sm-0">
+      <b-form-input id="inline-form-input-username" placeholder="Username"></b-form-input>
+    </b-input-group>
+
+    <b-form-checkbox class="mb-2 mr-sm-2 mb-sm-0">Remember me</b-form-checkbox>
+<div>
+  <b-form @submit.stop.prevent>
+    <label for="text-password">Password</label>
+    <b-form-input type="password" id="text-password" aria-describedby="password-help-block"></b-form-input>
+    <b-form-text id="password-help-block">
+     Su contraseña debe tener entre 8 y 20 caracteres, contener letras y números y no debe contener espacios, caracteres especiales o emoji.
+    </b-form-text>
+   </b-form>
+</div>
+    <b-button variant="primary">Save</b-button>
+  </b-form>
+</div>
+        <div>
+          <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+            <b-form-group id="input-group-1" label="Ingrese usuario:" label-for="input-1"
+              description="Nunca se compartirá su información">
+              <b-form-input id="input-1" v-model="form.username" type="username" placeholder="Usuario..." required>
+              </b-form-input>
+            </b-form-group>
+
+            <b-form-group id="input-group-2" label-for="input-2">
+              <b-form-input id="input-2" v-model="form.password" placeholder="Contraseña..." required></b-form-input>
+            </b-form-group>
+
+            <b-form-group id="input-group-4" v-slot="{ ariaDescribedby }">
+              <b-form-checkbox-group v-model="form.checked" id="checkboxes-4" :aria-describedby="ariaDescribedby">
+                <b-form-checkbox value="me">Recuerdame</b-form-checkbox>
+              </b-form-checkbox-group>
+            </b-form-group>
+
+            <b-button type="reset" variant="danger">Ingresar</b-button>
+            <b-button type="submit" variant="primary">Registrarse</b-button>
+            
+            <!-- hay que moverlo a la derecha para acomodarlo -->
+
+            <b-form-group id="input-group-3" label="Tengo un Horario:" label-for="input-3">
+              <b-form-input id="input-2" v-model="form.id" placeholder="Ingrese un ID..." ></b-form-input>
+            </b-form-group>
+          </b-form>
+
+          <b-card class="mt-3" header="Visualizar datos">
+            <pre class="m-0">{{ form }}</pre>
+          </b-card>
+        </div>
+      </b-card>
+
+      <img src="" class="w-75">
+    </b-row>
   </div>
 </template>
-<style>
-.unclogo{
-  max-width: 120px;
-}
-</style>
-
-
-
-
-
-
-
-
-
-
-
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
 export default {
-  name: 'HomeView',
-  components: {
-    HelloWorld
+  data() {
+    return {
+      form: {
+        username: '',
+        password: '',
+        id: '',
+        checked: []
+      },
+      show: true
+    }
+  },
+  methods: {
+    onSubmit(event) {
+      event.preventDefault()
+      alert(JSON.stringify(this.form))
+    },
+    onReset(event) {
+      event.preventDefault()
+      // Reset our form values
+      this.form.username = ''
+      this.form.password = ''
+      this.form.checked = []
+      // Trick to reset/clear native browser form validation state
+      this.show = false
+      this.$nextTick(() => {
+        this.show = true
+      })
+    }
   }
 }
-</script>
+</script> 
 <style>
-#body{
-    margin: 0;
-    background-color: rgb(242, 242, 242);
-    font-family: 'public sans';
-    padding: 0;
-    box-sizing: border-box;
-    height: 100vh;
-    width: 100vw;
+.abs-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
 }
 
-.container{
-    position: absolute;
-    left: 10em;
-    top: 5em;
-    background: rgb(245, 245, 245);
-    box-shadow: 0px 1px 20px rgba(0, 0, 0, 0.25);
-    border-radius: 10px;
-    margin-bottom: 0;
-}
+.fondo {
+  background: no-repeat url(../assets/EscudoUNC.svg);
 
-.title{
-    color: #2C5F66;
-    text-align: center;
-}
-
-#container1{
-    position: absolute;
-    left: 20em;
-}
-
-input{
-border: none;
-outline: none;
-background: rgb(245, 245, 245);
-}
-
-label{
-    position: relative;
-    left: 10em;
-}
-#unc{
- 
-    width: 30em;
-    position: absolute;
-    left: 40em;
-    z-index: -1;
-    margin: 1em 0 0 0;
-   
-}
-
-#button1{
-    border: none;
-    background-color: #2C5F66;
-    color: white;
-}
-
-#button2{
-    border: none;
-    background-color: #DDC77A;
-    color: #2C5F66;
-}
-button:hover{
-    box-shadow: 0px 1px 20px rgba(0, 0, 0, 0.5);
-}
-
-#footer{
-    position: relative;
-    top:35em;
-    background-color: #2C5F66;
-    margin: 0;
-    height: 4em;
-    z-index: 1;
-}
-
-#unc2{
-    position: relative;
-    width: 12em;
-    z-index: 10;
 }
 </style>

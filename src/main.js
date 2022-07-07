@@ -13,7 +13,9 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
-
+import 'bootstrap/dist/css/bootstrap.min.css';
+// import '@/assets/css/main.css'
+Vue.config.productionTip = false
 
 Vue.use(BootstrapVue)
 
