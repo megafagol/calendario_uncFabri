@@ -1,7 +1,7 @@
 <template>
   <body id="body">
 
-        <div id="container1" class="container col-7 row px-2 py-2">
+        <div id="container1" class="container1 col-7 row px-2 py-2">
                         
             <div class="container-input row col-12 pb-2">
                 <h1 class="title">TUTORIAL</h1>
@@ -35,7 +35,7 @@
                 
         </div>
 
-        <img alt="logo-UNC" id="unc" src="@/assets/UNC2.svg" class="img-fluid col-4">
+        <img alt="logo-UNC" id="unc" src="@/assets/UNC2.svg" class="img-fluid col-5">
 
         <footer id="footer" class="footer col-12">
             <img src="@/assets/unc.png" id="unc2" class="img-fluid" >
@@ -63,12 +63,11 @@
     z-index:-1;
 }
 
-.container{
+.container1{
     position: absolute;
     left: 10%;
     top: 10%;
     height:77%;
-    
     background: rgb(245, 245, 245);
     box-shadow: 0px 1px 20px rgba(0, 0, 0, 0.25);
     border-radius: 10px;
