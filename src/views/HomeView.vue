@@ -1,118 +1,133 @@
 <template>
-  <diva>
-    <b-row class="abs-center">
+  <body id="body">
 
-      <b-card no-body style="max-width: 20rem;">
-      <p class="h3">UNC Calendar</p>
-      <div>
-  <b-form inline>
-    <label class="sr-only" for="inline-form-input-name">Name</label>
-    <b-form-input
-      id="inline-form-input-name"
-      class="mb-2 mr-sm-2 mb-sm-0"
-      placeholder="Email"
-    ></b-form-input>
+        <div id="container1" class="container col-7 row px-2 py-2">
+                        
+            <div class="container-input row col-12 pb-2">
+                <h1 class="title">Tutorial</h1>
 
-    <label class="sr-only" for="inline-form-input-username">Username</label>
-    <b-input-group prepend="@" class="mb-2 mr-sm-2 mb-sm-0">
-      <b-form-input id="inline-form-input-username" placeholder="Username"></b-form-input>
-    </b-input-group>
+                <div class="container-i-1 col-12 ms-3 mb-2">
 
-    <b-form-checkbox class="mb-2 mr-sm-2 mb-sm-0">Remember me</b-form-checkbox>
-<div>
-  <b-form @submit.stop.prevent>
-    <label for="text-password">Password</label>
-    <b-form-input type="password" id="text-password" aria-describedby="password-help-block"></b-form-input>
-    <b-form-text id="password-help-block">
-     Su contraseña debe tener entre 8 y 20 caracteres, contener letras y números y no debe contener espacios, caracteres especiales o emoji.
-    </b-form-text>
-   </b-form>
-</div>
-    <b-button variant="primary">Save</b-button>
-  </b-form>
-</div>
-        <!-- <div>
-          <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-            <b-form-group id="input-group-1" label="Ingrese usuario:" label-for="input-1"
-              description="Nunca se compartirá su información">
-              <b-form-input id="input-1" v-model="form.username" type="username" placeholder="Usuario..." required>
-              </b-form-input>
-            </b-form-group>
+                    <p class="descripcion col-12">
+                    Bienvenidos a Calendario UNC.<br>
+                    El mismo es una herramienta que te permitirá crear tu horario en función de tus actividades y tiempo disponible.
+                    De manera que podrás gestionar las materias que deseas cursar este cuatrimestre y combinar sus horarios para poder elaborar tu calendario de manera personalizada.
+                   <br>Aquí te dejamos un video con la explicación de como funciona.
+                    </p>
 
-            <b-form-group id="input-group-2" label-for="input-2">
-              <b-form-input id="input-2" v-model="form.password" placeholder="Contraseña..." required></b-form-input>
-            </b-form-group>
+                    <iframe class="video col-12" src="" type="" preload="auto"></iframe>
+                                      
+                </div>
+                       
+                <div id="container-button" class="container-button mx-0">   
 
-            <b-form-group id="input-group-4" v-slot="{ ariaDescribedby }">
-              <b-form-checkbox-group v-model="form.checked" id="checkboxes-4" :aria-describedby="ariaDescribedby">
-                <b-form-checkbox value="me">Recuerdame</b-form-checkbox>
-              </b-form-checkbox-group>
-            </b-form-group>
+                    <a href="/Horarios">
+        
+                        <button type="button" id="button2" class="btn col-12" url="Horarios">
+                        <router-link class="ruta" to="/Horarios"></router-link>
+                        Inicio
+                        </button>
 
-            <b-button type="reset" variant="danger">Ingresar</b-button>
-            <b-button type="submit" variant="primary">Registrarse</b-button>
-            
-            <!-- hay que moverlo a la derecha para acomodarlo -->
+                    </a>
+                </div>
+                
+            </div>
+                
+        </div>
 
-            <!-- <b-form-group id="input-group-3" label="Tengo un Horario:" label-for="input-3">
-              <b-form-input id="input-2" v-model="form.id" placeholder="Ingrese un ID..." ></b-form-input>
-            </b-form-group>
-          </b-form>
+        <img id="unc" src="/EscudoUNC.svg" class="img-fluid col-4">
 
-          <b-card class="mt-3" header="Visualizar datos">
-            <pre class="m-0">{{ form }}</pre>
-          </b-card>
-        </div>  -->
-      </b-card>
-
-      <img src="" class="w-75">
-    </b-row>
-  </div>
+        <footer id="footer" class="footer">
+            <img src="assets/unc.png" id="unc2" class="img-fluid" >
+        </footer>
+      
+    </body>
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      form: {
-        username: '',
-        password: '',
-        id: '',
-        checked: []
-      },
-      show: true
-    }
-  },
-  methods: {
-    onSubmit(event) {
-      event.preventDefault()
-      alert(JSON.stringify(this.form))
-    },
-    onReset(event) {
-      event.preventDefault()
-      // Reset our form values
-      this.form.username = ''
-      this.form.password = ''
-      this.form.checked = []
-      // Trick to reset/clear native browser form validation state
-      this.show = false
-      this.$nextTick(() => {
-        this.show = true
-      })
-    }
-  }
-}
+
 </script> 
+
 <style>
-.abs-center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
+#body{
+    margin: 0;
+    background-color: rgb(242, 242, 242);
+    font-family: 'public sans';
+    padding: 0;
+    box-sizing: border-box;
+    height: 100vh;
+    width: 100vw;
 }
 
-.fondo {
-  background: no-repeat url(../assets/EscudoUNC.svg);
+.container{
+    position: absolute;
+    left: 5%;
+    top: 10%;
+    height:77%;
+    
+    background: rgb(245, 245, 245);
+    box-shadow: 0px 1px 20px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    margin-bottom: 0;
+}
 
+.title{
+    text-align:center;
+    margin: 0;
+    color: #2C5F66;
+    text-align: center;
+    position: relative;
+    right: auto;
+    left: auto;
+    height:10%;
+
+}
+.container-i-1{
+    height:75%;
+    margin: 0;
+    padding: 1%;
+    border: 3px solid #2C5F66;
+    border-radius:10px;
+}
+
+.video{
+    background-color:#DDC77A;
+}
+
+
+
+#unc{
+    width: 30%;
+    position: absolute;
+   top: 50%;
+   left: 70%;
+    
+    /* z-index: -1; */
+    margin: 1em 0 0 0;
+}
+
+
+#button2{
+    border: none;
+    background-color: #DDC77A;
+    color: #2C5F66;
+}
+button:hover{
+    box-shadow: 0px 1px 20px rgba(0, 0, 0, 0.5);
+}
+
+#footer{
+    position: relative;
+    top:90%;
+    background-color: #2C5F66;
+    margin: 0;
+    height: 4em;
+    z-index: 1;
+}
+
+#unc2{
+    position: relative;
+    width: 12em;
+    z-index: 1;
 }
 </style>

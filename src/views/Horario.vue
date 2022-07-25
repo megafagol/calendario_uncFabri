@@ -1,42 +1,42 @@
-  <template>
-  <div>
-
-    <b-row class="">
-      <b-col cols="6" class="d-flex">
-        <b-col cols="6">
-          <b-dropdown id="lista-horarios" name="Listado De Horarios" text="Horarios" variant="outline-success"
-            class="m-2">
-            <b-dropdown-item v-for="(item, index) of horarios" @click="tituloTabla" v-on>
-              <div class="d-flex justify-content-between">
-                <div>
-                  {{ index }} - {{ item.nombre }}
-                </div>
-                <div>
-                  <b-button variant="danger" class="btn-sm" @click="eliminarHorario">X</b-button>
-                  <!-- <b-button class="bi bi-pencil btn-sm" variant="info"></b-button> -->
-                </div>
+<template>
+  <div class="container col-xxl-12">
+    
+    <div class="container-1-linea row mb-4 col-12">
+      <b-dropdown id="lista-horarios" name="Listado De Horarios" text="Tus Horarios" variant="outline-success" class="dropdown my-2 col-3">
+           
+        <b-dropdown-item v-for="(item, index) of horarios" @click="tituloTabla" v-on>
+          <div class="d-flex justify-content-between">
+                  
+              <div>
+                {{ index }} - {{ item.nombre }}
               </div>
-            </b-dropdown-item>
-
-          </b-dropdown>
-
-        </b-col>
-        <b-col cols="6" class="my-auto mx-auto">
-          <div class="input-group mb-3">
-
-            <input type="text" class="form-control" v-model="nuevoHorario" v-on:keyup.enter="agregarHorario">
-            <div class="input-group-prepend">
-              <b-button id="basic-addon" class="input-group-text bi bi-plus-circle-fill" variant="outline"
-                @click="agregarHorario">
-              </b-button>
-            </div>
+                  
+              <div>
+                <b-button variant="danger" class="btn-sm" @click="eliminarHorario">X</b-button>
+                <b-button class="bi bi-pencil btn-sm" variant="info"></b-button> 
+              </div>
+                
           </div>
-        </b-col>
-      </b-col>
-      <b-col class="">
-        <p class="h3">Horario</p>
-      </b-col>
-    </b-row>
+        </b-dropdown-item> 
+
+      </b-dropdown> 
+
+      <div class="container-p ms-5 mt-3 col-2" >
+        <p class="p" >Nuevo Horario:</p>
+      </div>
+
+      <div class="container-p mt-3 col-4">
+        <input type="text" class="" v-model="nuevoHorario" v-on:keyup.enter="agregarHorario">
+                          
+          <b-button id="basic-addon" class="input-group-text bi bi-plus-circle-fill" variant="outline"
+            @click="agregarHorario">
+          </b-button>
+      </div>
+
+    </div>                
+      
+     
+
     <b-row class="">
       <b-col class=" ">
         <b-card>
@@ -178,7 +178,16 @@ export default {
 </script> 
 
   <style>
-  .basic-addon1 {
-    color: green;
-  }
+ .container{  
+    position: fixed;
+    left:3%;
+    top: 10%;
+    background: rgb(245, 245, 245);
+    box-shadow: 0px 1px 20px rgb(0 0 0 / 25%);
+    border-radius: 10px;
+ 
+    width:90%;
+    height:80%;
+ }
+
   </style>
