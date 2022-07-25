@@ -40,7 +40,7 @@
   margin: 0;
   padding: 0;
   position: relative;
-  width: 100%;
+  width: 100vw;
   height: 3em;
   background-color: #fff;
   outline: 1px solid #000;
