@@ -37,13 +37,11 @@
       
      
 
-    <b-row class="">
-      <b-col class=" ">
-        <b-card>
-          <b-row>
-            <p class="h2">Titulo de la tabla</p>
-            <b-col class="align-self-center">
-              <div>
+    <div class="containermaterias col-6">
+            
+      <h3 class="h3">Titulo de la tabla</h3>
+           
+        <div class="containerbotones col-3">
                 <b-button v-b-modal.modal-Actividad variant="outline-info">Actividad</b-button>
 
                 <b-modal id="modal-Actividad" centered title="Actividad">
@@ -73,6 +71,8 @@
                   </div>
                 </b-modal>
               </div>
+
+      </div>
 
 
               <div>
