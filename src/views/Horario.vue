@@ -1,4 +1,5 @@
 <template>
+  
   <div class="container col-xxl-12">
     
     <div class="container-1-linea row mb-4 col-12">
@@ -37,69 +38,78 @@
       
      
 
-    <b-row class="">
-      <b-col class=" ">
-        <b-card>
-          <b-row>
-            <p class="h2">Titulo de la tabla</p>
-            <b-col class="align-self-center">
-              <div>
-                <b-button v-b-modal.modal-Actividad variant="outline-info">Actividad</b-button>
+    <div class="containerbotones col-12">
+            
+      <h3 class="h3 col-4">Titulo de la tabla</h3>
+           
+      <div class="containeract col-3">
+            
+        <b-button v-b-modal.modal-Actividad variant="outline-info">Actividad</b-button>
 
-                <b-modal id="modal-Actividad" centered title="Actividad">
-                  <p class="my-4">agregue una actividad</p>
-                  <div class="input-group mb-3">
+          <b-modal id="modal-Actividad" centered title="Actividad">
+            
+            <p class="my-4">agregue una actividad</p>
+            
+              <div class="input-group mb-3" bg-secondary>
 
-                    <input type="text" class="form-control" v-model="nuevaActividad"
-                      v-on:keyup.enter="agregarActividad">
-                    <div class="input-group-prepend">
-                      <b-button id="basic-addon" class="input-group-text bi bi-plus-circle-fill" variant="outline"
+                <input type="text" class="form-control" v-model="nuevaActividad" v-on:keyup.enter="agregarActividad">
+                    
+                  <div class="input-group-prepend">
+                      
+                    <b-button id="basic-addon" class="input-group-text bi bi-plus-circle-fill" variant="outline"
                         @click="agregarActividad">
-                      </b-button>
-                    </div>
-                    <b-list>
-                      <b-item v-for="(item, index) of actividades">
-                        <div class="d-flex justify-content-between">
-                          <div>
-                            {{ index }} - {{ item.nombre }}
-                          </div>
-                          <div>
-                            <b-button variant="danger" class="btn-sm" @click="eliminarActividad">X</b-button>
-                            <!-- <b-button class="bi bi-pencil btn-sm" variant="info"></b-button> -->
-                          </div>
-                        </div>
-                      </b-item>
-                    </b-list>
+                    </b-button>
                   </div>
-                </b-modal>
+      
+                  <b-list class="bg-secondary">
+                      
+                    <b-item v-for="(item, index) of actividades">
+                        
+                      <div class="d-flex justify-content-between">
+                          
+                        <div>
+                            {{ index }} - {{ item.nombre }}
+                        </div>
+
+                        <div>
+                            <b-button variant="danger" class="btn-sm" @click="eliminarActividad">X</b-button>
+                        </div>
+
+                      </div>
+                    </b-item>
+
+                  </b-list>
+
               </div>
+          </b-modal>
+    </div>
+
+      </div>
 
 
-              <div>
-                <b-button v-b-modal.modal-materia variant="outline-warning">Materia</b-button>
+    <div class="containermateria col-3">
+                
+      <b-button v-b-modal.modal-materia variant="outline-warning">Materia</b-button>
 
-                <b-modal id="modal-materia" centered title="Seleccione una materia">
-                  <p class="my-4">listado de materias</p>
-                  <b-dropdown id="dropdown-Materia" text="Materia 1" variant="outline-success" class="m-2">
-                    <b-dropdown-item href="#">Materia 1 </b-dropdown-item>
-                  </b-dropdown>
-                </b-modal>
-              </div>
-            </b-col>
-          </b-row>
-        </b-card>
-      </b-col>
-      <b-col class="p-2 bg-light">
-        <b-row>
-          <b-col>
+        <b-modal id="modal-materia" centered title="Seleccione una materia">
+                  
+          <p class="my-4">listado de materias</p>
+          
+            <b-dropdown id="dropdown-Materia" text="Materia 1" variant="outline-success" class="m-2">
+          
+              <b-dropdown-item href="#">Materia 1</b-dropdown-item>
+          
+            </b-dropdown>
+          
+        </b-modal>
+    </div>
+           
+      <div class="calendario col-12">
 
             <b-table :items="items" :fields="fields" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" sort-icon-left
               responsive="sm">
             </b-table>
-          </b-col>
-        </b-row>
-      </b-col>
-    </b-row>
+      </div>
 
   </div>
 
@@ -107,71 +117,71 @@
 
 </template>
   <script>
+import SaveComponent from '@/components/SaveComponent.vue';
 export default {
-  data() {
-    return {
-      nuevoHorario: '',
-      horarios: [],
-
-      nuevaActividad: '',
-      actividades: [],
-
-      nuevaMateria: '',
-      materias: [],
-
-      tituloTabla: {},
-
-
-      sortBy: 'cuatrimestre',
-      sortDesc: false,
-      name: '',
-      nameState: null,
-      submittedNames: [],
-      fields: [
-        { key: 'nombre', sortable: true },
-        { key: 'tipo_de_actividad', sortable: true },
-        { key: 'cuatrimestre', sortable: true },
-
-      ],
-      items: [
-        { cuatrimestre: 1, nombre: 'Dickerson', tipo_actividad: 'Macdonald' },
-      ],
-    }
-  },
-  methods: {
-    agregarHorario: function () {
-      // console.log('diste click', this.nuevoHorario)
-      this.horarios.push({
-        nombre: this.nuevoHorario,
-        estado: false
-      });
-      console.log(this.horarios);
-      this.nuevoHorario = '';
+    data() {
+        return {
+            nuevoHorario: "",
+            horarios: [],
+            nuevaActividad: "",
+            actividades: [],
+            nuevaMateria: "",
+            materias: [],
+            tituloTabla: {},
+            sortBy: "cuatrimestre",
+            sortDesc: false,
+            name: "",
+            nameState: null,
+            submittedNames: [],
+            fields: [
+                { key: "Hora", sortable: true},
+                { key: "Lunes" },
+                { key: "Martes" },
+                { key: "Miercoles" },
+                { key: "Jueves" },
+                { key: "Viernes" },
+                { key: "Sabado" },
+            ],
+            items: [
+                {Hora:"8:00", Lunes:"fisica", Martes:"", Miercoles:"", Jueves:"", Viernes:"", Sabado:"",},
+            ],
+        };
     },
-    agregarMateria: function () {
-      //console.log('diste click' , this.nuevoHorario)
-      this.materias.push({
-        nombre: this.nuevaMateria,
-        estado: false
-      });
-      console.log(this.materias);
-      this.nuevaMateria = '';
+    methods: {
+        agregarHorario: function () {
+            // console.log('diste click', this.nuevoHorario)
+            this.horarios.push({
+                nombre: this.nuevoHorario,
+                estado: false
+            });
+            console.log(this.horarios);
+            this.nuevoHorario = "";
+        },
+        agregarMateria: function () {
+            //console.log('diste click' , this.nuevoHorario)
+            this.materias.push({
+                nombre: this.nuevaMateria,
+                estado: false
+            });
+            console.log(this.materias);
+            this.nuevaMateria = "";
+        },
+        agregarActividad: function () {
+            this.actividades.push({
+                nombre: this.nuevaActividad,
+                estado: false
+            });
+            console.log(this.actividades);
+            this.nuevaActividad = "";
+        },
+        eliminarHorario: function (index) {
+            this.horarios.splice(index, 1);
+        },
+        eliminarActividad: function (index) {
+            this.actividades.splice(index, 1);
+        }
     },
-    agregarActividad: function () {
-      this.actividades.push({
-        nombre: this.nuevaActividad,
-        estado: false
-      });
-      console.log(this.actividades);
-      this.nuevaActividad = '';
-    },
-    eliminarHorario: function (index) {
-      this.horarios.splice(index, 1)
-    },
-    eliminarActividad: function (index) {
-      this.actividades.splice(index, 1)
-    }
-  },
+    components: { SaveComponent }
 }
 
 

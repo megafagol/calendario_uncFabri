@@ -11,11 +11,11 @@
       <ul class="nav navbar-nav flex-row float-right">
 
         <li class="nav-item">
-          <router-link class="ruta" to="/">Home</router-link>
+          <router-link class="rutaHome" to="/">Home</router-link>
         </li>
 
         <li class="nav-item">
-          <router-link class="ruta" to="/horarios">Horarios</router-link>
+          <router-link class="rutaHorario" to="/horarios">Horarios</router-link>
         </li>
       </ul>
     </nav>
@@ -57,15 +57,27 @@ ul {
   list-style: none;
   position: relative;
   right: 10%;
+  width: 100%;
 }
 li {
   list-style: none;
   height:10%;
-  width:5em;
+  width:100%;
+  display: float;
 }
-.ruta{
-
+.rutaHome{
+  float: left;
   text-decoration: none;
   color: #2C5F66;
+  width: 30%;
+}
+
+.rutaHorario{
+  display: relative;
+  right:30%;
+  float: right;
+  text-decoration: none;
+  color: #2C5F66;
+  width: 30%;
 }
 </style>
