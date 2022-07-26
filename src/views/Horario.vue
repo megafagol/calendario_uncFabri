@@ -1,11 +1,26 @@
 <template>
-  
-  <div class="container col-xxl-12">
+
+  <body class="body-horarios">
+
+    <div class="container col-xxl-12">
     
-    <div class="container-1-linea row mb-4 col-12">
-      <b-dropdown id="lista-horarios" name="Listado De Horarios" text="Tus Horarios" variant="outline-success" class="dropdown my-2 col-3">
+      <div class="container-1-linea col-2">
+      
+        <div class="container-h2 mt-4 col-12" >
+        <h3 class="h2" >Nuevo Horario:</h3>
+        </div>
+
+        <div class="container-input mt-2 col-12">
+        <input type="text" class="col-9" v-model="nuevoHorario" v-on:keyup.enter="agregarHorario" placeholder="Titulo Horario">
+                          
+        <b-button id="basic-addon" class="input-group-text col-3 bi bi-plus-circle-fill" variant="outline"
+            @click="agregarHorario">
+        </b-button>
+        </div>
+
+        <b-dropdown id="lista-horarios" name="Listado De Horarios" text="Tus Horarios" variant="outline-success" class="my-4 col-12 boton-horario">
            
-        <b-dropdown-item v-for="(item, index) of horarios" @click="tituloTabla" v-on>
+          <b-dropdown-item v-for="(item, index) of horarios" @click="tituloTabla" v-on>
           <div class="d-flex justify-content-between">
                   
               <div>
@@ -18,41 +33,25 @@
               </div>
                 
           </div>
-        </b-dropdown-item> 
+          </b-dropdown-item> 
 
-      </b-dropdown> 
-
-      <div class="container-p ms-5 mt-3 col-2" >
-        <p class="p" >Nuevo Horario:</p>
-      </div>
-
-      <div class="container-p mt-3 col-4">
-        <input type="text" class="" v-model="nuevoHorario" v-on:keyup.enter="agregarHorario">
-                          
-          <b-button id="basic-addon" class="input-group-text bi bi-plus-circle-fill" variant="outline"
-            @click="agregarHorario">
-          </b-button>
-      </div>
-
-    </div>                
-      
-     
-
-    <div class="containerbotones col-12">
+        </b-dropdown> 
+                
+      <div class="containerbotones mt-5 col-12">
             
-      <h3 class="h3 col-4">Titulo de la tabla</h3>
+        <h3 class="h3">Personalizá tus <br>actividades y <br>materias según<br>tus tiempos.</h3>
            
-      <div class="containeract col-3">
+        <div class="containeract my-4">
             
-        <b-button v-b-modal.modal-Actividad variant="outline-info">Actividad</b-button>
+          <button v-b-modal.modal-Actividad variant="outline-info" class="boton-horario col-12 mb-2">Nueva Actividad</button>
 
-          <b-modal id="modal-Actividad" centered title="Actividad">
+            <b-modal id="modal-Actividad" centered title="Actividad">
             
-            <p class="my-4">agregue una actividad</p>
+              <p class="my-4">agregue una actividad</p>
             
-              <div class="input-group mb-3" bg-secondary>
+                <div class="input-group mb-3" bg-secondary>
 
-                <input type="text" class="form-control" v-model="nuevaActividad" v-on:keyup.enter="agregarActividad">
+                  <input type="text" class="form-control" v-model="nuevaActividad" v-on:keyup.enter="agregarActividad">
                     
                   <div class="input-group-prepend">
                       
@@ -80,41 +79,48 @@
 
                   </b-list>
 
-              </div>
-          </b-modal>
-    </div>
-
-      </div>
-
-
-    <div class="containermateria col-3">
+                </div>
+            </b-modal>
+        </div> 
+          <!-- cierre container act -->
+        <div class="containermateria">
                 
-      <b-button v-b-modal.modal-materia variant="outline-warning">Materia</b-button>
+          <button v-b-modal.modal-materia variant="outline-warning" class="boton-horario col-12">Nueva Materia</button>
 
-        <b-modal id="modal-materia" centered title="Seleccione una materia">
+          <b-modal id="modal-materia" centered title="Seleccione una materia">
                   
-          <p class="my-4">listado de materias</p>
+            <p class="my-4">listado de materias</p>
           
-            <b-dropdown id="dropdown-Materia" text="Materia 1" variant="outline-success" class="m-2">
+              <b-dropdown id="dropdown-Materia" text="Materia 1" variant="outline-success" class="m-2">
           
-              <b-dropdown-item href="#">Materia 1</b-dropdown-item>
+                <b-dropdown-item href="#">Materia 1</b-dropdown-item>
           
-            </b-dropdown>
+              </b-dropdown>
           
-        </b-modal>
-    </div>
-           
-      <div class="calendario col-12">
-
-            <b-table :items="items" :fields="fields" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" sort-icon-left
-              responsive="sm">
-            </b-table>
+          </b-modal>
+        </div>
+           <!--cierre container materias--  -->
+      
       </div>
 
-  </div>
+    </div>
+    <!-- cierre div container linea 1 -->
+    <div class="calendario col-9">
 
+        <h3 class="h3-tabla col-12">Titulo de la tabla</h3>
 
+        <b-table class="tabla" :items="items" :fields="fields" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" sort-icon-left responsive="sm">
+        </b-table>
+    </div>
+    
+    </div>
 
+    <!-- <div class="container-publi">
+      <img alt="" src="" style="background-color: blue;">
+      <img alt="" src="" style="background-color: red;">
+    </div> -->
+  
+  </body>
 </template>
   <script>
 import SaveComponent from '@/components/SaveComponent.vue';
@@ -143,7 +149,40 @@ export default {
                 { key: "Sabado" },
             ],
             items: [
-                {Hora:"8:00", Lunes:"fisica", Martes:"", Miercoles:"", Jueves:"", Viernes:"", Sabado:"",},
+                {Hora:"7:00", Lunes:"", Martes:"", Miercoles:"", Jueves:"", Viernes:"", Sabado:"",},
+                
+                {Hora:"8:00", Lunes:"", Martes:"", Miercoles:"", Jueves:"", Viernes:"", Sabado:"",},
+                
+                {Hora:"9:00", Lunes:"", Martes:"", Miercoles:"", Jueves:"", Viernes:"", Sabado:"",},
+                
+                {Hora:"10:00", Lunes:"", Martes:"", Miercoles:"", Jueves:"", Viernes:"", Sabado:"",},
+                
+                {Hora:"11:00", Lunes:"", Martes:"", Miercoles:"", Jueves:"", Viernes:"", Sabado:"",},
+                
+                {Hora:"12:00", Lunes:"", Martes:"", Miercoles:"", Jueves:"", Viernes:"", Sabado:"",},
+                
+                {Hora:"13:00", Lunes:"", Martes:"", Miercoles:"", Jueves:"", Viernes:"", Sabado:"",},
+                
+                {Hora:"14:00", Lunes:"", Martes:"", Miercoles:"", Jueves:"", Viernes:"", Sabado:"",},
+               
+                {Hora:"15:00", Lunes:"", Martes:"", Miercoles:"", Jueves:"", Viernes:"", Sabado:"",},
+                
+                {Hora:"16:00", Lunes:"", Martes:"", Miercoles:"", Jueves:"", Viernes:"", Sabado:"",},
+               
+                {Hora:"17:00", Lunes:"", Martes:"", Miercoles:"", Jueves:"", Viernes:"", Sabado:"",},
+                
+                {Hora:"18:00", Lunes:"", Martes:"", Miercoles:"", Jueves:"", Viernes:"", Sabado:"",},
+                
+                {Hora:"19:00", Lunes:"", Martes:"", Miercoles:"", Jueves:"", Viernes:"", Sabado:"",},
+                
+                {Hora:"20:00", Lunes:"", Martes:"", Miercoles:"", Jueves:"", Viernes:"", Sabado:"",},
+                
+                {Hora:"21:00", Lunes:"", Martes:"", Miercoles:"", Jueves:"", Viernes:"", Sabado:"",},
+                
+                {Hora:"22:00", Lunes:"", Martes:"", Miercoles:"", Jueves:"", Viernes:"", Sabado:"",},
+                
+                {Hora:"23:00", Lunes:"", Martes:"", Miercoles:"", Jueves:"", Viernes:"", Sabado:"",},
+                
             ],
         };
     },
@@ -195,9 +234,40 @@ export default {
     background: rgb(245, 245, 245);
     box-shadow: 0px 1px 20px rgb(0 0 0 / 25%);
     border-radius: 10px;
- 
-    width:90%;
-    height:80%;
+    width:100vw;
+    height:80vh;
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
  }
+
+ .container-1-linea{
+  padding: 0 2%;
+  width: 20%;
+  position: relative;
+  right:1%;
+  border-radius: 10px;
+  outline: 1px solid #2C5F66;
+  background-color:#2C5F66;
+ }
+
+ h3{
+  font-size:1.6em !important;
+  font-family: sans-serif;
+ }
+
+.boton-horario{
+  border: 3px solid #DDC77A;
+  border-radius:5px;
+  background-color: #2C5F66;
+  color: #DDC77A !important;
+}
+
+.h3-tabla{
+  text-align:center;
+}
+b-tabla{
+  height:10em;
+}
 
   </style>

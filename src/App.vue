@@ -6,7 +6,6 @@
 
       <h4 class="title2 col-12 mb-5 mx-2">UNC<span class="title-2"> Calendario</span></h4>
 
-
       <div class="nav">
 
         <router-link  to="/">
@@ -18,6 +17,10 @@
           <button class="rutaHorario">Horarios</button>
         </router-link>
         
+        <a class="cafecito" href="https://cafecito.app/" target="_blank">
+       <button class="cafecito2"><b>¡Donaciones!</b></button>
+        </a>
+
       </div>
     </nav>
     <!-- Main -->
@@ -57,7 +60,7 @@ span{
 }
 
 .nav {
-  bottom: 4.5em;
+  bottom: 4em;
   width: 20em;
   display: flex;
   flex-direction: row;
@@ -66,28 +69,40 @@ span{
 
 .rutaHome{
   position: relative;
-  left:62em;
+  left:58em;
   bottom: 4.5em;
   text-decoration: none;
   color: #2C5F66;
-  width: 30%;
   background-color:#DDC77A;
   border:none;
   border-radius: 8%;
-  width: 6em;
+  width: 5em;
 }
 
 .rutaHorario{
   position: relative;
-  left:55em;
+  left:58em;
   bottom: 4.5em;
   text-decoration: none;
   color: #2C5F66;
-  width: 30%;
   background-color:#DDC77A;
   border:none;
   z-index:100;
   border-radius: 8%;
-  width: 6em;
+  width: 5em;
 }
+
+.cafecito2{
+  position: relative;
+  left:58em;
+  bottom: 4.5em;
+  text-decoration: none;
+  color: #2C5F66;
+  background-color:#DDC77A;
+  border:none;
+  z-index:100;
+  border-radius: 8%;
+  width: 7em;
+}
+
 </style>
