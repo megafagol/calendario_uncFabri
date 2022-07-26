@@ -249,6 +249,7 @@ export default {
   border-radius: 10px;
   outline: 1px solid #2C5F66;
   background-color:#2C5F66;
+  color:aliceblue;
  }
 
  h3{
@@ -261,6 +262,9 @@ export default {
   border-radius:5px;
   background-color: #2C5F66;
   color: #DDC77A !important;
+}
+b-dropdown{
+  color:#DDC77A;
 }
 
 .h3-tabla{
