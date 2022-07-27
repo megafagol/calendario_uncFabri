@@ -119,7 +119,7 @@
       <img alt="" src="" style="background-color: blue;">
       <img alt="" src="" style="background-color: red;">
     </div> -->
-  
+    <img alt="logo-UNC" id="unc1" src="@/assets/UNC2.svg" class="img-fluid col-5">
   </body>
 </template>
   <script>
@@ -273,6 +273,15 @@ b-dropdown{
 }
 .tabla{
  font-size: .95em;
+}
+
+#unc1{
+    width: 38%;
+    position: absolute;
+    left: 62%;
+    z-index: 50;
+    margin: 1em 0 0 0;
+    z-index: -1;
 }
 
   </style>
