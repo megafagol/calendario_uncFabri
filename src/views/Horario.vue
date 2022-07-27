@@ -1,41 +1,53 @@
 <template>
   <div class="container col-xxl-12">
-    
     <div class="container-1-linea row mb-4 col-12">
-      <b-dropdown id="lista-horarios" name="Listado De Horarios" text="Tus Horarios" variant="outline-success" class="dropdown my-2 col-3">
-           
-        <b-dropdown-item v-for="(item, index) of horarios" @click="tituloTabla" v-on>
+      <b-dropdown
+        id="lista-horarios"
+        name="Listado De Horarios"
+        text="Tus Horarios"
+        variant="outline-success"
+        class="dropdown my-2 col-3"
+      >
+        <b-dropdown-item
+          v-for="item of horarios"
+          :key="item.id"
+          @click="mostrarHorario(item)"
+        >
           <div class="d-flex justify-content-between">
-                  
-              <div>
-                {{ index }} - {{ item.nombre }}
-              </div>
-                  
-              <div>
-                <b-button variant="danger" class="btn-sm" @click="eliminarHorario">X</b-button>
-                <b-button class="bi bi-pencil btn-sm" variant="info"></b-button> 
-              </div>
-                
+            <div>{{ item.id }} - {{ item.nombre }}</div>
+
+            <div>
+              <b-button variant="danger" class="btn-sm" @click="eliminarHorario"
+                >X</b-button
+              >
+              <b-button class="bi bi-pencil btn-sm" variant="info"></b-button>
+            </div>
           </div>
-        </b-dropdown-item> 
+        </b-dropdown-item>
+      </b-dropdown>
 
-      </b-dropdown> 
-
-      <div class="container-p ms-5 mt-3 col-2" >
-        <p class="p" >Nuevo Horario:</p>
+      <div class="container-p ms-5 mt-3 col-2">
+        <p class="p">Nuevo Horario:</p>
       </div>
 
       <div class="container-p mt-3 col-4">
-        <input type="text" class="" v-model="nuevoHorario" v-on:keyup.enter="agregarHorario">
-                          
-          <b-button id="basic-addon" class="input-group-text bi bi-plus-circle-fill" variant="outline"
-            @click="agregarHorario">
-          </b-button>
-      </div>
+        <input
+          type="text"
+          class=""
+          v-model="nuevoHorario"
+          v-on:keyup.enter="agregarHorario"
+        />
 
-    </div>                
-      
-     
+        <b-button
+          id="basic-addon"
+          class="input-group-text bi bi-plus-circle-fill"
+          variant="outline"
+          @click="agregarHorario"
+        >
+        </b-button>
+      </div>
+    </div>
+    <p class="h2">{{ selectedHorario.nombre }}</p>
 
     <b-row class="">
       <b-col class=" ">
@@ -44,27 +56,39 @@
             <p class="h2">Titulo de la tabla</p>
             <b-col class="align-self-center">
               <div>
-                <b-button v-b-modal.modal-Actividad variant="outline-info">Actividad</b-button>
+                <b-button v-b-modal.modal-Actividad variant="outline-info"
+                  >Actividad</b-button
+                >
 
                 <b-modal id="modal-Actividad" centered title="Actividad">
                   <p class="my-4">agregue una actividad</p>
                   <div class="input-group mb-3">
-
-                    <input type="text" class="form-control" v-model="nuevaActividad"
-                      v-on:keyup.enter="agregarActividad">
+                    <input
+                      type="text"
+                      class="form-control"
+                      v-model="nuevaActividad"
+                      v-on:keyup.enter="agregarActividad"
+                    />
                     <div class="input-group-prepend">
-                      <b-button id="basic-addon" class="input-group-text bi bi-plus-circle-fill" variant="outline"
-                        @click="agregarActividad">
+                      <b-button
+                        id="basic-addon"
+                        class="input-group-text bi bi-plus-circle-fill"
+                        variant="outline"
+                        @click="agregarActividad"
+                      >
                       </b-button>
                     </div>
                     <b-list>
-                      <b-item v-for="(item, index) of actividades">
+                      <b-item v-for="item of actividades" :key="item.nombre">
                         <div class="d-flex justify-content-between">
+                          <div>{{ index }} - {{ item.nombre }}</div>
                           <div>
-                            {{ index }} - {{ item.nombre }}
-                          </div>
-                          <div>
-                            <b-button variant="danger" class="btn-sm" @click="eliminarActividad">X</b-button>
+                            <b-button
+                              variant="danger"
+                              class="btn-sm"
+                              @click="eliminarActividad"
+                              >X</b-button
+                            >
                             <!-- <b-button class="bi bi-pencil btn-sm" variant="info"></b-button> -->
                           </div>
                         </div>
@@ -74,13 +98,23 @@
                 </b-modal>
               </div>
 
-
               <div>
-                <b-button v-b-modal.modal-materia variant="outline-warning">Materia</b-button>
+                <b-button v-b-modal.modal-materia variant="outline-warning"
+                  >Materia</b-button
+                >
 
-                <b-modal id="modal-materia" centered title="Seleccione una materia">
+                <b-modal
+                  id="modal-materia"
+                  centered
+                  title="Seleccione una materia"
+                >
                   <p class="my-4">listado de materias</p>
-                  <b-dropdown id="dropdown-Materia" text="Materia 1" variant="outline-success" class="m-2">
+                  <b-dropdown
+                    id="dropdown-Materia"
+                    text="Materia 1"
+                    variant="outline-success"
+                    class="m-2"
+                  >
                     <b-dropdown-item href="#">Materia 1 </b-dropdown-item>
                   </b-dropdown>
                 </b-modal>
@@ -90,104 +124,133 @@
         </b-card>
       </b-col>
       <b-col class="p-2 bg-light">
+        <b-button class="ms-2" v-for="materia in selectedMateriasArray" :key="materia" @click="selectMateria(materia)">{{
+          materia
+        }}</b-button>
         <b-row>
           <b-col>
-
-            <b-table :items="items" :fields="fields" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" sort-icon-left
-              responsive="sm">
+            <b-table
+              :items="selectedMateria"
+              :fields="fields"
+              :sort-by.sync="sortBy"
+              :sort-desc.sync="sortDesc"
+              sort-icon-left
+              responsive="sm"
+            >
             </b-table>
           </b-col>
         </b-row>
       </b-col>
     </b-row>
-
   </div>
-
-
-
 </template>
-  <script>
+<script>
+import * as horarios from "@/api/horarios";
+
 export default {
   data() {
     return {
-      nuevoHorario: '',
+      nuevoHorario: "",
       horarios: [],
 
-      nuevaActividad: '',
+      nuevaActividad: "",
       actividades: [],
 
-      nuevaMateria: '',
+      nuevaMateria: "",
       materias: [],
 
       tituloTabla: {},
 
-
-      sortBy: 'cuatrimestre',
+      sortBy: "cuatrimestre",
       sortDesc: false,
-      name: '',
+      name: "",
       nameState: null,
       submittedNames: [],
       fields: [
-        { key: 'nombre', sortable: true },
-        { key: 'tipo_de_actividad', sortable: true },
-        { key: 'cuatrimestre', sortable: true },
-
+        { key: "inicio", sortable: true },
+        { key: "fin", sortable: true },
+        { key: "comision", sortable: false },
+        { key: "materia", sortable: true },
+        { key: "modalidad", sortable: false },
+        { key: "aula", sortable: false },
       ],
       items: [
-        { cuatrimestre: 1, nombre: 'Dickerson', tipo_actividad: 'Macdonald' },
+        { cuatrimestre: 1, nombre: "Dickerson", tipo_actividad: "Macdonald" },
       ],
+      selectedHorario: {},
+      selectedMateriasArray: [],
+      selectedMateria: {}
+    };
+  },
+  async created() {
+    try {
+      const horarios = await this.getHorarios();
+      this.selectedHorario = horarios[0];
+      this.selectedMateriasArray = Object.keys(this.selectedHorario.materias);
+      this.selectedMateria = this.selectedHorario.materias[this.selectedMateriasArray[0]]
+    } catch (error) {
+      console.log(error);
     }
   },
   methods: {
-    agregarHorario: function () {
-      // console.log('diste click', this.nuevoHorario)
-      this.horarios.push({
+    selectMateria: function (materia) {
+      this.selectedMateria = this.selectedHorario.materias[materia]
+    },
+    getHorarios: async function () {
+      const data = await horarios.get();
+      this.horarios = data;
+      return data;
+    },
+    mostrarHorario: function (horario) {
+      this.selectedHorario = horario;
+      this.selectedMateriasArray = Object.keys(horario.materias);
+      this.selectedMateria = horario.materias[this.selectedMateriasArray[0]]
+    },
+    agregarHorario: async function () {
+      await horarios.post({
         nombre: this.nuevoHorario,
-        estado: false
+        estado: false,
       });
-      console.log(this.horarios);
-      this.nuevoHorario = '';
+      this.getHorarios();
+      this.nuevoHorario = "";
     },
     agregarMateria: function () {
       //console.log('diste click' , this.nuevoHorario)
       this.materias.push({
         nombre: this.nuevaMateria,
-        estado: false
+        estado: false,
       });
       console.log(this.materias);
-      this.nuevaMateria = '';
+      this.nuevaMateria = "";
     },
     agregarActividad: function () {
       this.actividades.push({
         nombre: this.nuevaActividad,
-        estado: false
+        estado: false,
       });
       console.log(this.actividades);
-      this.nuevaActividad = '';
+      this.nuevaActividad = "";
     },
     eliminarHorario: function (index) {
-      this.horarios.splice(index, 1)
+      this.horarios.splice(index, 1);
     },
     eliminarActividad: function (index) {
-      this.actividades.splice(index, 1)
-    }
+      this.actividades.splice(index, 1);
+    },
   },
+};
+</script>
+
+<style>
+.container {
+  position: fixed;
+  left: 3%;
+  top: 10%;
+  background: rgb(245, 245, 245);
+  box-shadow: 0px 1px 20px rgb(0 0 0 / 25%);
+  border-radius: 10px;
+
+  width: 90%;
+  height: 80%;
 }
-
-
-</script> 
-
-  <style>
- .container{  
-    position: fixed;
-    left:3%;
-    top: 10%;
-    background: rgb(245, 245, 245);
-    box-shadow: 0px 1px 20px rgb(0 0 0 / 25%);
-    border-radius: 10px;
- 
-    width:90%;
-    height:80%;
- }
-
-  </style>
+</style>
