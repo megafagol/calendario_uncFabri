@@ -18,7 +18,7 @@
         </b-button>
         </div>
 
-        <b-dropdown id="lista-horarios" name="Listado De Horarios" text="Tus Horarios" variant="outline-success" class="my-4 col-12 boton-horario">
+        <b-dropdown id="lista-horarios" name="Listado De Horarios" text="Tus Horarios" class="my-4 col-12 boton-titulos">
            
           <b-dropdown-item v-for="(item, index) of horarios" @click="tituloTabla" v-on>
           <div class="d-flex justify-content-between">
@@ -35,9 +35,11 @@
           </div>
           </b-dropdown-item> 
 
-        </b-dropdown> 
+        </b-dropdown>
+
+        <h3 class="h3-tabla mb-2 col-12">Titulo de la tabla<hr></h3>
                 
-      <div class="containerbotones mt-5 col-12">
+      <div class="containerbotones mt-4 col-12">
             
         <h3 class="h3">Personalizá tus <br>actividades y <br>materias según<br>tus tiempos.</h3>
            
@@ -107,8 +109,6 @@
     <!-- cierre div container linea 1 -->
     <div class="calendario col-9">
 
-        <h3 class="h3-tabla col-12">Titulo de la tabla</h3>
-
         <b-table class="tabla" :items="items" :fields="fields" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" sort-icon-left responsive="sm">
         </b-table>
     </div>
@@ -149,8 +149,6 @@ export default {
                 { key: "Sabado" },
             ],
             items: [
-                {Hora:"7:00", Lunes:"", Martes:"", Miercoles:"", Jueves:"", Viernes:"", Sabado:"",},
-                
                 {Hora:"8:00", Lunes:"", Martes:"", Miercoles:"", Jueves:"", Viernes:"", Sabado:"",},
                 
                 {Hora:"9:00", Lunes:"", Martes:"", Miercoles:"", Jueves:"", Viernes:"", Sabado:"",},
@@ -177,12 +175,7 @@ export default {
                 
                 {Hora:"20:00", Lunes:"", Martes:"", Miercoles:"", Jueves:"", Viernes:"", Sabado:"",},
                 
-                {Hora:"21:00", Lunes:"", Martes:"", Miercoles:"", Jueves:"", Viernes:"", Sabado:"",},
-                
-                {Hora:"22:00", Lunes:"", Martes:"", Miercoles:"", Jueves:"", Viernes:"", Sabado:"",},
-                
-                {Hora:"23:00", Lunes:"", Martes:"", Miercoles:"", Jueves:"", Viernes:"", Sabado:"",},
-                
+                {Hora:"21:00", Lunes:"", Martes:"", Miercoles:"", Jueves:"", Viernes:"", Sabado:"",},                
             ],
         };
     },
@@ -229,13 +222,13 @@ export default {
   <style>
  .container{  
     position: fixed;
-    left:3%;
-    top: 10%;
+    left:1%;
+    top: 8%;
     background: rgb(245, 245, 245);
     box-shadow: 0px 1px 20px rgb(0 0 0 / 25%);
     border-radius: 10px;
     width:100vw;
-    height:80vh;
+    height:91vh;
     display: flex;
     flex-direction: row;
     justify-content:space-between;
@@ -257,11 +250,19 @@ export default {
   font-family: sans-serif;
  }
 
-.boton-horario{
-  border: 3px solid #DDC77A;
+ .boton-titulos{
+  border:3px solid #DDC77A;
   border-radius:5px;
-  background-color: #2C5F66;
-  color: #DDC77A !important;
+  background-color: #DDC77A !important;
+  color: #2C5F66 !important;
+ }
+
+.boton-horario{
+  height: 2.5em;
+  border:none;
+  border-radius:5px;
+  background-color: #DDC77A;
+  color: #2C5F66;
 }
 b-dropdown{
   color:#DDC77A;
@@ -270,8 +271,8 @@ b-dropdown{
 .h3-tabla{
   text-align:center;
 }
-b-tabla{
-  height:10em;
+.tabla{
+ font-size: .95em;
 }
 
   </style>

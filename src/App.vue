@@ -2,24 +2,17 @@
   <div class="vue-tempalte">
     <!-- Navigation -->
 
-    <nav class="navbar">
+    <nav class="navbar col-12">
 
-      <h4 class="title2 col-12 mb-5 mx-2">UNC<span class="title-2"> Calendario</span></h4>
+      <h4 class="title2 col-2">UNC<span class="title-2"> Calendario</span></h4>
 
-      <div class="nav">
+      <div class="divnav col-4">
 
-        <router-link  to="/">
-          <button class="rutaHome">Home</button>
-        </router-link>
+        <router-link class="rutaHome" to="/">Home</router-link>
         
-
-        <router-link  to="/horarios">
-          <button class="rutaHorario">Horarios</button>
-        </router-link>
+        <router-link  class="rutaHorario" to="/horarios"> Horarios</router-link>
         
-        <a class="cafecito" href="https://cafecito.app/" target="_blank">
-       <button class="cafecito2"><b>¡Donaciones!</b></button>
-        </a>
+        <a class="cafecito2" href="https://cafecito.app/" target="_blank"><b>¡Donaciones!</b></a>
 
       </div>
     </nav>
@@ -59,18 +52,17 @@ span{
     color: #DDC77A;
 }
 
-.nav {
+.divnav {
   bottom: 4em;
-  width: 20em;
   display: flex;
   flex-direction: row;
   justify-content:space-between;
+  z-index: 100;
 }
 
 .rutaHome{
+  text-align:center;
   position: relative;
-  left:58em;
-  bottom: 4.5em;
   text-decoration: none;
   color: #2C5F66;
   background-color:#DDC77A;
@@ -80,9 +72,9 @@ span{
 }
 
 .rutaHorario{
+  text-align:center;
   position: relative;
-  left:58em;
-  bottom: 4.5em;
+  right: 15%;
   text-decoration: none;
   color: #2C5F66;
   background-color:#DDC77A;
@@ -93,9 +85,9 @@ span{
 }
 
 .cafecito2{
+  text-align:center;
   position: relative;
-  left:58em;
-  bottom: 4.5em;
+  right: 30%;
   text-decoration: none;
   color: #2C5F66;
   background-color:#DDC77A;

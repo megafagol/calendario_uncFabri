@@ -39,9 +39,6 @@
 
         <footer id="footer" class="footer col-12">
             <img src="@/assets/unc.png" id="unc2" class="img-fluid" >
-            <a class="cafecito" href="https://cafecito.app/" target="_blank">
-                <button type="button" id="button3" class="btn col-4"><b>¡ Donaciones !</b></button>
-            </a>
         </footer>
       
     </body>
@@ -139,7 +136,7 @@ button:hover{
 
 #footer{
     position: relative;
-    top:33em;
+    top:34em;
     background-color: #2C5F66;
     margin: 0;
     height: 4em;
