@@ -2,22 +2,19 @@
   <div class="vue-tempalte">
     <!-- Navigation -->
 
-    <nav
-      class="navbar shadow bg-white rounded justify-content-between flex-nowrap flex-row fixed-top"
-    >
-      <h6 class="title2 col-12 mb-5 mx-2">UNC <span class="title-2">Calendar</span></h6>
+    <nav class="navbar col-12">
 
+      <h4 class="title2 col-2">UNC<span class="title-2">alendario</span></h4>
 
-      <ul class="nav navbar-nav flex-row float-right">
+      <div class="divnav col-4">
 
-        <li class="nav-item">
-          <router-link class="ruta" to="/">Home</router-link>
-        </li>
+        <router-link class="rutaHome" to="/">Home</router-link>
+        
+        <router-link  class="rutaHorario" to="/horarios"> Horarios</router-link>
+        
+        <a class="cafecito2" href="https://cafecito.app/" target="_blank"><b>¡Donaciones!</b></a>
 
-        <li class="nav-item">
-          <router-link class="ruta" to="/horarios">Horarios</router-link>
-        </li>
-      </ul>
+      </div>
     </nav>
     <!-- Main -->
     <div class="App">
@@ -35,37 +32,69 @@
 </template>
 
 <style>
-nav {
+.navbar {
   margin: 0;
   padding: 0;
-  position: fixed;
-  width: 100%;
-  height: 7%;
+  position: relative;
+  width: 100vw;
+  height: 3em;
+  background-color: #fff;
+  outline: 1px solid #000;
 }
 
-h6{
+h4{
   position: relative;
-  top: 80%;
+  top: 10%;
   left: 5%;
-  font-size:3em;
+  color:#2C5F66 !important;
 }
 span{
     color: #DDC77A;
 }
 
-ul {
-  list-style: none;
-  position: relative;
-  right: 10%;
+.divnav {
+  bottom: 4em;
+  display: flex;
+  flex-direction: row;
+  justify-content:space-between;
+  z-index: 100;
 }
-li {
-  list-style: none;
-  height:10%;
-  width:5em;
-}
-.ruta{
 
+.rutaHome{
+  text-align:center;
+  position: relative;
   text-decoration: none;
   color: #2C5F66;
+  background-color:#DDC77A;
+  border:none;
+  border-radius: 8%;
+  width: 5em;
 }
+
+.rutaHorario{
+  text-align:center;
+  position: relative;
+  right: 15%;
+  text-decoration: none;
+  color: #2C5F66;
+  background-color:#DDC77A;
+  border:none;
+  z-index:100;
+  border-radius: 8%;
+  width: 5em;
+}
+
+.cafecito2{
+  text-align:center;
+  position: relative;
+  right: 30%;
+  text-decoration: none;
+  color: #2C5F66;
+  background-color:#DDC77A;
+  border:none;
+  z-index:100;
+  border-radius: 8%;
+  width: 7em;
+}
+
 </style>
