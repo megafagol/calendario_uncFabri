@@ -88,7 +88,7 @@
             </b-modal>
         </div> 
           <!-- cierre container act -->
-        <div class="containermateria mb-3">
+        <div class="containermateria mb-4">
                 
           <button v-b-modal.modal-materia variant="outline-warning" class="boton-horario col-12">Nueva Materia</button>
 
