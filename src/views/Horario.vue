@@ -38,12 +38,12 @@
         </b-dropdown>
 
         <h3 class="h3-tabla mb-2 col-12">Titulo de la tabla<hr></h3>
-                
+      
       <div class="containerbotones mt-4 col-12">
             
         <h3 class="h3">Personalizá tus <br>actividades y <br>materias según<br>tus tiempos.</h3>
            
-        <div class="containeract my-4">
+        <div class="containeract my-3">
             
           <button v-b-modal.modal-Actividad variant="outline-info" class="boton-horario col-12 mb-2">Nueva Actividad</button>
 
@@ -53,16 +53,19 @@
             
                 <div class="input-group mb-3" bg-secondary>
 
-                  <input type="text" class="form-control" v-model="nuevaActividad" v-on:keyup.enter="agregarActividad">
-                    
                   <div class="input-group-prepend">
-                      
+                    <input type="text" class="form-control" v-model="nuevaActividad" v-on:keyup.enter="agregarActividad">
+
+                    Desde<input type="time" class="form-control" v-model="horarioInicio" v-on:keyup.enter="agregarActividad">
+                    
+                    Hasta<input type="time" class="form-control" v-model="horarioFin" v-on:keyup.enter="agregarActividad"> 
+                    
                     <b-button id="basic-addon" class="input-group-text bi bi-plus-circle-fill" variant="outline"
                         @click="agregarActividad">
                     </b-button>
                   </div>
       
-                  <b-list class="bg-secondary">
+                  <b-list class="">
                       
                     <b-item v-for="(item, index) of actividades">
                         
@@ -85,7 +88,7 @@
             </b-modal>
         </div> 
           <!-- cierre container act -->
-        <div class="containermateria">
+        <div class="containermateria mb-4">
                 
           <button v-b-modal.modal-materia variant="outline-warning" class="boton-horario col-12">Nueva Materia</button>
 
@@ -93,7 +96,7 @@
                   
             <p class="my-4">listado de materias</p>
           
-              <b-dropdown id="dropdown-Materia" text="Materia 1" variant="outline-success" class="m-2">
+              <b-dropdown id="dropdown-Materia" text="Materia 1" class="boton-modal m-2">
           
                 <b-dropdown-item href="#">Materia 1</b-dropdown-item>
           
@@ -102,16 +105,32 @@
           </b-modal>
         </div>
            <!--cierre container materias--  -->
+        <div class="containerexportar">
+                
+          <button v-b-modal.modal-exportar variant="outline-warning" class="boton-horario col-12">Exportar a...</button>
+
+          <b-modal id="modal-exportar" centered title="Seleccione una materia">
+                  
+            <p class="my-4 ms-5">Exportar a:</p>
+
+            <button class="boton-modal pdf col-4">PDF</button>
+            <button class="boton-modal excel col-4 ms-4">EXCEL</button>
+          
+          </b-modal>
+        </div>
       
       </div>
 
-    </div>
-    <!-- cierre div container linea 1 -->
-    <div class="calendario col-9">
+      </div>
+                
+      
+
+      <!-- cierre div container linea 1 -->
+      <div class="calendario col-9">
 
         <b-table class="tabla" :items="items" :fields="fields" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc" sort-icon-left responsive="sm">
         </b-table>
-    </div>
+      </div>
     
     </div>
 
@@ -228,7 +247,7 @@ export default {
     box-shadow: 0px 1px 20px rgb(0 0 0 / 25%);
     border-radius: 10px;
     width:100vw;
-    height:91vh;
+    height:90vh;
     display: flex;
     flex-direction: row;
     justify-content:space-between;
@@ -246,7 +265,7 @@ export default {
  }
 
  h3{
-  font-size:1.6em !important;
+  font-size:1.5em !important;
   font-family: sans-serif;
  }
 
@@ -264,8 +283,17 @@ export default {
   background-color: #DDC77A;
   color: #2C5F66;
 }
-b-dropdown{
-  color:#DDC77A;
+
+.boton-modal{
+  height: 2em;
+  border:none;
+  border-radius:5px;
+  background-color: #DDC77A;
+  color: #2C5F66;
+}
+.input-group{
+  display: flex;
+  flex-direction: column;
 }
 
 .h3-tabla{
@@ -273,6 +301,13 @@ b-dropdown{
 }
 .tabla{
  font-size: .95em;
+}
+#unc{
+    width: 38%;
+    position: absolute;
+    left: 62%;
+    z-index: -1;
+    margin: 1em 0 0 0;
 }
 
 #unc1{

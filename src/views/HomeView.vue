@@ -9,8 +9,8 @@
                 <div class="container-i-1 col-12 ms-3 mb-2">
 
                     <p class="descripcion col-12">
-                    Bienvenidos a Calendario UNC.<br>
-                    El mismo es una herramienta que te permitirá crear tu horario en función de tus actividades y tiempo disponible.
+                    Bienvenidos a UNCalendario.<br>
+                    Es una herramienta que te permitirá crear tu horario en función de tus actividades y tiempo disponible.
                     De manera que podrás gestionar las materias que deseas cursar este cuatrimestre y combinar sus horarios para poder elaborar tu calendario de manera personalizada.
                    <br>Aquí te dejamos un video con la explicación de como funciona.
                     </p>
@@ -35,7 +35,7 @@
                 
         </div>
 
-        <img alt="logo-UNC" id="unc" src="@/assets/UNC2.svg" class="img-fluid col-5">
+        <img alt="logo-UNC" id="unc1" src="@/assets/UNC2.svg" class="img-fluid col-5">
 
         <footer id="footer" class="footer col-12">
             <img src="@/assets/unc.png" id="unc2" class="img-fluid" >
@@ -101,7 +101,7 @@ p{
 
 
 
-#unc{
+#unc1{
     width: 33%;
     position: absolute;
     left: 59%;

@@ -4,7 +4,7 @@
 
     <nav class="navbar col-12">
 
-      <h4 class="title2 col-2">UNC<span class="title-2"> Calendario</span></h4>
+      <h4 class="title2 col-2">UNC<span class="title-2">alendario</span></h4>
 
       <div class="divnav col-4">
 
