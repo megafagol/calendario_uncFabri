@@ -11,7 +11,7 @@
           "comision": "ICOMP05-2",
           "materia": "REPRESENTACION GRAFICA",
           "modalidad": "Presencial",
-          "aula": "A de\fnir"
+          "aula": "A definir"
         }
       ],
       "Lunes": [
@@ -21,7 +21,7 @@
           "comision": "COMUN 1.4",
           "materia": "FISICA II",
           "modalidad": "Presencial",
-          "aula": "A de\fnir"
+          "aula": "A definir"
         },
         {
           "inicio": "14:00:00",
@@ -57,7 +57,7 @@
           "comision": "ICOMP05-2",
           "materia": "REPRESENTACION GRAFICA",
           "modalidad": "Presencial",
-          "aula": "A de\fnir"
+          "aula": "A definir"
         }
       ]
     }
@@ -72,9 +72,9 @@
           "inicio": "16:00:00",
           "fin": "19:00:00",
           "comision": "ICOMP05-2",
-          "materia": "REPRESENTACION GRAFICA",
+          "materia": "REPRESENTACION GRAFICA REPRESENTACION GRAFICA REPRESENTACION GRAFICA",
           "modalidad": "Presencial",
-          "aula": "A de\fnir"
+          "aula": "A definir"
         }
       ],
       "Lunes": [
@@ -84,7 +84,7 @@
           "comision": "COMUN 1.4",
           "materia": "FISICA II",
           "modalidad": "Presencial",
-          "aula": "A de\fnir"
+          "aula": "A definir"
         },
         {
           "inicio": "14:00:00",
@@ -120,7 +120,7 @@
           "comision": "ICOMP05-2",
           "materia": "REPRESENTACION GRAFICA",
           "modalidad": "Presencial",
-          "aula": "A de\fnir"
+          "aula": "A definir"
         }
       ]
     }

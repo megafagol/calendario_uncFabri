@@ -1,151 +1,176 @@
 <template>
-  <div class="container col-xxl-12">
-    <div class="container-1-linea row mb-4 col-12">
-      <b-dropdown
-        id="lista-horarios"
-        name="Listado De Horarios"
-        text="Tus Horarios"
-        variant="outline-success"
-        class="dropdown my-2 col-3"
-      >
-        <b-dropdown-item
-          v-for="item of horarios"
-          :key="item.id"
-          @click="mostrarHorario(item)"
-        >
-          <div class="d-flex justify-content-between">
-            <div>{{ item.id }} - {{ item.nombre }}</div>
 
-            <div>
-              <b-button variant="danger" class="btn-sm" @click="eliminarHorario"
-                >X</b-button
-              >
-              <b-button class="bi bi-pencil btn-sm" variant="info"></b-button>
+  <div class="body-horarios">
+
+    <div class="container col-xxl-12">
+
+      <div class="container-1-linea col-2">
+
+        <div class="container-h2 mt-4 col-12">
+          <h3 class="h2">Nuevo Horario:</h3>
+        </div>
+
+        <div class="container-input mt-2 col-12">
+          <input type="text" class="col-9" v-model="nuevoHorario" v-on:keyup.enter="agregarHorario"
+            placeholder="Agrega un Horario">
+
+          <b-button id="basic-addon" class="input-group-text col-3 bi bi-plus-circle-fill" variant="outline"
+            @click="agregarHorario">
+          </b-button>
+        </div>
+
+        <b-dropdown id="lista-horarios" name="Listado De Horarios" text="Tus Horarios"
+          class="my-4 col-12 boton-titulos">
+
+          <b-dropdown-item v-for="item of horarios" :key="item.id" @click="mostrarHorario(item)">
+            <div class="d-flex justify-content-between">
+              <div>{{ item.id }} - {{ item.nombre }}</div>
+
+              <div>
+                <b-button variant="danger" class="btn-sm" @click="eliminarHorario">X</b-button>
+                <b-button class="bi bi-pencil btn-sm" variant="info"></b-button>
+              </div>
             </div>
-          </div>
-        </b-dropdown-item>
-      </b-dropdown>
+          </b-dropdown-item>
 
-      <div class="container-p ms-5 mt-3 col-2">
-        <p class="p">Nuevo Horario:</p>
-      </div>
+        </b-dropdown>
+        <!-- Nombre Tabla -->
+        <p class="h3 text-capitalize">{{ selectedHorario.nombre }} </p>
 
-      <div class="container-p mt-3 col-4">
-        <input
-          type="text"
-          class=""
-          v-model="nuevoHorario"
-          v-on:keyup.enter="agregarHorario"
-        />
+        <hr>
 
-        <b-button
-          id="basic-addon"
-          class="input-group-text bi bi-plus-circle-fill"
-          variant="outline"
-          @click="agregarHorario"
-        >
-        </b-button>
-      </div>
-    </div>
-    <p class="h2">{{ selectedHorario.nombre }}</p>
 
-    <b-row class="">
-      <b-col class=" ">
-        <b-card>
-          <b-row>
-            <p class="h2">Titulo de la tabla</p>
-            <b-col class="align-self-center">
-              <div>
-                <b-button v-b-modal.modal-Actividad variant="outline-info"
-                  >Actividad</b-button
-                >
+        <!-- Selección de Carreras -->
 
-                <b-modal id="modal-Actividad" centered title="Actividad">
-                  <p class="my-4">agregue una actividad</p>
-                  <div class="input-group mb-3">
-                    <input
-                      type="text"
-                      class="form-control"
-                      v-model="nuevaActividad"
-                      v-on:keyup.enter="agregarActividad"
-                    />
-                    <div class="input-group-prepend">
-                      <b-button
-                        id="basic-addon"
-                        class="input-group-text bi bi-plus-circle-fill"
-                        variant="outline"
-                        @click="agregarActividad"
-                      >
-                      </b-button>
+
+        <div class="d-flex">
+
+
+          <!-- Listado de Carreras -->
+
+          <b-form-select v-model="selected" :options="options" size="sm" class="mt-3">
+          </b-form-select>
+          <div class="mt-3 mx-5">Carrera: <strong>{{ selected }}</strong></div>
+        </div>
+        <!-- cierre Selección de Carreras -->
+
+        <div class="d-flex justify-content-between">
+
+
+          <p class="mt-3">Listado de materias</p>
+
+
+          <b-dropdown id="dropdown-Materia" text="Materia 1" class="boton-modal m-2">
+
+            <b-dropdown-item href="#">Materia 1</b-dropdown-item>
+
+          </b-dropdown>
+        </div>
+        <div class="containerbotones mt-4 col-12">
+
+          <p class="h5">Personalizá tus <br>actividades y <br>materias según<br>tus tiempos.</p>
+
+          <div class="containeract my-3">
+            <!-- creador de actividad -->
+            <button v-b-modal.modal-Actividad variant="outline-info" class="boton-horario col-12 mb-2">Nueva
+              Actividad</button>
+
+            <b-modal id="modal-Actividad" centered title="Actividad">
+
+              <p class="my-4">Agregue una actividad</p>
+
+              <div class="input-group mb-3" bg-secondary>
+
+                <div class="input-group-prepend">
+                  <input type="text" class="form-control" v-model="nuevaActividad" v-on:keyup.enter="agregarActividad">
+                  Desde
+                  <input type="time" class="form-control" v-model="horarioInicio">
+
+                  Hasta
+                  <input type="time" class="form-control" v-model="horarioFin">
+                  <b-button id="basic-addon" class="input-group-text bi bi-plus-circle-fill" variant="outline"
+                    @click="agregarActividad">
+                  </b-button>
+                </div>
+
+                <b-list class="">
+
+                  <b-item v-for="item of actividades" :key="item.nombre">
+                    <div class="d-flex justify-content-between">
+                      <div>{{ index }} - {{ item.nombre }}</div>
+
+                      <div>
+                        <b-button variant="danger" class="btn-sm" @click="eliminarActividad">X</b-button>
+                      </div>
                     </div>
-                    <b-list>
-                      <b-item v-for="item of actividades" :key="item.nombre">
-                        <div class="d-flex justify-content-between">
-                          <div>{{ index }} - {{ item.nombre }}</div>
-                          <div>
-                            <b-button
-                              variant="danger"
-                              class="btn-sm"
-                              @click="eliminarActividad"
-                              >X</b-button
-                            >
-                            <!-- <b-button class="bi bi-pencil btn-sm" variant="info"></b-button> -->
-                          </div>
-                        </div>
-                      </b-item>
-                    </b-list>
-                  </div>
-                </b-modal>
-              </div>
+                  </b-item>
 
-              <div>
-                <b-button v-b-modal.modal-materia variant="outline-warning"
-                  >Materia</b-button
-                >
+                </b-list>
 
-                <b-modal
-                  id="modal-materia"
-                  centered
-                  title="Seleccione una materia"
-                >
-                  <p class="my-4">listado de materias</p>
-                  <b-dropdown
-                    id="dropdown-Materia"
-                    text="Materia 1"
-                    variant="outline-success"
-                    class="m-2"
-                  >
-                    <b-dropdown-item href="#">Materia 1 </b-dropdown-item>
-                  </b-dropdown>
-                </b-modal>
               </div>
-            </b-col>
-          </b-row>
-        </b-card>
-      </b-col>
+            </b-modal>
+          </div>
+          <!-- cierre container act -->
+          <div class="containermateria mb-4">
+
+            <button v-b-modal.modal-materia variant="outline-warning" class="boton-horario col-12">Nueva
+              Materia</button>
+            <!-- acá va el modal de materias -->
+            <b-modal id="modal-materia" centered title="Seleccione una materia">
+
+
+
+            </b-modal>
+          </div>
+          <!--cierre container materias--  -->
+          <div class="containerexportar">
+
+            <button v-b-modal.modal-exportar variant="outline-warning" class="boton-horario col-12">Exportar
+              a...</button>
+
+            <b-modal id="modal-exportar" centered title="Seleccione una materia">
+
+              <p class="my-4 ms-5">Exportar a:</p>
+
+              <button class="boton-modal pdf col-4">PDF</button>
+              <button class="boton-modal excel col-4 ms-4">EXCEL</button>
+
+            </b-modal>
+          </div>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- cierre div container linea 1 -->
+
       <b-col class="p-2 bg-light">
-        <b-button class="ms-2" v-for="materia in selectedMateriasArray" :key="materia" @click="selectMateria(materia)">{{
-          materia
-        }}</b-button>
+        <p class="h2 text-capitalize text-center">{{ selectedHorario.nombre }} </p>
+        <b-button class="ms-2" v-for="materia in selectedMateriasArray" :key="materia" @click="selectMateria(materia)">
+          {{
+              materia
+          }}</b-button>
         <b-row>
           <b-col>
-            <b-table
-              :items="selectedMateria"
-              :fields="fields"
-              :sort-by.sync="sortBy"
-              :sort-desc.sync="sortDesc"
-              sort-icon-left
-              responsive="sm"
-            >
+            <b-table :items="selectedMateria" :fields="fields" :sort-by.sync="sortBy" :sort-desc.sync="sortDesc"
+              sort-icon-left responsive="sm">
             </b-table>
           </b-col>
         </b-row>
       </b-col>
-    </b-row>
+
+    </div>
+
+    <img alt="logo-UNC" id="unc1" src="@/assets/UNC2.svg" class="img-fluid col-5">
   </div>
+
 </template>
-<script>
+
+ <script>
 import * as horarios from "@/api/horarios";
+import { http } from "../utils/axios";
 
 export default {
   data() {
@@ -153,33 +178,29 @@ export default {
       nuevoHorario: "",
       horarios: [],
 
+      careerList: {},
+
       nuevaActividad: "",
       actividades: [],
-
       nuevaMateria: "",
       materias: [],
-
       tituloTabla: {},
-
       sortBy: "cuatrimestre",
       sortDesc: false,
       name: "",
       nameState: null,
       submittedNames: [],
-      fields: [
-        { key: "inicio", sortable: true },
-        { key: "fin", sortable: true },
-        { key: "comision", sortable: false },
-        { key: "materia", sortable: true },
-        { key: "modalidad", sortable: false },
-        { key: "aula", sortable: false },
-      ],
-      items: [
-        { cuatrimestre: 1, nombre: "Dickerson", tipo_actividad: "Macdonald" },
-      ],
       selectedHorario: {},
       selectedMateriasArray: [],
-      selectedMateria: {}
+      selectedMateria: {},
+      slectedComision: {},
+      selected: null,
+      selectedCareer: {},
+      selectedCareerArray: [],
+      options: [
+        { value: null, text: 'Por favor elija su Carrera' },
+        { value: 'I-COMP', text: 'Ingeniería en Computación' },
+      ]
     };
   },
   async created() {
@@ -187,19 +208,34 @@ export default {
       const horarios = await this.getHorarios();
       this.selectedHorario = horarios[0];
       this.selectedMateriasArray = Object.keys(this.selectedHorario.materias);
-      this.selectedMateria = this.selectedHorario.materias[this.selectedMateriasArray[0]]
+      this.selectedMateria = this.selectedHorario.materias[this.selectedMateriasArray[0]];
+      const careerList = await getCareerList();
+      this.careerList = careerList[0];
+      console.log(careerList)
     } catch (error) {
       console.log(error);
     }
   },
+
   methods: {
     selectMateria: function (materia) {
       this.selectedMateria = this.selectedHorario.materias[materia]
     },
+    // peticiones a la api
+    // getCarrera: async nombreCarrera (carrera) {
+    //   const carrera = await Promise.all();
+    //   this.horarios = data;
+    //   return data;
+    // },
     getHorarios: async function () {
       const data = await horarios.get();
       this.horarios = data;
       return data;
+    },
+    getCareerList: async function () {
+      const dataList = await http.get('/get-carreras');
+      this.careerList = dataList;
+      return dataList;
     },
     mostrarHorario: function (horario) {
       this.selectedHorario = horario;
@@ -239,18 +275,92 @@ export default {
     },
   },
 };
+
+
 </script>
 
-<style>
-.container {
-  position: fixed;
-  left: 3%;
-  top: 10%;
-  background: rgb(245, 245, 245);
-  box-shadow: 0px 1px 20px rgb(0 0 0 / 25%);
-  border-radius: 10px;
-
-  width: 90%;
-  height: 80%;
-}
-</style>
+  <style>
+  .container {
+    position: fixed;
+    left: 1%;
+    top: 8%;
+    background: rgb(245, 245, 245);
+    box-shadow: 0px 1px 20px rgb(0 0 0 / 25%);
+    border-radius: 10px;
+    width: 100vw;
+    height: 90vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  
+  /* volver a colocar width a 20% */
+  .container-1-linea {
+    padding: 0 2%;
+    width: 70%;
+    position: relative;
+    right: 1%;
+    border-radius: 10px;
+    outline: 1px solid #2C5F66;
+    background-color: #2C5F66;
+    color: aliceblue;
+  }
+  
+  h3 {
+    font-size: 1.5em !important;
+    font-family: sans-serif;
+  }
+  
+  .boton-titulos {
+    border: 3px solid #DDC77A;
+    border-radius: 5px;
+    background-color: #DDC77A !important;
+    color: #2C5F66 !important;
+  }
+  
+  .boton-horario {
+    height: 2.5em;
+    border: none;
+    border-radius: 5px;
+    background-color: #DDC77A;
+    color: #2C5F66;
+  }
+  
+  .boton-modal {
+    height: 2em;
+    border: none;
+    border-radius: 5px;
+    background-color: #DDC77A;
+    color: #2C5F66;
+  }
+  
+  .input-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .h3-tabla {
+    text-align: center;
+  }
+  
+  .tabla {
+    font-size: .95em;
+  }
+  
+  #unc {
+    width: 38%;
+    position: absolute;
+    left: 62%;
+    z-index: -1;
+    margin: 1em 0 0 0;
+  }
+  
+  #unc1 {
+    width: 38%;
+    position: absolute;
+    left: 62%;
+    z-index: 50;
+    margin: 1em 0 0 0;
+    z-index: -1;
+  }
+  </style>

@@ -14,7 +14,10 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 // import '@/assets/css/main.css'
+// create(App).use(VueAxios, axios).mount('#app')
 Vue.config.productionTip = false
 
 Vue.use(BootstrapVue)
