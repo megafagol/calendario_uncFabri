@@ -196,7 +196,7 @@ export default {
       slectedComision: {},
       selected: null,
       selectedCareer: {},
-      selectedCareerArray: [],
+      selectedCareerList: [],
       options: [
         { value: null, text: 'Por favor elija su Carrera' },
         { value: 'I-COMP', text: 'Ingeniería en Computación' },
@@ -222,11 +222,6 @@ export default {
       this.selectedMateria = this.selectedHorario.materias[materia]
     },
     // peticiones a la api
-    // getCarrera: async nombreCarrera (carrera) {
-    //   const carrera = await Promise.all();
-    //   this.horarios = data;
-    //   return data;
-    // },
     getHorarios: async function () {
       const data = await horarios.get();
       this.horarios = data;
