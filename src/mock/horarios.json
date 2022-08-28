@@ -4,16 +4,6 @@
     "nombre": "horario 1",
     "estado": true,
     "materias": {
-      "Viernes": [
-        {
-          "inicio": "16:00:00",
-          "fin": "19:00:00",
-          "comision": "ICOMP05-2",
-          "materia": "REPRESENTACION GRAFICA",
-          "modalidad": "Presencial",
-          "aula": "A definir"
-        }
-      ],
       "Lunes": [
         {
           "inicio": "08:00:00",
@@ -27,7 +17,7 @@
           "inicio": "14:00:00",
           "fin": "17:15:00",
           "comision": "ICOMP05-2",
-          "materia": "TEORIA DE REDES",
+          "materia": "TEORIA DE SAÑALES Y SISTEMAS LINEALES",
           "modalidad": "C univ.",
           "aula": "258"
         }
@@ -37,7 +27,7 @@
           "inicio": "08:00:00",
           "fin": "11:15:00",
           "comision": "COMUN 1.4",
-          "materia": "FISICA II",
+          "materia": "AM III",
           "modalidad": "C univ.",
           "aula": "255"
         },
@@ -45,7 +35,7 @@
           "inicio": "14:00:00",
           "fin": "17:15:00",
           "comision": "ICOMP05-2",
-          "materia": "TEORIA DE REDES",
+          "materia": "ELECTRONICA",
           "modalidad": "C univ.",
           "aula": "301"
         }
@@ -55,11 +45,32 @@
           "inicio": "16:00:00",
           "fin": "19:00:00",
           "comision": "ICOMP05-2",
-          "materia": "REPRESENTACION GRAFICA",
+          "materia": "ELECTRONICA",
+          "modalidad": "Presencial",
+          "aula": "A definir"
+        }
+      ],
+      "Jueves": [
+        {
+          "inicio": "16:00:00",
+          "fin": "19:00:00",
+          "comision": "ICOMP05-2",
+          "materia": "FISICA II",
+          "modalidad": "Presencial",
+          "aula": "A definir"
+        }
+      ] ,
+           "Viernes": [
+        {
+          "inicio": "16:00:00",
+          "fin": "19:00:00",
+          "comision": "ICOMP05-2",
+          "materia": "AM III",
           "modalidad": "Presencial",
           "aula": "A definir"
         }
       ]
+
     }
   },
   {
@@ -67,16 +78,6 @@
     "nombre": "horario 2",
     "estado": true,
     "materias": {
-      "Viernes": [
-        {
-          "inicio": "16:00:00",
-          "fin": "19:00:00",
-          "comision": "ICOMP05-2",
-          "materia": "REPRESENTACION GRAFICA REPRESENTACION GRAFICA REPRESENTACION GRAFICA",
-          "modalidad": "Presencial",
-          "aula": "A definir"
-        }
-      ],
       "Lunes": [
         {
           "inicio": "08:00:00",
@@ -89,8 +90,8 @@
         {
           "inicio": "14:00:00",
           "fin": "17:15:00",
-          "comision": "ICOMP05-2",
-          "materia": "TEORIA DE REDES",
+          "comision": "IBM5-2",
+          "materia": "TEORIA DE SAÑALES Y SISTEMAS LINEALES",
           "modalidad": "C univ.",
           "aula": "258"
         }
@@ -107,8 +108,8 @@
         {
           "inicio": "14:00:00",
           "fin": "17:15:00",
-          "comision": "ICOMP05-2",
-          "materia": "TEORIA DE REDES",
+          "comision": "IBM 3-2",
+          "materia": "ELECTRONICA",
           "modalidad": "C univ.",
           "aula": "301"
         }
@@ -117,8 +118,28 @@
         {
           "inicio": "16:00:00",
           "fin": "19:00:00",
-          "comision": "ICOMP05-2",
-          "materia": "REPRESENTACION GRAFICA",
+          "comision": "IBM 3-2",
+          "materia": "ELECTRONICA",
+          "modalidad": "Presencial",
+          "aula": "A definir"
+        }
+      ],
+       "Jueves": [
+        {
+          "inicio": "16:00:00",
+          "fin": "19:00:00",
+          "comision": "IBM-2",
+          "materia": "ANATOMÍA",
+          "modalidad": "Presencial",
+          "aula": "A definir"
+        }
+      ],
+      "Viernes": [
+        {
+          "inicio": "16:00:00",
+          "fin": "19:00:00",
+          "comision": "IBM-2",
+          "materia": "FISICA BIOMÉDICA",
           "modalidad": "Presencial",
           "aula": "A definir"
         }
