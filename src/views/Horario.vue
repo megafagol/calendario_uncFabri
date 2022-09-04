@@ -51,6 +51,7 @@
           </b-dropdown-item>
         </b-dropdown>
         <!-- Nombre Tabla -->
+
         <p class="h3 text-capitalize">{{ selectedHorario.nombre }}</p>
 
         <hr />
@@ -129,7 +130,7 @@
               id="modal-materia"
               size="lg"
               centered
-              title="Seleccione una materia"
+              title="Seleccione una Carrera"
             >
               <!-- Selección de Carreras -->
 
@@ -179,10 +180,8 @@
             <b-modal
               id="modal-exportar"
               centered
-              title="Seleccione una materia"
+              title="Usted puede exportar a:"
             >
-              <p class="my-4 ms-5">Exportar a:</p>
-
               <button class="boton-modal pdf col-4">PDF</button>
               <button class="boton-modal excel col-4 ms-4">EXCEL</button>
             </b-modal>
@@ -196,6 +195,16 @@
         <p class="h2 text-capitalize text-center">
           {{ selectedHorario.nombre }}
         </p>
+        <div class="">
+                    <b-table
+                      striped
+                      hover
+                      :items="listadoMaterias"
+                      @row-clicked="myRowClickHandler"
+                    >
+                    </b-table>
+                  </div>
+        <!-- 
         <b-button
           class="ms-2"
           v-for="materia in selectedMateriasArray"
@@ -203,10 +212,7 @@
           @click="selectMateria(materia)"
         >
           {{ materia }}</b-button
-        >
-        <b-row>
-          <b-col> </b-col>
-        </b-row>
+        > -->
       </b-col>
     </div>
 
@@ -229,49 +235,40 @@ export default {
       nuevoHorario: "",
       horarios: [],
       careerList: {},
-      comisionList: {},
+      detailComisionList: {},
       nuevaActividad: "",
       actividades: [],
-
       tituloTabla: {},
-      sortBy: "cuatrimestre",
-      sortDesc: false,
       name: "",
-      nameState: null,
-      submittedNames: [],
       selectedHorario: {},
       selectedMateriasArray: [],
-      selectedMateria: {},
-      slectedComision: {},
+      selectedMateria:null,
       selectedCareer: {},
-      selectedCareerList: [],
-      selectedComision: null,
-      selectedComisionList: [],
       selected: null,
       options: [{ value: "null", text: "Por favor elija su Carrera" }],
-      nameComision: [{ valueComision: "", textComision: "" }],
-
+      optionsComision: [{materia: "",comisiones: "",}],
+      comisionDetails: [],
+      listadoComisiones: [],
       listadoMaterias: [],
+      nameComision: [],
     };
   },
   async created() {
     try {
+      // para los horarios
       const horarios = await this.getHorarios();
       this.selectedHorario = horarios[0];
       this.selectedMateriasArray = Object.keys(this.selectedHorario.materias);
       this.selectedMateria =
         this.selectedHorario.materias[this.selectedMateriasArray[0]];
+      // Cierre funcion horarios
       const careerList = await this.getCareerList();
       this.careerList = careerList.data.carreras;
       this.options = Object.keys(this.careerList).map((key) => {
         return { value: key, text: this.careerList[key] };
       });
-      // const comisionList = await this.getComisionList();
-      // this.comisionList = comisionList.nombres;
-      // console.log(comisionList)
-      // this.nameComision = Object.keys(this.comisionList).map((key) => {
-      //   return {valueComision:key, textComision: comisionList[key]};
-      // });
+      const listadoComisiones = await this.myRowClickHandler(comisionList);
+      
     } catch (error) {
       console.log(err);
     }
@@ -280,32 +277,15 @@ export default {
   methods: {
     changeSelectedCareer: async function (selected) {
       this.selected = selected;
-
       this.materiaList = await this.getMateriasList();
-
-      this.optionsMaterias = this.materiaList.data.nombres.map((name) => {
-        return { value: name, text: name };
-      });
-
-      this.optionsMaterias.unshift({
-        value: null,
-        text: "Por favor elija su Materia",
-      });
-
       this.listadoMaterias = this.materiaList.data.nombres.map((name) => {
         return { nombre: name };
       });
     },
-    changeSelectedComision: async function (selected) {
-      this.selected = selected;
-      this.comisionList = await this.getComisionList();
-      console.log(comisionList)
-      // this.optionsComision = this.comisionList.nombres.map.((name)=>{
-      //   return {text:name};
-      // });
-    },
-    selectMateria(materia) {
-      this.selectedMateria = this.selectedHorario.materias[materia];
+    showDetailsComision: async function (comisionDetails) {
+      this.comisionDetails = await this.myRowClickHandler();
+      console.log(comisionDetails);
+
     },
     getHorarios: async function () {
       const data = await horarios.get();
@@ -313,16 +293,10 @@ export default {
       return data;
     },
     getCareerList: async function () {
+      if (this.selected == "") return "";
       const dataList = await http.get("/get-carreras");
       this.careerList = dataList;
       return dataList;
-    },
-    getComisionList: async function () {
-      // const dataComisiones = await http.get(`/get-comisiones/${this.selected}/fisica 1`);
-      // console.log(dataComisiones);
-      // this.comisionList = dataComisiones;
-      // return dataComisiones;
-      console.log('comisionList')
     },
     getMateriasList: async function () {
       if (!this.selected) return [];
@@ -331,11 +305,6 @@ export default {
         `/get-nombres-materias/${this.selected}`
       );
       return dataMateria;
-    },
-    mostrarHorario: function (horario) {
-      this.selectedHorario = horario;
-      this.selectedMateriasArray = Object.keys(horario.materias);
-      this.selectedMateria = horario.materias[this.selectedMateriasArray[0]];
     },
     agregarHorario: async function () {
       await horarios.post({
@@ -367,11 +336,14 @@ export default {
     eliminarActividad: function (index) {
       this.actividades.splice(index, 1);
     },
-    myRowClickHandler(observer) {
-      // 'record' will be the row data from items
-      // `index` will be the visible row number (available in the v-model 'shownItems')
-     
-      
+    myRowClickHandler: async function (observer) {
+      if (!this.selected) return [];
+      this.nameComision = observer.nombre;
+      var comisionList = await http.get(
+        `/get-comisiones/${this.selected}/${this.nameComision}`
+      );
+
+      return comisionList;
     },
   },
 };
