@@ -136,13 +136,14 @@
 
               <div class="d-flex">
                 <!-- Listado de Carreras -->
-
+                
                 <b-form-select
                   :value="selected"
                   :options="options"
                   @change="changeSelectedCareer"
                   size="sm"
                   class="mt-3"
+                  style="background-color: beige;"
                 >
                 </b-form-select>
                 <div class="mt-3 mx-5">
@@ -161,6 +162,7 @@
                       :items="listadoMaterias"
                       @row-clicked="myRowClickHandler"
                     >
+                      <template slot="row-details">{{ allOpenRows }} </template>
                     </b-table>
                   </div>
                 </div>
@@ -195,15 +197,13 @@
         <p class="h2 text-capitalize text-center">
           {{ selectedHorario.nombre }}
         </p>
-        <div class="">
-                    <b-table
-                      striped
-                      hover
-                      :items="listadoMaterias"
-                      @row-clicked="myRowClickHandler"
-                    >
-                    </b-table>
-                  </div>
+        <v-treeview
+          selectable
+          item-disabled="locked"
+          :items="items"
+          open-on-click
+
+        >{{}}</v-treeview>
         <!-- 
         <b-button
           class="ms-2"
@@ -242,15 +242,27 @@ export default {
       name: "",
       selectedHorario: {},
       selectedMateriasArray: [],
-      selectedMateria:null,
+      selectedMateria: null,
       selectedCareer: {},
+      selectedComision: {},
       selected: null,
       options: [{ value: "null", text: "Por favor elija su Carrera" }],
-      optionsComision: [{materia: "",comisiones: "",}],
-      comisionDetails: [],
+      optionsComision: [],
+      comisionDetails: {},
       listadoComisiones: [],
       listadoMaterias: [],
       nameComision: [],
+      allOpenRows: [],
+      items: [
+        {
+          id:'',
+          selected: '',
+          locked: false,
+          children: [
+            { id: '', name: '' },
+          ],
+        },
+      ],
     };
   },
   async created() {
@@ -267,8 +279,6 @@ export default {
       this.options = Object.keys(this.careerList).map((key) => {
         return { value: key, text: this.careerList[key] };
       });
-      const listadoComisiones = await this.myRowClickHandler(comisionList);
-      
     } catch (error) {
       console.log(err);
     }
@@ -277,15 +287,21 @@ export default {
   methods: {
     changeSelectedCareer: async function (selected) {
       this.selected = selected;
+      this.items.selected = selected;
       this.materiaList = await this.getMateriasList();
       this.listadoMaterias = this.materiaList.data.nombres.map((name) => {
         return { nombre: name };
       });
     },
-    showDetailsComision: async function (comisionDetails) {
-      this.comisionDetails = await this.myRowClickHandler();
-      console.log(comisionDetails);
-
+    showDetailsComision: async function (selectedComision) {
+      this.selectedComision = selectedComision;
+      console.log(selectedComision);
+      this.details = await this.myRowClickHandler(comisionList);
+      this.optionsComision = Object.keys(comisionList.data).map((key) => {
+        return { text: key };
+      });
+      console.log(optionsComision);
+      return details;
     },
     getHorarios: async function () {
       const data = await horarios.get();
@@ -337,13 +353,26 @@ export default {
       this.actividades.splice(index, 1);
     },
     myRowClickHandler: async function (observer) {
-      if (!this.selected) return [];
       this.nameComision = observer.nombre;
       var comisionList = await http.get(
         `/get-comisiones/${this.selected}/${this.nameComision}`
       );
+      console.log(comisionList);
+      this.allOpenRows = [];
+      this.$set(observer, "_showDetails", !observer._showDetails);
 
-      return comisionList;
+      this.allOpenRows.push(
+        Object.keys(comisionList).map((key) => {
+          if (key == "data") {
+            if (key != "Materia") {
+              return {
+                text: comisionList[key],
+              };
+            }
+          }
+        })
+      );
+      return comisionList.data;
     },
   },
 };

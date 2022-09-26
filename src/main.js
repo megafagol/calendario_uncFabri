@@ -16,6 +16,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import vuetify from './plugins/vuetify'
 // import '@/assets/css/main.css'
 
 Vue.config.productionTip = false
@@ -27,5 +28,6 @@ Vue.use(IconsPlugin)
 new Vue({
   router,
   store,
+  vuetify,
   render: h => h(App)
 }).$mount('#app')
