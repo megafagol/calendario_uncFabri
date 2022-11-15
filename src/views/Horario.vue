@@ -9,10 +9,10 @@
         <div class="container-input mt-2 col-12">
           <input
             type="text"
-            class="col-9"
+            class="col-9 bg-light rounded"
             v-model="nuevoHorario"
             v-on:keyup.enter="agregarHorario"
-            placeholder="Agrega un Horario"
+            placeholder="  Agrega un Horario"
           />
 
           <b-button
@@ -56,9 +56,9 @@
 
         <hr />
 
-        <div class="containerbotones mt-4 col-12">
+        <div class="containerbotones col-12">
           <p class="h5">
-            Personalizá tus <br />actividades y <br />materias según<br />tus
+            Personalizá tus actividades y materias según tus
             tiempos.
           </p>
 
@@ -130,27 +130,57 @@
               id="modal-materia"
               size="lg"
               centered
-              title="Seleccione una Carrera"
+              title="Seleccione una carrera"
             >
               <!-- Selección de Carreras -->
-
-              <div class="d-flex">
-                <!-- Listado de Carreras -->
-                
-                <b-form-select
-                  :value="selected"
-                  :options="options"
+            <b-row class="d-flex " cols-md="3">
+              <p class="h6">Facultad</p>
+              <b-form-select
+                  :value="seleccion"
+                  :options="optionsFacu"
                   @change="changeSelectedCareer"
                   size="sm"
+                  class="mt-3 text-center"
+                  style="background-color: beige"
+                >
+                </b-form-select>
+                <!-- <div class="mt-3 mx-5">
+                  Facultad
+                  <strong class="mx-3">{{ seleccion }}</strong>
+                </div> -->
+            </b-row>
+            <b-row cols="12">
+              <div class="d-flex">
+                <b-form-select
+                  :value="seleccion"
+                  :options="options"
+                  @change="changeSelectedCareer"
+                  size="m"
                   class="mt-3"
-                  style="background-color: beige;"
+                  style="background-color: beige"
                 >
                 </b-form-select>
                 <div class="mt-3 mx-5">
                   Código de Carrera:
-                  <strong class="mx-3">{{ selected }}</strong>
+                  <strong class="mx-3">{{ seleccion }}</strong>
+                </div>
+                <!-- Listado de Carreras -->
+
+                <b-form-select
+                  :value="seleccionSem"
+                  :options="optionsSem"
+
+                  size="sm"
+                  class="mt-3"
+                  style="background-color: beige"
+                >
+                </b-form-select>
+                <div class="mt-3 mx-5">
+                  Código de Carrera:
+                  <strong class="mx-3">{{ seleccion }}</strong>
                 </div>
               </div>
+            </b-row>
               <!-- cierre Selección de Carreras -->
               <b-row>
                 <div class="">
@@ -160,9 +190,43 @@
                       striped
                       hover
                       :items="listadoMaterias"
-                      @row-clicked="myRowClickHandler"
+                      @row-clicked="materiaRowClicked"
                     >
-                      <template slot="row-details">{{ allOpenRows }} </template>
+                      <template slot="row-details">
+                        <!-- <b-list-group v-for="com in comisionList" :key="com">
+                          <b-list-group-item>{{ com }}</b-list-group-item> -->
+                          <b-form-group>
+                            <template #label>
+                              <b-form-checkbox
+                                v-model="allSelected"
+                                :indeterminate="indeterminate"
+                                aria-describedby="comisionList"
+                                aria-controls="comisionList"
+                                @change="toggleAll"
+                              >
+                                {{
+                                  allSelected
+                                    ? "Quitar seleccion"
+                                    : "Seleccionar todo"
+                                }}
+                              </b-form-checkbox>
+                            </template>
+
+                            <template v-slot="{ ariaDescribedby }">
+                              <b-form-checkbox-group
+                                id="comisiones"
+                                v-model="selected"
+                                :options="comisionList"
+                                :aria-describedby="ariaDescribedby"
+                                name="comisiones"
+                                class="ml-4 mx-2"
+                                aria-label="Listado De Comisiones"
+                                stacked
+                              ></b-form-checkbox-group>
+                            </template>
+                          </b-form-group>
+                        <!-- </b-list-group> -->
+                      </template>
                     </b-table>
                   </div>
                 </div>
@@ -170,24 +234,6 @@
             </b-modal>
           </div>
           <!--cierre container materias--  -->
-          <div class="containerexportar">
-            <button
-              v-b-modal.modal-exportar
-              variant="outline-warning"
-              class="boton-horario col-12"
-            >
-              Exportar a...
-            </button>
-
-            <b-modal
-              id="modal-exportar"
-              centered
-              title="Usted puede exportar a:"
-            >
-              <button class="boton-modal pdf col-4">PDF</button>
-              <button class="boton-modal excel col-4 ms-4">EXCEL</button>
-            </b-modal>
-          </div>
         </div>
       </div>
 
@@ -197,22 +243,23 @@
         <p class="h2 text-capitalize text-center">
           {{ selectedHorario.nombre }}
         </p>
-        <v-treeview
-          selectable
-          item-disabled="locked"
-          :items="items"
-          open-on-click
+        <b-row class="border border-dark rounded justify-content-center">
+          <b-row
+            class="bg-light d-flex-row justify-content-center p-1 m-2 w-100"
+          >
+            <div>
+              <b-table hover :items="dias"></b-table>
+              <!-- <div>Selected: <strong>{{ selected }}</strong></div> -->
+            </div>
+          </b-row>
 
-        >{{}}</v-treeview>
-        <!-- 
-        <b-button
-          class="ms-2"
-          v-for="materia in selectedMateriasArray"
-          :key="materia"
-          @click="selectMateria(materia)"
-        >
-          {{ materia }}</b-button
-        > -->
+          <b-row>
+            <blockquote class="blockquote text-end">
+              <button class="boton-modal pdf col-4">PDF</button>
+              <button class="boton-modal excel col-4 ms-4">EXCEL</button>
+            </blockquote>
+          </b-row>
+        </b-row>
       </b-col>
     </div>
 
@@ -234,37 +281,83 @@ export default {
     return {
       nuevoHorario: "",
       horarios: [],
+      facultadesList:{},
       careerList: {},
-      detailComisionList: {},
       nuevaActividad: "",
       actividades: [],
-      tituloTabla: {},
       name: "",
       selectedHorario: {},
       selectedMateriasArray: [],
       selectedMateria: null,
-      selectedCareer: {},
-      selectedComision: {},
-      selected: null,
-      options: [{ value: "null", text: "Por favor elija su Carrera" }],
-      optionsComision: [],
-      comisionDetails: {},
-      listadoComisiones: [],
+      seleccionSem: null,
+      seleccionFacu: null,
+      selected: [],
+      seleccion: null,
+      options: [{ value: "null", text: "Seleccione su Carrera" }],//materias
+      optionsFacu: [{ value: "null", text: "Seleccione su Facultad" }],//facultades
+      optionsSem: [{ value: "null", text: "Seleccione un Semestre" }],//semestres
       listadoMaterias: [],
       nameComision: [],
-      allOpenRows: [],
-      items: [
-        {
-          id:'',
-          selected: '',
-          locked: false,
-          children: [
-            { id: '', name: '' },
-          ],
-        },
-      ],
+      detailsComision: {},
+      comisionList: [],
+      allSelected: false,
+      indeterminate: false,
+      items: [],
+      id:[],
     };
   },
+  computed: {
+    dias() {
+      return [
+        {
+          hora: "8:00",
+          lunes: "FISICA 1-Aula 203",
+          martes: "",
+          miercoles: "AMI-Aula 205",
+          jueves: "",
+          viernes: "",
+          sabado: "",
+        },
+        {
+          hora: "9:00",
+          lunes: "FISICA 1-Aula 203",
+          martes: "",
+          miercoles: "AMI-Aula 205",
+          jueves: "",
+          viernes: "AMI-Aula 205",
+          sabado: "",
+        },
+        {
+          hora: "10:00",
+          lunes: "ALGEBRA-Aula 504",
+          martes: "REP ASISTIDA-Aula 500",
+          miercoles: "AMI-Aula 205",
+          jueves: "",
+          viernes: "AMI-Aula 205",
+          sabado: "",
+        },
+        {
+          hora: "11:00",
+          lunes: "ALGEBRA-Aula 504",
+          martes: "REP ASISTIDA-Aula 500",
+          miercoles: "",
+          jueves: "QUIMICA-Aula 228",
+          viernes: "AMI-Aula 205",
+          sabado: "",
+        },
+        {
+          hora: "12:00",
+          lunes: "ALGEBRA-Aula 504",
+          martes: "REP ASISTIDA-Aula 500",
+          miercoles: "",
+          jueves: "QUIMICA-Aula 228",
+          viernes: "AMI-Aula 205",
+          sabado: "",
+        },
+      ];
+    },
+  },
+
   async created() {
     try {
       // para los horarios
@@ -285,40 +378,47 @@ export default {
   },
 
   methods: {
-    changeSelectedCareer: async function (selected) {
-      this.selected = selected;
-      this.items.selected = selected;
+    toggleAll(checked) {
+      this.selected = checked ? this.comisionList.slice() : [];
+    },
+    changeSelectedCareer: async function (seleccion) {
+      this.seleccion = seleccion;
+      this.items.selected = seleccion;
       this.materiaList = await this.getMateriasList();
       this.listadoMaterias = this.materiaList.data.nombres.map((name) => {
         return { nombre: name };
       });
-    },
-    showDetailsComision: async function (selectedComision) {
-      this.selectedComision = selectedComision;
-      console.log(selectedComision);
-      this.details = await this.myRowClickHandler(comisionList);
-      this.optionsComision = Object.keys(comisionList.data).map((key) => {
-        return { text: key };
-      });
-      console.log(optionsComision);
-      return details;
     },
     getHorarios: async function () {
       const data = await horarios.get();
       this.horarios = data;
       return data;
     },
-    getCareerList: async function () {
-      if (this.selected == "") return "";
+    getFacultadesList: async function (item) {
+      if (this.seleccion == "") return "";
+      const dataFacList = await http.get("/facultades");
+      this.facultadesList = dataFacList;
+      this.carreras = Object.keys(this.facultadesList).map((key) => {
+        return { value: key, name: this.facultadesList[key] };
+      });
+      console.log(this.facultadesList)
+      return dataFacList;
+    },
+    getCareerList: async function (item) {
+      if (this.seleccion == "") return "";
       const dataList = await http.get("/get-carreras");
       this.careerList = dataList;
+      this.carreras = Object.keys(this.careerList).map((key) => {
+        return { value: key, name: this.careerList[key] };
+      });
       return dataList;
     },
+    
     getMateriasList: async function () {
-      if (!this.selected) return [];
+      if (!this.seleccion) return [];
 
       const dataMateria = await http.get(
-        `/get-nombres-materias/${this.selected}`
+        `/get-nombres-materias/${this.seleccion}`
       );
       return dataMateria;
     },
@@ -331,7 +431,6 @@ export default {
       this.nuevoHorario = "";
     },
     agregarMateria: function () {
-      //console.log('diste click' , this.nuevoHorario)
       this.materias.push({
         nombre: this.nuevaMateria,
         estado: false,
@@ -352,27 +451,56 @@ export default {
     eliminarActividad: function (index) {
       this.actividades.splice(index, 1);
     },
-    myRowClickHandler: async function (observer) {
+    materiaRowClicked: async function (observer) {
       this.nameComision = observer.nombre;
-      var comisionList = await http.get(
-        `/get-comisiones/${this.selected}/${this.nameComision}`
-      );
-      console.log(comisionList);
-      this.allOpenRows = [];
-      this.$set(observer, "_showDetails", !observer._showDetails);
 
-      this.allOpenRows.push(
-        Object.keys(comisionList).map((key) => {
-          if (key == "data") {
-            if (key != "Materia") {
-              return {
-                text: comisionList[key],
-              };
-            }
-          }
-        })
+      const comisionResponse = await http.get(
+        `/get-comisiones/${this.seleccion}/${this.nameComision}`
       );
-      return comisionList.data;
+
+      this.comisionList = Object.keys(comisionResponse.data)
+        .map((key) => key)
+        .filter((el) => el !== "Materia");
+      this.$set(observer, "_showDetails", !observer._showDetails);
+      let allComisionDetails = Object.entries(comisionResponse.data);
+      for(let[key, value] of Object.entries(allComisionDetails)){
+        console.log(`${key}: ${value}`);d
+      }
+      console.log(allComisionDetails.find(value=>value.value))
+    },
+    // facultadRowClicked: async function (observer) {
+    //   this.nameComision = observer.nombre;
+
+    //   const comisionResponse = await http.get(
+    //     `/get-comisiones/${this.seleccion}/${this.nameComision}`
+    //   );
+
+    //   this.comisionList = Object.keys(comisionResponse.data)
+    //     .map((key) => key)
+    //     .filter((el) => el !== "Materia");
+    //   this.$set(observer, "_showDetails", !observer._showDetails);
+    //   let allComisionDetails = Object.entries(comisionResponse.data);
+    //   for(let[key, value] of Object.entries(allComisionDetails)){
+    //     console.log(`${key}: ${value}`);d
+    //   }
+    //   console.log(allComisionDetails.find(value=>value.value))
+    // },
+    datosComisiones: async function (observer) {},
+  },
+  // seleccionartodo, selecciona todo con un checkbox
+  watch: {
+    selected(newValue, oldValue) {
+      // Handle changes in individual flavour checkboxes
+      if (newValue.length === 0) {
+        this.indeterminate = false;
+        this.allSelected = false;
+      } else if (newValue.length === this.comisionList.length) {
+        this.indeterminate = false;
+        this.allSelected = true;
+      } else {
+        this.indeterminate = true;
+        this.allSelected = false;
+      }
     },
   },
 };
@@ -410,11 +538,11 @@ h3 {
   font-family: sans-serif;
 }
 
-.boton-titulos {
-  border: 3px solid #ddc77a;
+.boton-titulos  {
+  border: 3px solid #ddc77a ;
   border-radius: 5px;
-  background-color: #ddc77a !important;
-  color: #2c5f66 !important;
+  background-color: #ddc77a ;
+  color: #2c5f66 ;
 }
 
 .boton-horario {
@@ -426,9 +554,9 @@ h3 {
 }
 
 .boton-modal {
-  height: 2em;
+  height: 1.5em;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
   background-color: #ddc77a;
   color: #2c5f66;
 }

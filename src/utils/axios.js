@@ -1,13 +1,10 @@
 import axios from 'axios';
 
-
+axios.defaults.headers.common['Authorization'] = `Basic YWRtaW46NzUzOTUx`;
 
 export const http = axios.create({
-    baseURL: 'https://uncalendar.herokuapp.com',
+    baseURL: 'http://50.16.25.112:8080/',
     timeout: 3000
 });
-export const comHttp = axios.create({
-    baseURL: 'https://uncalendar.herokuapp.com/get-comisiones/',
-    timeout: 3000
-});
+
 // create(App).use(VueAxios, axios).mount('#app')
