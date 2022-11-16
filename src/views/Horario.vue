@@ -136,9 +136,9 @@
             <b-row class="d-flex " cols-md="3">
               <p class="h6">Facultad</p>
               <b-form-select
-                  :value="seleccion"
+                  :value="seleccionFacu"
                   :options="optionsFacu"
-                  @change="changeSelectedCareer"
+                  @change="changeSelectedFacultad"
                   size="sm"
                   class="mt-3 text-center"
                   style="background-color: beige"
@@ -367,6 +367,12 @@ export default {
       this.selectedMateria =
         this.selectedHorario.materias[this.selectedMateriasArray[0]];
       // Cierre funcion horarios
+      const facultadesList = await this.getFacultadesList();
+      this.facultadesList = facultadesList
+      console.log(facultadesList.data)
+      //this.optionsFacu = Object.keys(this.facultadesList).map((key) => {
+      //  return { value: key, text: this.facultadesList[key] };
+      //});
       const careerList = await this.getCareerList();
       this.careerList = careerList.data.carreras;
       this.options = Object.keys(this.careerList).map((key) => {
@@ -381,6 +387,14 @@ export default {
     toggleAll(checked) {
       this.selected = checked ? this.comisionList.slice() : [];
     },
+    changeSelectedFacultad: async function (seleccion) {
+      this.seleccionFacu = seleccion;
+      this.items.seleccionFacu = seleccion;
+      this.factuladesList = await this.getMateriasList();
+      this.listadoMaterias = this.factuladesList.data.nombres.map((name) => {
+        return { nombre: name };
+      });
+    },
     changeSelectedCareer: async function (seleccion) {
       this.seleccion = seleccion;
       this.items.selected = seleccion;
@@ -389,30 +403,44 @@ export default {
         return { nombre: name };
       });
     },
+    
     getHorarios: async function () {
       const data = await horarios.get();
       this.horarios = data;
       return data;
     },
     getFacultadesList: async function (item) {
-      if (this.seleccion == "") return "";
+      // if (this.seleccionFacu == "") return "";
       const dataFacList = await http.get("/facultades");
-      this.facultadesList = dataFacList;
-      this.carreras = Object.keys(this.facultadesList).map((key) => {
+      this.facultadesList = dataFacList.data;
+      console.log(this.facultadesList);
+
+      var values = [];
+      for (let key in this.facultadesList){
+        values.push(this.facultadesList[key]);
+      }
+
+      console.log("values: " + values);
+
+      this.optionsFacu = values;
+
+      this.facultadesList = Object.keys(this.facultadesList).map((key) => {
         return { value: key, name: this.facultadesList[key] };
       });
-      console.log(this.facultadesList)
+
+
+
       return dataFacList;
     },
-    getCareerList: async function (item) {
-      if (this.seleccion == "") return "";
-      const dataList = await http.get("/get-carreras");
-      this.careerList = dataList;
-      this.carreras = Object.keys(this.careerList).map((key) => {
-        return { value: key, name: this.careerList[key] };
-      });
-      return dataList;
-    },
+    // getCareerList: async function (item) {
+    //   if (this.seleccion == "") return "";
+    //   const dataList = await http.get("/get-carreras");
+    //   this.careerList = dataList;
+    //   this.carreras = Object.keys(this.careerList).map((key) => {
+    //     return { value: key, name: this.careerList[key] };
+    //   });
+    //   return dataList;
+    // },
     
     getMateriasList: async function () {
       if (!this.seleccion) return [];
