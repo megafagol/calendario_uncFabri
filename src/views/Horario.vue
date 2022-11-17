@@ -133,10 +133,10 @@
               title="Seleccione una carrera"
             >
               <!-- Selección de Carreras -->
-            <b-row class="d-flex " cols-md="3">
+            <b-row class="d-flex flex-column" cols-md="3">
               <p class="h6">Facultad</p>
               <b-form-select
-                  
+                  :value="seleccionFacu"
                   :options="optionsFacu"
                   @change="changeSelectedFacultad"
                   size="sm"
@@ -144,46 +144,42 @@
                   style="background-color: beige"
                 >
                 </b-form-select>
-                <!-- <div class="mt-3 mx-5">
-                  Facultad
-                  <strong class="mx-3">{{ seleccion }}</strong>
-                </div> -->
-            </b-row>
-            <b-row cols="12">
-              <div class="d-flex">
+            
+              <div class="d-flex flex-column">
+                <b-col cols="8">
+                <p class="h6">Carrera</p>
                 <b-form-select
-                  
+                  :value="seleccionCareer"
                   :options="optionsCareer"
                   @change="changeSelectedCareer"
                   size="m"
                   class="mt-3"
+                  id="selectCarrera"
                   style="background-color: beige"
                 >
                 </b-form-select>
-                <!-- <div class="mt-3 mx-5">
-                  Código de Carrera:
-                  <strong class="mx-3">{{ seleccion }}</strong>
-                </div> -->
-                <!-- Listado de Carreras -->
-
+                
                 <b-form-select
+                :value="seleccionSem"
                   :options="optionsPeriodos"
+                  @change="changeSelectedPeriodo"
                   size="sm"
                   class="mt-3"
+                  id="selectPeriodo"
                   style="background-color: beige"
                 >
                 </b-form-select>
-
-                <br>
-
                 <b-form-select
+                :value ="seleccionAnio"
                   :options="optionsAnios"
+                  @change="changeSelectedAnio"
                   size="sm"
                   class="mt-3"
+                  id="selectAnio"
                   style="background-color: beige"
                 >
                 </b-form-select>
-
+              </b-col>
                 <!-- <div class="mt-3 mx-5">
                   Código de Carrera:
                   <strong class="mx-3">{{ seleccion }}</strong>
@@ -220,7 +216,7 @@
                                 }}
                               </b-form-checkbox>
                             </template>
-
+                      
                             <template v-slot="{ ariaDescribedby }">
                               <b-form-checkbox-group
                                 id="comisiones"
@@ -300,12 +296,15 @@ export default {
       selectedMateria: null,
       seleccionSem: null,
       seleccionFacu: null,
+      seleccionCareer: null,
+      seleccionPeriodo: null,
+      seleccionAnio: null,
       selected: [],
       seleccion: null,
       optionsCareer: [{ value: "null", text: "Seleccione su Carrera" }],//materias
       optionsFacu: [{ value: "null", text: "Seleccione su Facultad" }],//facultades
       optionsPeriodos: [{ value: "null", text: "Seleccione un Semestre" }],//semestres
-      listadoMaterias: [],
+      listadoMaterias: [], 
       nameComision: [],
       detailsComision: {},
       comisionList: [],
@@ -316,8 +315,7 @@ export default {
       id:[],
       periodosList:{},
       periodos:{},  
-      optionsAnios: [{ value: "null", text: "Seleccione un Año" },
-                    { value: "1", text: "1ro" },
+      optionsAnios: [{ value: "1", text: "1ro" },
                     { value: "2", text: "2ro" },
                     { value: "3", text: "3ro" },
                     { value: "4", text: "4ro" },
@@ -404,23 +402,125 @@ export default {
     toggleAll(checked) {
       this.selected = checked ? this.comisionList.slice() : [];
     },
+
+    allSelectedOptionsReadyToListMaterias: function() {
+      var selectCarrera = document.getElementById("selectCarrera");
+      var selectPeriodo = document.getElementById("selectPeriodo");
+      var selectAnio = document.getElementById("selectAnio");
+      
+      if(selectCarrera.options[selectCarrera.selectedIndex] == undefined ||
+        selectPeriodo.options[selectPeriodo.selectedIndex] == undefined ||
+        selectAnio.options[selectAnio.selectedIndex] == undefined){
+        return false;
+      }else{
+        return true;
+      }
+    },
+
+    fillMateriasYComisionesList: async function() {
+      this.materiaList = await this.getMateriasList();
+
+    /*
+      {
+        "FISICA I"{
+          "COM1": [],
+          "COM2": [],
+          "COM3": [],
+        },
+        "ALGEBRA"{
+          "COM1": [],
+          "COM2": [],
+          "COM3": [],
+        },
+      }
+
+
+      listadoMaterias = [FISICA I, ALEGEBRA]
+
+
+    */
+      //Save the keys from this.materiaList.data into this.listadoMaterias
+
+      //this.listadoMaterias = Object.keys(this.materiaList.data);
+      this.listadoMaterias = Object.keys(this.materiaList.data).map((key) => {
+        return { materia: key }; 
+      });
+
+
+      console.log(this.listadoMaterias);
+
+      // this.listadoMaterias = this.materiaList.data.map((name) => {
+      //   return { nombre: name };
+      // });
+
+    },
+
+
+
     changeSelectedFacultad: async function (seleccion) {
       this.seleccionFacu = seleccion;
       this.itemsFacultades.seleccionFacu = seleccion;
       await this.getCareerList();
       await this.getPeriodoList();
-      
-      // this.listadoMaterias = this.factuladesList.data.nombres.map((name) => {
-      //   return { nombre: name };
-      //});
-    },
+      },
     changeSelectedCareer: async function (seleccion) {
-      this.seleccion = seleccion;
+      this.seleccionCareer = seleccion;
       this.items.selected = seleccion;
-      this.materiaList = await this.getMateriasList();
-      this.listadoMaterias = this.materiaList.data.nombres.map((name) => {
-        return { nombre: name };
-      });
+      //this.materiaList = await this.getMateriasList();
+      // this.listadoMaterias = this.materiaList.data.nombres.map((name) => {
+      //   return { nombre: name };
+      // });
+
+      if(this.allSelectedOptionsReadyToListMaterias()){
+        console.log("Todos los campos de selection estan listos");
+
+        this.fillMateriasYComisionesList();
+
+      } else{
+        console.log("Algun campo de selection no esta listo");
+      }
+
+    },
+
+    changeSelectedPeriodo: async function (seleccion) {
+      this.seleccionPeriodo = seleccion;
+      // this.seleccion = seleccion;
+      // this.items.selected = seleccion;
+      // this.materiaList = await this.getMateriasList();
+      // this.listadoMaterias = this.materiaList.data.nombres.map((name) => {
+      //   return { nombre: name };
+      // });
+
+      if(this.allSelectedOptionsReadyToListMaterias()){
+        console.log("Todos los campos de selection estan listos");
+
+        this.fillMateriasYComisionesList();
+
+
+      } else{
+        console.log("Algun campo de selection no esta listo");
+      }
+
+    },
+
+    changeSelectedAnio: async function (seleccion) {
+      this.seleccionAnio = seleccion;
+      // this.seleccion = seleccion;
+      // this.items.selected = seleccion;
+      // this.materiaList = await this.getMateriasList();
+      // this.listadoMaterias = this.materiaList.data.nombres.map((name) => {
+      //   return { nombre: name };
+      // });
+
+      if(this.allSelectedOptionsReadyToListMaterias()){
+
+        this.fillMateriasYComisionesList();
+
+        console.log("Todos los campos de selection estan listos");
+      } else{
+        console.log("Algun campo de selection no esta listo");
+      }
+
     },
     
     getHorarios: async function () {
@@ -428,6 +528,7 @@ export default {
       this.horarios = data;
       return data;
     },
+    
     getFacultadesList: async function (item) {
       // if (this.seleccionFacu == "") return "";
       const dataFacList = await http.get("/facultades");
@@ -469,10 +570,10 @@ export default {
 
     
     getMateriasList: async function () {
-      if (!this.seleccion) return [];
+      if (!this.seleccionFacu || !this.seleccionCareer || !this.seleccionPeriodo || !this.seleccionAnio) return [];
 
       const dataMateria = await http.get(
-        `/get-nombres-materias/${this.seleccion}`
+        `/comisiones/${this.seleccionFacu}/${this.seleccionCareer}/${this.seleccionAnio}/${this.seleccionPeriodo}`
       );
       return dataMateria;
     },
@@ -506,21 +607,62 @@ export default {
       this.actividades.splice(index, 1);
     },
     materiaRowClicked: async function (observer) {
-      this.nameComision = observer.nombre;
+      let nombreMateria = observer.materia;
 
-      const comisionResponse = await http.get(
-        `/get-comisiones/${this.seleccion}/${this.nameComision}`
-      );
+      // 28823957ahjsdhsaj : FISICA 1
 
-      this.comisionList = Object.keys(comisionResponse.data)
-        .map((key) => key)
-        .filter((el) => el !== "Materia");
+      // const comisionResponse = await http.get(
+      //   `/get-comisiones/${this.seleccion}/${this.nameComision}`
+      // );
+      
+      let comisiones = this.materiaList.data[nombreMateria];
+      console.log(comisiones);
+
+
+      /*
+      Materia 1
+            comision 1
+            Lunes 8:00-10:00  13:00-16:00  *
+            Martes 8:00-10:00
+
+            comision 2
+            Lunes 8:00-10:00
+            Martes 8:00-10:00
+
+            comision 3
+            Lunes 8:00-10:00
+            Martes 8:00-10:00
+            
+      Materia 2
+            comision 1 
+            Lunes 8:00-10:00    *
+            Martes 8:00-10:00
+
+            comision 2
+            Lunes 8:00-10:00
+            Martes 8:00-10:00
+
+            comision 3
+            Lunes 8:00-10:00
+            Martes 8:00-10:00
+      */
+      //nombre materia
+      //nombre comision
+      //seleccionFacultad
+      //seleccionCareer
+      //seleccionAnio
+      //seleccionPeriodo 
+      this.comisionList = Object.keys(comisiones);
       this.$set(observer, "_showDetails", !observer._showDetails);
-      let allComisionDetails = Object.entries(comisionResponse.data);
-      for(let[key, value] of Object.entries(allComisionDetails)){
-        console.log(`${key}: ${value}`);d
-      }
-      console.log(allComisionDetails.find(value=>value.value))
+      // let allComisionDetails = Object.entries(comisiones);
+
+
+
+
+      // for(let[key, value] of Object.entries(allComisionDetails)){
+      //   console.log(`${key}: ${value}`);d
+      // }
+      // console.log(allComisionDetails.find(value=>value.value))
     },
     // facultadRowClicked: async function (observer) {
     //   this.nameComision = observer.nombre;
