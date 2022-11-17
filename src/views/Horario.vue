@@ -58,8 +58,7 @@
 
         <div class="containerbotones col-12">
           <p class="h5">
-            Personalizá tus actividades y materias según tus
-            tiempos.
+            Personalizá tus actividades y materias según tus tiempos.
           </p>
 
           <div class="containeract my-3">
@@ -133,7 +132,67 @@
               title="Seleccione una carrera"
             >
               <!-- Selección de Carreras -->
-            <b-row class="d-flex " cols-md="3">
+<<<<<<< HEAD
+              <b-row class="d-flex flex-column">
+                <b-col class="d-flex" cols="12">
+                  <p class="h6">Facultad</p>
+                  <b-form-select
+                    :value="seleccionFacu"
+                    :options="optionsFacu"
+                    @change="changeSelectedFacultad"
+                    size="sm"
+                    class="mt-3 drowdown-items"
+                   
+                  >
+                  </b-form-select>
+                </b-col>
+
+                <div class="d-flex flex-column">
+                  <hr width="100%" style="color: #ddc77a" />
+                  <b-col class="d-flex">
+                    <p class="h6">Carrera</p>
+                    <b-form-select
+                      :value="seleccionCareer"
+                      :options="optionsCareer"
+                      @change="changeSelectedCareer"
+                      size="sm"
+                      class="mt-3 drowdown-items"
+                     
+                    >
+                    </b-form-select>
+                  </b-col>
+
+                  <hr width="100%" style="color: #ddc77a" />
+                  <b-col class="d-flex" cols="12">
+                    <!-- Listado de Carreras -->
+                    <b-col class="d-flex">
+                      <p class="h6">Semestre</p>
+                      <b-form-select
+                        :value="seleccionSem"
+                        :options="optionsPeriodos"
+                        @change="changeSelectedPeriodo"
+                        size="sm"
+                        class="mt-3 drowdown-items"
+                      >
+                      </b-form-select>
+                    </b-col>
+                    <b-col class="d-flex">
+                      <p class="h6">Año de Carrera</p>
+                      <b-form-select
+                        :value="seleccionAnios"
+                        :options="optionsAnios"
+                        @change="changeSelectedAnio"
+                        size="sm"
+                        class="mt-3 drowdown-items"
+                      >
+                      </b-form-select>
+                    </b-col>
+                  </b-col>
+                  <hr width="100%" style="color: #ddc77a" />
+                </div>
+              </b-row>
+=======
+            <b-row class="d-flex flex-column" cols-md="3">
               <p class="h6">Facultad</p>
               <b-form-select
                   :value="seleccionFacu"
@@ -144,43 +203,49 @@
                   style="background-color: beige"
                 >
                 </b-form-select>
-                <!-- <div class="mt-3 mx-5">
-                  Facultad
-                  <strong class="mx-3">{{ seleccion }}</strong>
-                </div> -->
-            </b-row>
-            <b-row cols="12">
-              <div class="d-flex">
+            
+              <div class="d-flex flex-column">
+                <b-col cols="8">
+                <p class="h6">Carrera</p>
                 <b-form-select
-                  :value="seleccion"
-                  :options="options"
+                  :value="seleccionCareer"
+                  :options="optionsCareer"
                   @change="changeSelectedCareer"
                   size="m"
                   class="mt-3"
+                  id="selectCarrera"
                   style="background-color: beige"
                 >
                 </b-form-select>
-                <div class="mt-3 mx-5">
-                  Código de Carrera:
-                  <strong class="mx-3">{{ seleccion }}</strong>
-                </div>
-                <!-- Listado de Carreras -->
-
+                
                 <b-form-select
-                  :value="seleccionSem"
-                  :options="optionsSem"
-
+                :value="seleccionSem"
+                  :options="optionsPeriodos"
+                  @change="changeSelectedPeriodo"
                   size="sm"
                   class="mt-3"
+                  id="selectPeriodo"
                   style="background-color: beige"
                 >
                 </b-form-select>
-                <div class="mt-3 mx-5">
+                <b-form-select
+                :value ="seleccionAnio"
+                  :options="optionsAnios"
+                  @change="changeSelectedAnio"
+                  size="sm"
+                  class="mt-3"
+                  id="selectAnio"
+                  style="background-color: beige"
+                >
+                </b-form-select>
+              </b-col>
+                <!-- <div class="mt-3 mx-5">
                   Código de Carrera:
                   <strong class="mx-3">{{ seleccion }}</strong>
-                </div>
+                </div> -->
               </div>
             </b-row>
+>>>>>>> 3c1cd8ac9045032be88c4bbf0fc13c2383c2b6df
               <!-- cierre Selección de Carreras -->
               <b-row>
                 <div class="">
@@ -193,6 +258,41 @@
                       @row-clicked="materiaRowClicked"
                     >
                       <template slot="row-details">
+<<<<<<< HEAD
+                        <b-list-group v-for="com in comisionList" :key="com">
+                          <b-list-group-item>{{ com }}</b-list-group-item>
+                        </b-list-group>
+                        <b-form-group>
+                          <template #label>
+                            <b-form-checkbox
+                              v-model="allSelected"
+                              :indeterminate="indeterminate"
+                              aria-describedby="comisionList"
+                              aria-controls="comisionList"
+                              @change="toggleAll"
+                            >
+                              {{
+                                allSelected
+                                  ? "Quitar seleccion"
+                                  : "Seleccionar todo"
+                              }}
+                            </b-form-checkbox>
+                          </template>
+
+                          <template v-slot="{ ariaDescribedby }">
+                            <b-form-checkbox-group
+                              id="comisiones"
+                              v-model="selected"
+                              :options="comisionList"
+                              :aria-describedby="ariaDescribedby"
+                              name="comisiones"
+                              class="ml-4 mx-2"
+                              aria-label="Listado De Comisiones"
+                              stacked
+                            ></b-form-checkbox-group>
+                          </template>
+                        </b-form-group>
+=======
                         <!-- <b-list-group v-for="com in comisionList" :key="com">
                           <b-list-group-item>{{ com }}</b-list-group-item> -->
                           <b-form-group>
@@ -211,7 +311,7 @@
                                 }}
                               </b-form-checkbox>
                             </template>
-
+                      
                             <template v-slot="{ ariaDescribedby }">
                               <b-form-checkbox-group
                                 id="comisiones"
@@ -225,6 +325,7 @@
                               ></b-form-checkbox-group>
                             </template>
                           </b-form-group>
+>>>>>>> 3c1cd8ac9045032be88c4bbf0fc13c2383c2b6df
                         <!-- </b-list-group> -->
                       </template>
                     </b-table>
@@ -281,8 +382,8 @@ export default {
     return {
       nuevoHorario: "",
       horarios: [],
-      facultadesList:{},
-      careerList: {},
+      facultadesList: {},
+      careerList: {}, //variable auxiliar
       nuevaActividad: "",
       actividades: [],
       name: "",
@@ -291,19 +392,58 @@ export default {
       selectedMateria: null,
       seleccionSem: null,
       seleccionFacu: null,
+<<<<<<< HEAD
+      seleccionAnios: null,
+      seleccionCareer: null,
       selected: [],
       seleccion: null,
-      options: [{ value: "null", text: "Seleccione su Carrera" }],//materias
-      optionsFacu: [{ value: "null", text: "Seleccione su Facultad" }],//facultades
-      optionsSem: [{ value: "null", text: "Seleccione un Semestre" }],//semestres
+      optionsCareer: [{ value: "null", text: "Seleccione su Carrera" }], //materias
+      optionsFacu: [{ value: "null", text: "Seleccione su Facultad" }], //facultades
+      optionsPeriodos: [{ value: "null", text: "Seleccione un Semestre" }], //semestres
       listadoMaterias: [],
+=======
+      seleccionCareer: null,
+      seleccionPeriodo: null,
+      seleccionAnio: null,
+      selected: [],
+      seleccion: null,
+      optionsCareer: [{ value: "null", text: "Seleccione su Carrera" }],//materias
+      optionsFacu: [{ value: "null", text: "Seleccione su Facultad" }],//facultades
+      optionsPeriodos: [{ value: "null", text: "Seleccione un Semestre" }],//semestres
+      listadoMaterias: [], 
+>>>>>>> 3c1cd8ac9045032be88c4bbf0fc13c2383c2b6df
       nameComision: [],
       detailsComision: {},
       comisionList: [],
       allSelected: false,
       indeterminate: false,
-      items: [],
+      itemsCarrer: [],
+      itemsFacultades: [],
+<<<<<<< HEAD
+      itemsFacultades: [],
+      id: [],
+      periodosList: {},
+      periodos: {},
+      optionsAnios: [
+        { value: "null", text: "Seleccione un Año" },
+        { value: "1", text: "1ro" },
+        { value: "2", text: "2ro" },
+        { value: "3", text: "3ro" },
+        { value: "4", text: "4ro" },
+        { value: "5", text: "5ro" },
+        { value: "6", text: "6ro" },
+      ],
+=======
       id:[],
+      periodosList:{},
+      periodos:{},  
+      optionsAnios: [{ value: "1", text: "1ro" },
+                    { value: "2", text: "2ro" },
+                    { value: "3", text: "3ro" },
+                    { value: "4", text: "4ro" },
+                    { value: "5", text: "5ro" },
+                    { value: "6", text: "6ro" }],
+>>>>>>> 3c1cd8ac9045032be88c4bbf0fc13c2383c2b6df
     };
   },
   computed: {
@@ -368,18 +508,15 @@ export default {
         this.selectedHorario.materias[this.selectedMateriasArray[0]];
       // Cierre funcion horarios
       const facultadesList = await this.getFacultadesList();
-      this.facultadesList = facultadesList
-      console.log(facultadesList.data)
+      this.facultadesList = facultadesList;
+      console.log(facultadesList.data);
       //this.optionsFacu = Object.keys(this.facultadesList).map((key) => {
       //  return { value: key, text: this.facultadesList[key] };
       //});
-      const careerList = await this.getCareerList();
-      this.careerList = careerList.data.carreras;
-      this.options = Object.keys(this.careerList).map((key) => {
-        return { value: key, text: this.careerList[key] };
-      });
+      // const careerList = await this.getCareerList();
+      // this.careerList = careerList.data.carreras;
     } catch (error) {
-      console.log(err);
+      console.log(error);
     }
   },
 
@@ -387,66 +524,201 @@ export default {
     toggleAll(checked) {
       this.selected = checked ? this.comisionList.slice() : [];
     },
+
+    allSelectedOptionsReadyToListMaterias: function() {
+      var selectCarrera = document.getElementById("selectCarrera");
+      var selectPeriodo = document.getElementById("selectPeriodo");
+      var selectAnio = document.getElementById("selectAnio");
+      
+      if(selectCarrera.options[selectCarrera.selectedIndex] == undefined ||
+        selectPeriodo.options[selectPeriodo.selectedIndex] == undefined ||
+        selectAnio.options[selectAnio.selectedIndex] == undefined){
+        return false;
+      }else{
+        return true;
+      }
+    },
+
+    fillMateriasYComisionesList: async function() {
+      this.materiaList = await this.getMateriasList();
+
+    /*
+      {
+        "FISICA I"{
+          "COM1": [],
+          "COM2": [],
+          "COM3": [],
+        },
+        "ALGEBRA"{
+          "COM1": [],
+          "COM2": [],
+          "COM3": [],
+        },
+      }
+
+
+      listadoMaterias = [FISICA I, ALEGEBRA]
+
+
+    */
+      //Save the keys from this.materiaList.data into this.listadoMaterias
+
+      //this.listadoMaterias = Object.keys(this.materiaList.data);
+      this.listadoMaterias = Object.keys(this.materiaList.data).map((key) => {
+        return { materia: key }; 
+      });
+
+
+      console.log(this.listadoMaterias);
+
+      // this.listadoMaterias = this.materiaList.data.map((name) => {
+      //   return { nombre: name };
+      // });
+
+    },
+
+
+
     changeSelectedFacultad: async function (seleccion) {
       this.seleccionFacu = seleccion;
-      this.items.seleccionFacu = seleccion;
-      this.factuladesList = await this.getMateriasList();
-      this.listadoMaterias = this.factuladesList.data.nombres.map((name) => {
-        return { nombre: name };
-      });
+      this.itemsFacultades.seleccionFacu = seleccion;
+      await this.getCareerList();
+      await this.getPeriodoList();
+<<<<<<< HEAD
     },
     changeSelectedCareer: async function (seleccion) {
-      this.seleccion = seleccion;
-      this.items.selected = seleccion;
+      this.seleccionCareer = seleccion;
+      this.itemsCarrer.selected = seleccion;
       this.materiaList = await this.getMateriasList();
       this.listadoMaterias = this.materiaList.data.nombres.map((name) => {
         return { nombre: name };
       });
+=======
+      },
+    changeSelectedCareer: async function (seleccion) {
+      this.seleccionCareer = seleccion;
+      this.items.selected = seleccion;
+      //this.materiaList = await this.getMateriasList();
+      // this.listadoMaterias = this.materiaList.data.nombres.map((name) => {
+      //   return { nombre: name };
+      // });
+
+      if(this.allSelectedOptionsReadyToListMaterias()){
+        console.log("Todos los campos de selection estan listos");
+
+        this.fillMateriasYComisionesList();
+
+      } else{
+        console.log("Algun campo de selection no esta listo");
+      }
+
     },
-    
+
+    changeSelectedPeriodo: async function (seleccion) {
+      this.seleccionPeriodo = seleccion;
+      // this.seleccion = seleccion;
+      // this.items.selected = seleccion;
+      // this.materiaList = await this.getMateriasList();
+      // this.listadoMaterias = this.materiaList.data.nombres.map((name) => {
+      //   return { nombre: name };
+      // });
+
+      if(this.allSelectedOptionsReadyToListMaterias()){
+        console.log("Todos los campos de selection estan listos");
+
+        this.fillMateriasYComisionesList();
+
+
+      } else{
+        console.log("Algun campo de selection no esta listo");
+      }
+
+    },
+
+    changeSelectedAnio: async function (seleccion) {
+      this.seleccionAnio = seleccion;
+      // this.seleccion = seleccion;
+      // this.items.selected = seleccion;
+      // this.materiaList = await this.getMateriasList();
+      // this.listadoMaterias = this.materiaList.data.nombres.map((name) => {
+      //   return { nombre: name };
+      // });
+
+      if(this.allSelectedOptionsReadyToListMaterias()){
+
+        this.fillMateriasYComisionesList();
+
+        console.log("Todos los campos de selection estan listos");
+      } else{
+        console.log("Algun campo de selection no esta listo");
+      }
+
+>>>>>>> 3c1cd8ac9045032be88c4bbf0fc13c2383c2b6df
+    },
+    changeSelectedAnio: async function (seleccion) {
+      this.seleccionAnios = seleccion;
+      this.itemsCarrer.selected = seleccion;
+    },
+    changeSelectedPeriodo: async function (seleccion) {
+      this.seleccionSem = seleccion;
+      this.itemsCarrer.selected = seleccion;
+    },
+
     getHorarios: async function () {
       const data = await horarios.get();
       this.horarios = data;
       return data;
     },
+    
     getFacultadesList: async function (item) {
-      // if (this.seleccionFacu == "") return "";
+      if (this.seleccionFacu == "") return "";
       const dataFacList = await http.get("/facultades");
       this.facultadesList = dataFacList.data;
       console.log(this.facultadesList);
 
-      var values = [];
-      for (let key in this.facultadesList){
-        values.push(this.facultadesList[key]);
-      }
-
-      console.log("values: " + values);
-
-      this.optionsFacu = values;
-
       this.facultadesList = Object.keys(this.facultadesList).map((key) => {
-        return { value: key, name: this.facultadesList[key] };
+        return { value: key, text: this.facultadesList[key] };
       });
 
-
+      this.optionsFacu = this.facultadesList;
 
       return dataFacList;
     },
-    // getCareerList: async function (item) {
-    //   if (this.seleccion == "") return "";
-    //   const dataList = await http.get("/get-carreras");
-    //   this.careerList = dataList;
-    //   this.carreras = Object.keys(this.careerList).map((key) => {
-    //     return { value: key, name: this.careerList[key] };
-    //   });
-    //   return dataList;
-    // },
-    
+    getCareerList: async function () {
+      if (this.seleccionCareer == "") return "";
+      const dataList = await http.get(`/carreras/${this.seleccionFacu}`);
+      console.log(dataList);
+      this.careerList = dataList.data;
+      this.carreras = Object.keys(this.careerList).map((key) => {
+        return { value: key, text: this.careerList[key] };
+      });
+      this.optionsCareer = this.carreras;
+      return dataList;
+    },
+
+    getPeriodoList: async function () {
+      if (this.seleccionSem == "") return "";
+      const dataList = await http.get(`/periodo/${this.seleccionFacu}`);
+      this.periodosList = dataList.data;
+      this.periodos = Object.keys(this.periodosList).map((key) => {
+        return { value: key, text: this.periodosList[key] };
+      });
+      this.optionsPeriodos = this.periodos;
+      return dataList;
+    },
+
     getMateriasList: async function () {
-      if (!this.seleccion) return [];
+<<<<<<< HEAD
+      if (!this.seleccionFacu) return [];
+      ("/comisiones/{this.seleccionFacu}/{seleccionCareer}/{seleccionSem}/{}");
+      const dataMateria = await http.get(
+        `/comisiones/${this.seleccionFacu}/${this.seleccionCareer}/${this.seleccionAnios}/${this.seleccionSem}/`
+=======
+      if (!this.seleccionFacu || !this.seleccionCareer || !this.seleccionPeriodo || !this.seleccionAnio) return [];
 
       const dataMateria = await http.get(
-        `/get-nombres-materias/${this.seleccion}`
+        `/comisiones/${this.seleccionFacu}/${this.seleccionCareer}/${this.seleccionAnio}/${this.seleccionPeriodo}`
+>>>>>>> 3c1cd8ac9045032be88c4bbf0fc13c2383c2b6df
       );
       return dataMateria;
     },
@@ -480,6 +752,73 @@ export default {
       this.actividades.splice(index, 1);
     },
     materiaRowClicked: async function (observer) {
+      let nombreMateria = observer.materia;
+
+      // 28823957ahjsdhsaj : FISICA 1
+
+      // const comisionResponse = await http.get(
+      //   `/get-comisiones/${this.seleccion}/${this.nameComision}`
+      // );
+      
+      let comisiones = this.materiaList.data[nombreMateria];
+      console.log(comisiones);
+
+
+      /*
+      Materia 1
+            comision 1
+            Lunes 8:00-10:00  13:00-16:00  *
+            Martes 8:00-10:00
+
+            comision 2
+            Lunes 8:00-10:00
+            Martes 8:00-10:00
+
+            comision 3
+            Lunes 8:00-10:00
+            Martes 8:00-10:00
+            
+      Materia 2
+            comision 1 
+            Lunes 8:00-10:00    *
+            Martes 8:00-10:00
+
+            comision 2
+            Lunes 8:00-10:00
+            Martes 8:00-10:00
+
+            comision 3
+            Lunes 8:00-10:00
+            Martes 8:00-10:00
+      */
+      //nombre materia
+      //nombre comision
+      //seleccionFacultad
+      //seleccionCareer
+      //seleccionAnio
+      //seleccionPeriodo 
+      this.comisionList = Object.keys(comisiones);
+      this.$set(observer, "_showDetails", !observer._showDetails);
+<<<<<<< HEAD
+      let allComisionDetails = Object.entries(comisionResponse.data);
+      for (let [key, value] of Object.entries(allComisionDetails)) {
+        console.log(`${key}: ${value}`);
+        d;
+      }
+      console.log(allComisionDetails.find((value) => value.value));
+=======
+      // let allComisionDetails = Object.entries(comisiones);
+
+
+
+
+      // for(let[key, value] of Object.entries(allComisionDetails)){
+      //   console.log(`${key}: ${value}`);d
+      // }
+      // console.log(allComisionDetails.find(value=>value.value))
+>>>>>>> 3c1cd8ac9045032be88c4bbf0fc13c2383c2b6df
+    },
+    facultadRowClicked: async function (observer) {
       this.nameComision = observer.nombre;
 
       const comisionResponse = await http.get(
@@ -491,28 +830,12 @@ export default {
         .filter((el) => el !== "Materia");
       this.$set(observer, "_showDetails", !observer._showDetails);
       let allComisionDetails = Object.entries(comisionResponse.data);
-      for(let[key, value] of Object.entries(allComisionDetails)){
-        console.log(`${key}: ${value}`);d
+      for (let [key, value] of Object.entries(allComisionDetails)) {
+        console.log(`${key}: ${value}`);
+        d;
       }
-      console.log(allComisionDetails.find(value=>value.value))
+      console.log(allComisionDetails.find((value) => value.value));
     },
-    // facultadRowClicked: async function (observer) {
-    //   this.nameComision = observer.nombre;
-
-    //   const comisionResponse = await http.get(
-    //     `/get-comisiones/${this.seleccion}/${this.nameComision}`
-    //   );
-
-    //   this.comisionList = Object.keys(comisionResponse.data)
-    //     .map((key) => key)
-    //     .filter((el) => el !== "Materia");
-    //   this.$set(observer, "_showDetails", !observer._showDetails);
-    //   let allComisionDetails = Object.entries(comisionResponse.data);
-    //   for(let[key, value] of Object.entries(allComisionDetails)){
-    //     console.log(`${key}: ${value}`);d
-    //   }
-    //   console.log(allComisionDetails.find(value=>value.value))
-    // },
     datosComisiones: async function (observer) {},
   },
   // seleccionartodo, selecciona todo con un checkbox
@@ -565,12 +888,18 @@ h3 {
   font-size: 1.5em !important;
   font-family: sans-serif;
 }
-
-.boton-titulos  {
-  border: 3px solid #ddc77a ;
+.drowdown-items{
+  background-color: #ddc87a62;
+                      width: 75%;
+                      border-radius: 5px;
+                      text-align: center;
+                      box-shadow: 0px 0.5px 20px rgb(0 0 0 / 15%);
+}
+.boton-titulos {
+  border: 3px solid #ddc77a;
   border-radius: 5px;
-  background-color: #ddc77a ;
-  color: #2c5f66 ;
+  background-color: #ddc77a;
+  color: #2c5f66;
 }
 
 .boton-horario {
@@ -602,35 +931,8 @@ h3 {
   font-size: 0.95em;
 }
 
-.social-icon {
-  color: black;
-  text-align: center;
-}
-
-.social-icon:hover {
-  color: grey;
-  display: inline;
-}
-
 .tableModal {
   height: 50vh;
   overflow-y: scroll;
-}
-
-#unc {
-  width: 38%;
-  position: absolute;
-  left: 62%;
-  z-index: -1;
-  margin: 1em 0 0 0;
-}
-
-#unc1 {
-  width: 38%;
-  position: absolute;
-  left: 62%;
-  z-index: 50;
-  margin: 1em 0 0 0;
-  z-index: -1;
 }
 </style>
