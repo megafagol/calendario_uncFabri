@@ -2,20 +2,18 @@
   <div class="vue-tempalte">
     <!-- Navigation -->
 
-    <nav class="navbar col-12">
+    <nav class="navbar navbar-expand-lg">
+      <div class="container-fluid">
       <p class="title2 col-2 h4">
         <b-link to="/"> UNC<span class="title-2">alendario</span> </b-link>
       </p>
 
       <div class="divnav col-4">
-        <router-link class="rutaHome" to="/">Home</router-link>
-
+       
         <router-link class="rutaHorario" to="/horarios"> Horarios</router-link>
 
-        <a class="cafecito2" href="https://cafecito.app/" target="_blank"
-          ><b>¡Donaciones!</b></a
-        >
       </div>
+    </div>
     </nav>
     <!-- Main -->
     <div class="App">
@@ -23,7 +21,7 @@
       <div class="vertical-center">
         <div class="inner-block"></div>
       </div>
-    </div>
+      </div>
   </div>
 </template>
 
