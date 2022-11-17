@@ -65,11 +65,11 @@
   margin: 0;
   background-color: rgb(255, 255, 255);
   font-family: "public sans";
-  padding: 0;
   box-sizing: border-box;
-  height: 90vh;
+  min-height: 95vh;
   width: 100vw;
-  z-index: -1;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
 }
 
 .container1 {
@@ -119,11 +119,12 @@ p {
 }
 
 #unc1 {
-  width: 33%;
-  position: absolute;
-  left: 59%;
-  z-index: 50;
+  width: 100%;
+  max-width: 75vh;
+  position: relative;
+  left: 54%;
   margin: 1em 0 0 0;
+  opacity: 15%;
 }
 
 #button2 {
@@ -153,19 +154,18 @@ button:hover {
 }
 
 #footer {
-  position: relative;
-  top: 34em;
   background-color: #2c5f66;
-  margin: 0;
-  height: 4em;
-  z-index: 100;
+  height: 100%;
+  max-height: 4em;
+  max-width: 100%;
 }
 
 #unc2 {
   position: relative;
   left: 5%;
   top: 10%;
-  width: 10em;
-  z-index: 1;
+  max-width: 10em;
+  width: 75%;
+ 
 }
 </style>

@@ -133,59 +133,65 @@
               title="Seleccione una carrera"
             >
               <!-- Selección de Carreras -->
-            <b-row class="d-flex flex-column" cols-md="3">
-              <p class="h6">Facultad</p>
-              <b-form-select
-                  :value="seleccionFacu"
-                  :options="optionsFacu"
-                  @change="changeSelectedFacultad"
-                  size="sm"
-                  class="mt-3 text-center"
-                  style="background-color: beige"
-                >
-                </b-form-select>
-            
-              <div class="d-flex flex-column">
-                <b-col cols="8">
-                <p class="h6">Carrera</p>
-                <b-form-select
-                  :value="seleccionCareer"
-                  :options="optionsCareer"
-                  @change="changeSelectedCareer"
-                  size="m"
-                  class="mt-3"
-                  id="selectCarrera"
-                  style="background-color: beige"
-                >
-                </b-form-select>
-                
-                <b-form-select
-                :value="seleccionSem"
-                  :options="optionsPeriodos"
-                  @change="changeSelectedPeriodo"
-                  size="sm"
-                  class="mt-3"
-                  id="selectPeriodo"
-                  style="background-color: beige"
-                >
-                </b-form-select>
-                <b-form-select
-                :value ="seleccionAnio"
-                  :options="optionsAnios"
-                  @change="changeSelectedAnio"
-                  size="sm"
-                  class="mt-3"
-                  id="selectAnio"
-                  style="background-color: beige"
-                >
-                </b-form-select>
-              </b-col>
-                <!-- <div class="mt-3 mx-5">
-                  Código de Carrera:
-                  <strong class="mx-3">{{ seleccion }}</strong>
-                </div> -->
-              </div>
-            </b-row>
+              <b-row class="d-flex flex-column">
+                <b-col class="d-flex" cols="12">
+                  <p class="h6">Facultad</p>
+                  <b-form-select
+                    :value="seleccionFacu"
+                    :options="optionsFacu"
+                    @change="changeSelectedFacultad"
+                    size="sm"
+                    class="mt-3 drowdown-items"
+                  >
+                  </b-form-select>
+                </b-col>
+
+                <div class="d-flex flex-column">
+                  <hr width="100%" style="color: #ddc77a" />
+                  <b-col class="d-flex">
+                    <p class="h6">Carrera</p>
+                    <b-form-select
+                      :value="seleccionCareer"
+                      :options="optionsCareer"
+                      @change="changeSelectedCareer"
+                      id="selectCarrera"
+                      size="sm"
+                      class="mt-3 drowdown-items"
+                    >
+                    </b-form-select>
+                  </b-col>
+
+                  <hr width="100%" style="color: #ddc77a" />
+                  <b-col class="d-flex" cols="12">
+                    <!-- Listado de Carreras -->
+                    <b-col class="d-flex">
+                      <p class="h6">Semestre</p>
+                      <b-form-select
+                        :value="seleccionSem"
+                        :options="optionsPeriodos"
+                        @change="changeSelectedPeriodo"
+                        size="sm"
+                        id="selectPeriodo"
+                        class="mt-3 drowdown-items"
+                      >
+                      </b-form-select>
+                    </b-col>
+                    <b-col class="d-flex">
+                      <p class="h6">Año de Carrera</p>
+                      <b-form-select
+                        :value="seleccionAnios"
+                        :options="optionsAnios"
+                        @change="changeSelectedAnio"
+                        size="sm"
+                        id="selectAnio"
+                        class="mt-3 drowdown-items"
+                      >
+                      </b-form-select>
+                    </b-col>
+                  </b-col>
+                  <hr width="100%" style="color: #ddc77a" />
+                </div>
+              </b-row>
               <!-- cierre Selección de Carreras -->
               <b-row>
                 <div class="">
@@ -218,7 +224,7 @@
                             </template>
                       
                             <template v-slot="{ ariaDescribedby }">
-                              <b-form-checkbox-group
+                              <!-- <b-form-checkbox-group
                                 id="comisiones"
                                 v-model="selected"
                                 :options="comisionList"
@@ -227,7 +233,17 @@
                                 class="ml-4 mx-2"
                                 aria-label="Listado De Comisiones"
                                 stacked
-                              ></b-form-checkbox-group>
+                              ></b-form-checkbox-group> -->
+                              <b-form-checkbox
+                              v-for="option in comisionList"
+                                :key="option.value"
+                                v-model="seleccionComision"
+                                :value="option.value"
+                                name="flavourMaterial"
+                                :form="option.materia"
+                                class="col-4 materialCheckbox"
+                                inline
+                              >{{ option.text }}</b-form-checkbox>
                             </template>
                           </b-form-group>
                         <!-- </b-list-group> -->
@@ -299,6 +315,7 @@ export default {
       seleccionCareer: null,
       seleccionPeriodo: null,
       seleccionAnio: null,
+      seleccionComision: null,
       selected: [],
       seleccion: null,
       optionsCareer: [{ value: "null", text: "Seleccione su Carrera" }],//materias
@@ -652,7 +669,14 @@ export default {
       //seleccionCareer
       //seleccionAnio
       //seleccionPeriodo 
-      this.comisionList = Object.keys(comisiones);
+      //this.comisionList = Object.keys(comisiones);
+
+
+
+      this.comisionList = Object.keys(comisiones).map((key) => {
+        return { materia: nombreMateria, text: key, value: nombreMateria + "-" + key  };
+      });
+      
       this.$set(observer, "_showDetails", !observer._showDetails);
       // let allComisionDetails = Object.entries(comisiones);
 
@@ -733,12 +757,18 @@ h3 {
   font-size: 1.5em !important;
   font-family: sans-serif;
 }
-
-.boton-titulos  {
-  border: 3px solid #ddc77a ;
+.drowdown-items {
+  background-color: #ddc87a62;
+  width: 75%;
   border-radius: 5px;
-  background-color: #ddc77a ;
-  color: #2c5f66 ;
+  text-align: center;
+  box-shadow: 0px 0.5px 20px rgb(0 0 0 / 15%);
+}
+.boton-titulos {
+  border: 3px solid #ddc77a;
+  border-radius: 5px;
+  background-color: #ddc77a;
+  color: #2c5f66;
 }
 
 .boton-horario {
@@ -770,35 +800,8 @@ h3 {
   font-size: 0.95em;
 }
 
-.social-icon {
-  color: black;
-  text-align: center;
-}
-
-.social-icon:hover {
-  color: grey;
-  display: inline;
-}
-
 .tableModal {
   height: 50vh;
   overflow-y: scroll;
-}
-
-#unc {
-  width: 38%;
-  position: absolute;
-  left: 62%;
-  z-index: -1;
-  margin: 1em 0 0 0;
-}
-
-#unc1 {
-  width: 38%;
-  position: absolute;
-  left: 62%;
-  z-index: 50;
-  margin: 1em 0 0 0;
-  z-index: -1;
 }
 </style>
