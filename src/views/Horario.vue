@@ -1,5 +1,11 @@
 <template>
   <div class="body-horarios">
+    <img
+      alt="logo-UNC"
+      id="unc1"
+      src="@/assets/UNC2.svg"
+      class="img-fluid col-5"
+    />
     <div class="container col-xxl-12">
       <div class="container-1-linea col-2">
         <div class="container-h2 mt-4 col-12">
@@ -229,11 +235,11 @@
         <p class="h2 text-capitalize text-center">
           Materias y comisiones seleccionadas
         </p>
-
+        
         <b-row>
             <blockquote class="blockquote text-end">
               <button class="boton-modal pdf col-4">PDF</button>
-              <button class="boton-modal excel col-4 ms-4">EXCEL</button>
+              <button class="boton-modal excel col-4 ms-4 " @click="descargarExcel">EXCEL</button>
             </blockquote>
         </b-row>
 
@@ -265,12 +271,7 @@
       </b-col>
     </div>
 
-    <img
-      alt="logo-UNC"
-      id="unc1"
-      src="@/assets/UNC2.svg"
-      class="img-fluid col-5"
-    />
+
   </div>
 </template>
 
@@ -482,6 +483,59 @@ export default {
   methods: {
     toggleAll(checked) {
       this.selected = checked ? this.comisionList.slice() : [];
+    },
+
+    descargarExcel : async function(){
+      console.log("Generando horarios y descargando excel");
+
+      var body = {materias:[], actividades:{}, cantSolucionesBuscadas: 5, margenMinimo: 20, mostrarActividades: false};
+
+      let dictMateriasAux = {};
+
+      let comisionesAux = [];
+
+      for(let idPadre in this.parentAndChilds){
+        
+        for(let i = 0; i <  this.parentAndChilds[idPadre].length; i++){ //recorremos cada comision de 1 materia
+
+          comisionesAux.push(this.parentAndChilds[idPadre][i].child.name); 
+          
+        }
+
+          dictMateriasAux[this.parentAndChilds[idPadre][0].child.materia] = comisionesAux;
+          comisionesAux = [];
+      }
+
+      body.materias.push({facultad: this.seleccionFacu, carrera: this.seleccionCareer, anio: this.seleccionAnio, periodo: this.seleccionPeriodo, dictMaterias: dictMateriasAux});
+
+      console.log(body);
+
+      
+
+      /*
+        parentAndChilds = {
+          1: [{id:4, child:{info...}},{id:5 , child:{info...}}],
+          2: [{id: 3, objeto}]
+        }
+
+        child:{
+          materia:,
+          name,
+          info:{},
+          pid,
+        }
+
+        parentFacultad = {   // CAMBIAR PARA VARIAS FACULTADES
+          1: {facultad: , carrera, periodo anio}
+          2: {facultad: , carrera, periodo anio}
+        }
+
+      */
+
+      const res = await http.post('/horario', body);
+
+      console.log(res);
+
     },
 
     confirmarComisionesSeleccionadas: function(){
