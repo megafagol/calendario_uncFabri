@@ -85,10 +85,11 @@
               centered 
               title="Actividad"
             >
-              <p class="my-4">Agregue una actividad</p>
+              <p class="h4">Agregue una actividad</p>
               <div class="input-group mb-3" bg-secondary>
                 <div class="input-group-prepend">
-                  <p class="h5"> Dia </p>
+                  <br>
+                  <p class="h6"> Dia </p>
                   <b-form-select
                     :value="seleccionDia"
                     :options="diasSemana"
@@ -99,6 +100,7 @@
                   </b-form-select>
                   <br>
                   <br>
+                  <p class="h6">Actividad</p>
                   <input
                     type="text"
                     class="form-control"
@@ -106,6 +108,7 @@
                     v-on:keyup.enter="agregarActividad"
                   />
                   <br>
+                  <p class="h6">Descripcion</p>
                   <input
                     type="text"
                     class="form-control"
@@ -113,13 +116,12 @@
                     v-on:keyup.enter="agregarActividad"
                   />
                   <br>
-                  Desde
+                  <p class="h5">Hora inicio</p>
                   <input 
                   v-model="nuevaActividadInicio" 
                   type="time"
                   class="form-control" />
-
-                  Hasta
+                  <p class="h5">Hora fin</p>
                   <input 
                   v-model="nuevaActividadFin" 
                   type="time" 
@@ -285,7 +287,7 @@
 
 
 
-      <b-col class="p-2 bg-light">
+      <b-col class="p-2 bg-light scrollable">
       
         <template>
           <div>
@@ -296,11 +298,29 @@
         <p class="h2 text-capitalize text-center">
           Materias y comisiones seleccionadas
         </p>
+
+        <br>
+        <p class="h5">Margen minimo entre materias (minutos)</p>
+        <!-- <template>
+  <div>
+      <label for="range-2">Example range with min and max</label>
+        <b-form-input id="range-2" v-model="margenMinimo" type="range" min="0" max="500"></b-form-input>
+        <div class="mt-2">margenMinimo: {{ margenMinimo }}</div>
+          </div>
+</template> -->
+        <input 
+        v-model="margenMinimo" 
+        type="number"
+        class="form-control" />
+        <br>
+
+        <p class="h5">Mostrar actividades en el excel final</p>
+        <input type="checkbox" id="checkbox" v-model="mostrarActividadesCheckbox">
         
         <b-row>
-            <blockquote class="blockquote text-end">
-              <button class="boton-modal pdf col-4">PDF</button>
-              <button class="boton-modal excel col-4 ms-4 " @click="descargarExcel">EXCEL</button>
+            <blockquote class="blockquote text-center">
+              <!-- <button class="boton-modal pdf col-4">PDF</button> -->
+              <button class="boton-modal excel col-4 ms-4 " @click="descargarExcel">DESCARGAR EXCEL</button>
 
             </blockquote>
 
@@ -572,9 +592,17 @@ export default {
 
 
 
+      console.log("margen minimo:" + this.margenMinimo);
+      if(this.margenMinimo == undefined){
+        console.log("margen minimo:" + this.margenMinimo);
 
+        this.margenMinimo = 15;
 
-      var body = {materias:[], actividades: this.actividadesBody, cantSolucionesBuscadas: 5, margenMinimo: 20, mostrarActividades: true};
+        console.log("margen minimo:" + this.margenMinimo);
+      }
+      console.log("mostrarActividadesCheckbox:" + this.mostrarActividadesCheckbox);
+
+      var body = {materias:[], actividades: this.actividadesBody, cantSolucionesBuscadas: 5, margenMinimo: this.margenMinimo, mostrarActividades: this.mostrarActividadesCheckbox};
 
       let dictMateriasAux = {};
 
@@ -621,12 +649,11 @@ export default {
 
       */
 
-      valueBar = 25
+      valueBar = 95
       this.changeValueBar(valueBar);
 
       const res = await http.post('/horario', body);
 
-      this.changeValueBar(85);
 
       console.log(res);
 
@@ -637,7 +664,7 @@ export default {
         const idDescarga = res.data.id;
 
         this.idDescargaPDF = idDescarga;
-        valueBar = 90;
+        valueBar = 100;
         this.changeValueBar(valueBar);
 
 
@@ -656,12 +683,6 @@ export default {
               document.body.appendChild(link)
               link.click()
           });
-
-        //window.open("http:///50.16.25.112:8080/downloadExcel/" + idDescarga + "/horarios");
-
-        this.changeValueBar(100);
-
-        // await http.post('/downloadExcel/' + idDescarga + "/horarios", body);
 
         console.log(res);
 
@@ -1307,6 +1328,10 @@ h3 {
   border-radius: 5px;
   background-color: #ddc77a;
   color: #2c5f66;
+}
+
+.scrollable {
+   overflow-y: scroll;
 }
 
 .boton-horario {
