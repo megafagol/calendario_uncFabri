@@ -640,7 +640,24 @@ export default {
         valueBar = 90;
         this.changeValueBar(valueBar);
 
-        window.open("http:///50.16.25.112:8080/downloadExcel/" + idDescarga + "/horarios");
+
+
+          http.post("/downloadExcel/" + idDescarga + "/horarios", {
+              file_name: "horarios"
+          }, {
+              responseType: 'blob'
+          }).then((response) => {
+              const url = URL.createObjectURL(new Blob([response.data], {
+                  type: 'application/vnd.ms-excel'
+              }))
+              const link = document.createElement('a')
+              link.href = url
+              link.setAttribute('download', "horarios")
+              document.body.appendChild(link)
+              link.click()
+          });
+
+        //window.open("http:///50.16.25.112:8080/downloadExcel/" + idDescarga + "/horarios");
 
         this.changeValueBar(100);
 
