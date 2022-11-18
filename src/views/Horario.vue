@@ -78,22 +78,52 @@
               Nueva Actividad
             </button>
 
-            <b-modal id="modal-Actividad" centered title="Actividad">
+            <b-modal 
+              id="modal-Actividad" 
+              ref="modal-Actividad"
+              size="lg"
+              centered 
+              title="Actividad"
+            >
               <p class="my-4">Agregue una actividad</p>
-
               <div class="input-group mb-3" bg-secondary>
                 <div class="input-group-prepend">
+                  <p class="h5"> Dia </p>
+                  <b-form-select
+                    :value="seleccionDia"
+                    :options="diasSemana"
+                    @change="changeSelectedDia"
+                    size="sm"
+                    class="mt-3 drowdown-items"
+                  >
+                  </b-form-select>
+                  <br>
+                  <br>
                   <input
                     type="text"
                     class="form-control"
-                    v-model="nuevaActividad"
+                    v-model="nuevaActividadMateria"
                     v-on:keyup.enter="agregarActividad"
                   />
+                  <br>
+                  <input
+                    type="text"
+                    class="form-control"
+                    v-model="nuevaActividadAula"
+                    v-on:keyup.enter="agregarActividad"
+                  />
+                  <br>
                   Desde
-                  <input type="time" class="form-control" />
+                  <input 
+                  v-model="nuevaActividadInicio" 
+                  type="time"
+                  class="form-control" />
 
                   Hasta
-                  <input type="time" class="form-control" />
+                  <input 
+                  v-model="nuevaActividadFin" 
+                  type="time" 
+                  class="form-control" />
                   <b-button
                     id="basic-addon"
                     class="input-group-text bi bi-plus-circle-fill"
@@ -106,7 +136,7 @@
                 <b-list class="">
                   <b-item v-for="item of actividades" :key="item.nombre">
                     <div class="d-flex justify-content-between">
-                      <div>{{ index }} - {{ item.nombre }}</div>
+                      <div>{{item.dia}} | {{ item.materia }} - {{item.aula}} - {{item.inicio}} - {{item.fin}}</div>
 
                       <div>
                         <b-button
@@ -119,7 +149,27 @@
                     </div>
                   </b-item>
                 </b-list>
+
+                <!-- <b-list class="">
+                  <b-item v-for="item of this.actividades" :key="item.nuevaActividadMateria">
+                    <div class="d-flex justify-content-between">
+                      <div>- {{ item.nuevaActividadMateria }}</div>
+                      <div>
+                        <b-button
+                          variant="danger"
+                          class="btn-sm"
+                          @click="eliminarActividad"
+                          >X</b-button
+                        >
+                      </div>
+                    </div>
+                  </b-item>
+                </b-list> -->
               </div>
+              <template #modal-footer>
+                <button v-b-modal.modal-close_visit @click="hideModalActividad" class="btn btn-danger btn-sm m-1">Cancel</button>
+                <button v-b-modal.modal-close_visit @click="confirmarActividadesSeleccionadas" class="btn btn-success btn-sm m-1">Ok</button>
+              </template>
             </b-modal>
           </div>
           <!-- cierre container act -->
@@ -290,12 +340,21 @@ export default {
       actividades: [],
       materiasList: [],
       name: "",
+      idDescargaPDF:"",
+      actividadesBody:{},
+      nuevaActividadMateria:"",
+      nuevaActividadAula:"",
+      nuevaActividadInicio:"",
+      nuevaActividadFin:"",
       selectedHorario: {},
       parentAndChilds: {},
       idComisionesSelected : [],
       selectedMateriasArray: [],
+      diasSemana: ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"],
+      seleccionDia: null,
       selectedMateria: null,
       seleccionSem: null,
+      seleccionAnios: null,
       seleccionFacu: null,
       seleccionCareer: null,
       seleccionPeriodo: null,
@@ -488,7 +547,9 @@ export default {
     descargarExcel : async function(){
       console.log("Generando horarios y descargando excel");
 
-      var body = {materias:[], actividades:{}, cantSolucionesBuscadas: 5, margenMinimo: 20, mostrarActividades: false};
+
+
+      var body = {materias:[], actividades: this.actividadesBody, cantSolucionesBuscadas: 5, margenMinimo: 20, mostrarActividades: true};
 
       let dictMateriasAux = {};
 
@@ -534,9 +595,18 @@ export default {
 
       const res = await http.post('/horario', body);
 
+      const idDescarga = res.data.id;
+
+      this.idDescargaPDF = idDescarga;
+
+      window.open("http:///50.16.25.112:8080/downloadExcel/" + idDescarga + "/horarios");
+
+      // await http.post('/downloadExcel/' + idDescarga + "/horarios", body);
+
       console.log(res);
 
     },
+
 
     confirmarComisionesSeleccionadas: function(){
 
@@ -658,9 +728,66 @@ export default {
       this.hideModalMateria();
     },
 
+    confirmarActividadesSeleccionadas: function(){
+
+      let idLista = 50;
+
+      let idListaAux = idLista;
+
+      idLista += 1;
+
+      var childrenDia = []; // Lunes {}
+      var childrenActividad = []; // {inicio, fin}
+
+      for(let dia in this.actividadesBody){
+
+        let idListaAux1 = idLista;
+
+        idLista += 1;
+        
+        for(let i = 0; i< this.actividadesBody[dia].length; i++){
+          childrenActividad.push({id: idLista, name: this.actividadesBody[dia][i].materia + " | " + this.actividadesBody[dia][i].aula + " | Inicio: "+ this.actividadesBody[dia][i].inicio 
+          + " - Fin: " + this.actividadesBody[dia][i].fin});
+          
+          idLista +=1;
+        }
+
+        childrenDia.push({id: idListaAux1, name: dia, children : childrenActividad});
+
+        childrenActividad = [];
+
+        idLista +=1;
+
+      }
+
+
+      this.itemsMateriasComisionesSeleccionadas.push({
+        id:idListaAux,
+        name: "Actividades",
+        children: childrenDia
+      });
+
+    //  this.itemsMateriasComisionesSeleccionadas.push({
+    //       id: 50,
+    //       name: 'Applications :',
+    //       children: [
+    //         { id: 51, name: 'Calendar : app' },
+    //         { id: 52, name: 'Chrome : app' },
+    //         { id: 53, name: 'Webstorm : app' },
+    //       ],
+    //     })
+
+      this.hideModalActividad();
+
+    },
+
     hideModalMateria() {
         this.$refs['modal-materia'].hide()
       },
+
+    hideModalActividad() {
+        this.$refs['modal-Actividad'].hide()
+    },
 
 
     onOpenMateria: function(e){
@@ -783,6 +910,10 @@ export default {
       await this.getCareerList();
       await this.getPeriodoList();
       },
+
+    changeSelectedDia: function (seleccion){
+      this.seleccionDia = seleccion;
+    },
     changeSelectedCareer: async function (seleccion) {
       this.seleccionCareer = seleccion;
       this.items.selected = seleccion;
@@ -914,11 +1045,36 @@ export default {
     },
     agregarActividad: function () {
       this.actividades.push({
-        nombre: this.nuevaActividad,
-        estado: false,
+        dia: this.seleccionDia,
+        materia: this.nuevaActividadMateria,
+        inicio: this.nuevaActividadInicio,
+        fin: this.nuevaActividadFin,
+        modalidad: "",
+        aula: this.nuevaActividadAula,
+        comision: "NO USAR",
+        nombre: this.nuevaActividadMateria,
+        estado: false
       });
 
-      this.nuevaActividad = "";
+      if(this.actividadesBody[this.seleccionDia] == undefined){
+        this.actividadesBody[this.seleccionDia] = [];
+      }
+      
+      this.actividadesBody[this.seleccionDia].push({
+        materia: this.nuevaActividadMateria,
+        inicio: this.nuevaActividadInicio+":00",
+        fin: this.nuevaActividadFin+":00",
+        modalidad: "",
+        aula: this.nuevaActividadAula,
+        comision: "NO USAR"})
+
+      console.log(this.actividadesBody);
+      console.log(this.actividades);
+
+      this.nuevaActividadMateria = "";
+      this.nuevaActividadAula = "";
+      this.nuevaActividadInicio = "";
+      this.nuevaActividadFin = "";
     },
     eliminarHorario: function (index) {
       this.horarios.splice(index, 1);
