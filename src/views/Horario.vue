@@ -255,6 +255,8 @@
                   <p class="mt-3">Listado de materias</p>
                   <div class="">
 
+
+
                     <template>
                       <v-treeview
                         selectable
@@ -281,7 +283,16 @@
 
       <!-- cierre div container linea 1 -->
 
+
+
       <b-col class="p-2 bg-light">
+      
+        <template>
+          <div>
+            <b-progress :value="valueBar" :max="maxBar" show-progress animated></b-progress>
+          </div>
+        </template>
+
         <p class="h2 text-capitalize text-center">
           Materias y comisiones seleccionadas
         </p>
@@ -290,8 +301,13 @@
             <blockquote class="blockquote text-end">
               <button class="boton-modal pdf col-4">PDF</button>
               <button class="boton-modal excel col-4 ms-4 " @click="descargarExcel">EXCEL</button>
+
             </blockquote>
+
+            
         </b-row>
+
+       
 
         <template>
           <v-treeview
@@ -332,6 +348,8 @@ import { http } from "../utils/axios";
 export default {
   data() {
     return {
+      valueBar : 0,
+      maxBar : 100,
       nuevoHorario: "",
       horarios: [],
       facultadesList:{},
@@ -544,8 +562,15 @@ export default {
       this.selected = checked ? this.comisionList.slice() : [];
     },
 
+    changeValueBar(valueBar) {
+        this.valueBar = valueBar;
+      },
+
     descargarExcel : async function(){
       console.log("Generando horarios y descargando excel");
+      var valueBar = 10;
+
+
 
 
 
@@ -556,7 +581,8 @@ export default {
       let comisionesAux = [];
 
       for(let idPadre in this.parentAndChilds){
-        
+              
+        valueBar = valueBar + 10;
         for(let i = 0; i <  this.parentAndChilds[idPadre].length; i++){ //recorremos cada comision de 1 materia
 
           comisionesAux.push(this.parentAndChilds[idPadre][i].child.name); 
@@ -568,6 +594,8 @@ export default {
       }
 
       body.materias.push({facultad: this.seleccionFacu, carrera: this.seleccionCareer, anio: this.seleccionAnio, periodo: this.seleccionPeriodo, dictMaterias: dictMateriasAux});
+
+      
 
       console.log(body);
 
@@ -593,18 +621,51 @@ export default {
 
       */
 
+      valueBar = 25
+      this.changeValueBar(valueBar);
+
       const res = await http.post('/horario', body);
 
-      const idDescarga = res.data.id;
-
-      this.idDescargaPDF = idDescarga;
-
-      window.open("http:///50.16.25.112:8080/downloadExcel/" + idDescarga + "/horarios");
-
-      // await http.post('/downloadExcel/' + idDescarga + "/horarios", body);
+      this.changeValueBar(85);
 
       console.log(res);
 
+      if(res.data.soluciones.length == 0){
+        alert("No se encontraron soluciones con los parametros ingresados");
+      } else{
+
+        const idDescarga = res.data.id;
+
+        this.idDescargaPDF = idDescarga;
+        valueBar = 90;
+        this.changeValueBar(valueBar);
+
+        window.open("http:///50.16.25.112:8080/downloadExcel/" + idDescarga + "/horarios");
+
+        this.changeValueBar(100);
+
+        // await http.post('/downloadExcel/' + idDescarga + "/horarios", body);
+
+        console.log(res);
+
+      }
+
+      // Limpio las variables para no tener que hacer F5
+
+      this.parentAndChilds = {};
+      this.itemsMateriasComisiones = [];
+      this.itemsMateriasComisionesParent = [];
+      this.itemsMateriasComisionesSeleccionadas = [];
+      this.seleccionFacu = "";
+      this.seleccionCareer = "";
+      this.seleccionAnio = "";
+      this.seleccionPeriodo = "";
+      this.actividadesBody = [];
+      this.actividades = [];
+
+
+      valueBar = 0;
+      this.changeValueBar(valueBar);
     },
 
 
