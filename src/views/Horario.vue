@@ -677,7 +677,8 @@ export default {
       this.seleccionCareer = "";
       this.seleccionAnio = "";
       this.seleccionPeriodo = "";
-      this.actividadesBody = [];
+      this.seleccionDia = "";
+      this.actividadesBody = {};
       this.actividades = [];
 
 
