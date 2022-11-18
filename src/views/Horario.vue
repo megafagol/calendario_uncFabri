@@ -128,6 +128,7 @@
             <!-- acá va el modal de materias -->
             <b-modal
               id="modal-materia"
+              ref="modal-materia"
               size="lg"
               centered
               title="Seleccione una carrera"
@@ -197,61 +198,25 @@
                 <div class="">
                   <p class="mt-3">Listado de materias</p>
                   <div class="">
-                    <b-table
-                      striped
-                      hover
-                      :items="listadoMaterias"
-                      @row-clicked="materiaRowClicked"
-                    >
-                      <template slot="row-details">
-                        <!-- <b-list-group v-for="com in comisionList" :key="com">
-                          <b-list-group-item>{{ com }}</b-list-group-item> -->
-                          <b-form-group>
-                            <template #label>
-                              <b-form-checkbox
-                                v-model="allSelected"
-                                :indeterminate="indeterminate"
-                                aria-describedby="comisionList"
-                                aria-controls="comisionList"
-                                @change="toggleAll"
-                              >
-                                {{
-                                  allSelected
-                                    ? "Quitar seleccion"
-                                    : "Seleccionar todo"
-                                }}
-                              </b-form-checkbox>
-                            </template>
-                      
-                            <template v-slot="{ ariaDescribedby }">
-                              <!-- <b-form-checkbox-group
-                                id="comisiones"
-                                v-model="selected"
-                                :options="comisionList"
-                                :aria-describedby="ariaDescribedby"
-                                name="comisiones"
-                                class="ml-4 mx-2"
-                                aria-label="Listado De Comisiones"
-                                stacked
-                              ></b-form-checkbox-group> -->
-                              <b-form-checkbox
-                              v-for="option in comisionList"
-                                :key="option.value"
-                                v-model="seleccionComision"
-                                :value="option.value"
-                                name="flavourMaterial"
-                                :form="option.materia"
-                                class="col-4 materialCheckbox"
-                                inline
-                              >{{ option.text }}</b-form-checkbox>
-                            </template>
-                          </b-form-group>
-                        <!-- </b-list-group> -->
-                      </template>
-                    </b-table>
+
+                    <template>
+                      <v-treeview
+                        selectable
+                        color="warning"
+                        @update:open="onOpenMateria"
+                        @input="onSelectedMateria"
+                        :items="itemsMateriasComisiones"
+                      ></v-treeview>
+                    </template>
+
+
                   </div>
                 </div>
               </b-row>
+              <template #modal-footer>
+                <button v-b-modal.modal-close_visit @click="hideModalMateria" class="btn btn-danger btn-sm m-1">Cancel</button>
+                <button v-b-modal.modal-close_visit @click="confirmarComisionesSeleccionadas" class="btn btn-success btn-sm m-1">Ok</button>
+              </template>
             </b-modal>
           </div>
           <!--cierre container materias--  -->
@@ -262,15 +227,31 @@
 
       <b-col class="p-2 bg-light">
         <p class="h2 text-capitalize text-center">
-          {{ selectedHorario.nombre }}
+          Materias y comisiones seleccionadas
         </p>
-        <b-row class="border border-dark rounded justify-content-center">
+
+        <b-row>
+            <blockquote class="blockquote text-end">
+              <button class="boton-modal pdf col-4">PDF</button>
+              <button class="boton-modal excel col-4 ms-4">EXCEL</button>
+            </blockquote>
+        </b-row>
+
+        <template>
+          <v-treeview
+            :items="itemsMateriasComisionesSeleccionadas"
+          ></v-treeview>
+        </template>
+
+
+
+        <!-- <b-row class="border border-dark rounded justify-content-center">
           <b-row
             class="bg-light d-flex-row justify-content-center p-1 m-2 w-100"
           >
             <div>
               <b-table hover :items="dias"></b-table>
-              <!-- <div>Selected: <strong>{{ selected }}</strong></div> -->
+              
             </div>
           </b-row>
 
@@ -280,7 +261,7 @@
               <button class="boton-modal excel col-4 ms-4">EXCEL</button>
             </blockquote>
           </b-row>
-        </b-row>
+        </b-row> -->
       </b-col>
     </div>
 
@@ -306,8 +287,11 @@ export default {
       careerList: {}, //variable auxiliar
       nuevaActividad: "",
       actividades: [],
+      materiasList: [],
       name: "",
       selectedHorario: {},
+      parentAndChilds: {},
+      idComisionesSelected : [],
       selectedMateriasArray: [],
       selectedMateria: null,
       seleccionSem: null,
@@ -324,6 +308,7 @@ export default {
       listadoMaterias: [], 
       nameComision: [],
       detailsComision: {},
+      itemsMateriasComisionesParent:{},
       comisionList: [],
       allSelected: false,
       indeterminate: false,
@@ -338,6 +323,85 @@ export default {
                     { value: "4", text: "4ro" },
                     { value: "5", text: "5ro" },
                     { value: "6", text: "6ro" }],
+      itemsMateriasComisionesSeleccionadas: [],
+      itemsComTest : [
+        {
+          id: 1,
+          name: 'Applications :',
+          children: [
+            { id: 2, name: 'Calendar : app' },
+            { id: 3, name: 'Chrome : app' },
+            { id: 4, name: 'Webstorm : app' },
+          ],
+        },
+        {
+          id: 5,
+          name: 'Documents :',
+          children: [
+            {
+              id: 6,
+              name: 'vuetify :',
+              children: [
+                {
+                  id: 7,
+                  name: 'src :',
+                  children: [
+                    { id: 8, name: 'index : ts' },
+                    { id: 9, name: 'bootstrap : ts' },
+                  ],
+                },
+              ],
+            },
+            {
+              id: 10,
+              name: 'material2 :',
+              children: [
+                {
+                  id: 11,
+                  name: 'src :',
+                  children: [
+                    { id: 12, name: 'v-btn : ts' },
+                    { id: 13, name: 'v-card : ts' },
+                    { id: 14, name: 'v-window : ts' },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: 15,
+          name: 'Downloads :',
+          children: [
+            { id: 16, name: 'October : pdf' },
+            { id: 17, name: 'November : pdf' },
+            { id: 18, name: 'Tutorial : html' },
+          ],
+        },
+        {
+          id: 19,
+          name: 'Videos :',
+          children: [
+            {
+              id: 20,
+              name: 'Tutorials :',
+              children: [
+                { id: 21, name: 'Basic layouts : mp4' },
+                { id: 22, name: 'Advanced techniques : mp4' },
+                { id: 23, name: 'All about app : dir' },
+              ],
+            },
+            { id: 24, name: 'Intro : mov' },
+            { id: 25, name: 'Conference introduction : avi' },
+          ],
+        },
+      ],
+
+      itemsMateriasComisiones: []
+
+
+
+
     };
   },
   computed: {
@@ -420,6 +484,170 @@ export default {
       this.selected = checked ? this.comisionList.slice() : [];
     },
 
+    confirmarComisionesSeleccionadas: function(){
+
+      this.parentAndChilds = {};
+      
+      for(let i=0; i< this.idComisionesSelected.length; i++){ //length = 3
+        let child = this.itemsMateriasComisionesParent[this.idComisionesSelected[i]]; // this.idComisionesSelected[i] = 2 , child = {}
+
+        if(this.parentAndChilds[child.pid] == undefined){
+          this.parentAndChilds[child.pid] = [];
+        }
+        this.parentAndChilds[child.pid].push({id: this.idComisionesSelected[i], child: child});
+
+      }
+
+      /*
+      parentAndChilds = {
+        1: [{id:4, child:{info...}}{id:5 , objeto}],
+        2: [{id: 3, objeto}]
+      }
+
+
+      */
+
+      let idLista = 1;
+
+      for(let idPadre in this.parentAndChilds){
+        let children = this.parentAndChilds[idPadre];
+
+        /*
+        children=[
+                  "child": {info: {"dias":{"lunes": [], "martes": []}
+                  pid: 2
+                  name: com1
+                  materia},
+
+                  {info: {"dias":{"lunes": [], "martes": []}
+                  pid: 2
+                  name: com1
+                  materia},
+
+        ]
+        */
+
+        console.log("children: " + children);
+
+
+
+        let idListaAux = idLista;
+        
+        idLista += 1;
+        let childrenIdName = [];
+
+        for(let j = 0; j < children.length; j++){
+
+          console.log("children[j]", children[j]);
+          console.log("children[j].child", children[j].child);
+
+          let infoComision = "Comision: " + children[j].child.name + " -> "; 
+
+
+          for(let dia in children[j].child.info.dias){
+
+            for(let i = 0; i < children[j].child.info.dias[dia].length; i++){
+
+              infoComision += dia + " | Inicio: " + children[j].child.info.dias[dia][i].inicio +
+              "- Fin: " + children[j].child.info.dias[dia][i].fin + " | Aula: " + 
+              children[j].child.info.dias[dia][i].aula + " | Modalidad: " +
+              children[j].child.info.dias[dia][i].modalidad;
+
+              childrenIdName.push({id: idLista,  name: infoComision});
+
+              }
+          }
+
+          idLista += 1;
+        }
+
+        this.itemsMateriasComisionesSeleccionadas.push({id: idListaAux, name: this.parentAndChilds[idPadre][0].child.materia,
+        children : childrenIdName});
+
+        console.log(this.itemsMateriasComisionesSeleccionadas);
+
+        
+      }
+
+
+            /*
+      {
+        1: [{id:4, objeto}{id:5 , objeto}],
+        2: [{id: 3, objeto}]
+      }
+      
+      options tree view
+
+      [
+        {
+          id:1,
+          name: FISICA
+          children:[
+            {
+              id, name
+              id, name
+            }
+          ]
+        }
+      ]
+      
+      */
+
+
+      console.log("OK CLICKED");
+      console.log(this.idComisionesSelected);
+
+
+
+
+      
+      this.hideModalMateria();
+    },
+
+    hideModalMateria() {
+        this.$refs['modal-materia'].hide()
+      },
+
+
+    onOpenMateria: function(e){
+
+      //console.log('toggle arrow clicked', e)
+
+    },
+
+    onSelectedMateria: function(e){
+
+      this.idComisionesSelected = e;  //[2,3,5]
+
+      
+      /*
+      {
+        1: [{id:4, objeto}{id:5 , objeto}],
+        2: [{id: 3, objeto}]
+      }
+      
+      options tree view
+
+      [
+        {
+          id:1,
+          name: FISICA
+          children:[
+            {
+              id, name
+              id, name
+            }
+          ]
+        }
+      ]
+      
+      */
+      
+      //console.log('checkbox clicked', this.idComisionesSelected);
+
+    },
+
+
     allSelectedOptionsReadyToListMaterias: function() {
       var selectCarrera = document.getElementById("selectCarrera");
       var selectPeriodo = document.getElementById("selectPeriodo");
@@ -436,39 +664,60 @@ export default {
 
     fillMateriasYComisionesList: async function() {
       this.materiaList = await this.getMateriasList();
+      this.materiaList = this.materiaList.data;
+      this.itemsMateriasComisiones = [];
 
-    /*
-      {
-        "FISICA I"{
-          "COM1": [],
-          "COM2": [],
-          "COM3": [],
-        },
-        "ALGEBRA"{
-          "COM1": [],
-          "COM2": [],
-          "COM3": [],
-        },
+      //[]
+
+      var idLista = 1;
+      for(let keyMateria in this.materiaList){
+
+        let idListaAux = idLista;
+
+        idLista += 1;
+
+        let childrenComision = [];
+
+        for(let keyComision in this.materiaList[keyMateria]){
+
+          let infoComision = "Comision: " + keyComision + " -> "; 
+          
+          
+          for(let dia in this.materiaList[keyMateria][keyComision].dias){
+
+      
+            for(let i = 0; i < this.materiaList[keyMateria][keyComision]["dias"][dia].length; i++){
+
+              infoComision += dia + " | Inicio: " + this.materiaList[keyMateria][keyComision]["dias"][dia][i].inicio +
+               "- Fin: " + this.materiaList[keyMateria][keyComision]["dias"][dia][i].fin + " | Aula: " + 
+               this.materiaList[keyMateria][keyComision]["dias"][dia][i].aula + " | Modalidad: " +
+               this.materiaList[keyMateria][keyComision]["dias"][dia][i].modalidad;
+            }
+          }
+          
+          childrenComision.push({id : idLista, name: infoComision,
+               info: this.materiaList[keyMateria][keyComision]});
+
+          this.itemsMateriasComisionesParent[idLista] = {materia:  keyMateria, pid: idListaAux, name: keyComision, info: this.materiaList[keyMateria][keyComision]};
+        
+          idLista += 1;
+        }
+
+        this.itemsMateriasComisiones.push({id: idListaAux, name: keyMateria, children: childrenComision });
+
       }
 
 
-      listadoMaterias = [FISICA I, ALEGEBRA]
+      console.log(this.itemsMateriasComisionesParent);
+      console.log(this.itemsMateriasComisiones);
 
 
-    */
-      //Save the keys from this.materiaList.data into this.listadoMaterias
-
-      //this.listadoMaterias = Object.keys(this.materiaList.data);
       this.listadoMaterias = Object.keys(this.materiaList.data).map((key) => {
         return { materia: key }; 
       });
 
 
       console.log(this.listadoMaterias);
-
-      // this.listadoMaterias = this.materiaList.data.map((name) => {
-      //   return { nombre: name };
-      // });
 
     },
 
@@ -804,4 +1053,9 @@ h3 {
   height: 50vh;
   overflow-y: scroll;
 }
+
+.v-treeview-node__label{
+  white-space: normal !important;
+}
+
 </style>
