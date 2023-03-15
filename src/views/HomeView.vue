@@ -18,7 +18,7 @@
             <br />
             <br />
             Esta versión de la página es una versión beta. Muchas de las
-            funcionalidades tienen cosas que pullir, como las interfaces de
+            funcionalidades tienen cosas que pulir, como las interfaces de
             usuario, pero la funcionalidad principal está completa. Si tenés
             alguna sugerencia o querés reportar algún bug hacelo a este correo:
             calendarunc@gmail.com

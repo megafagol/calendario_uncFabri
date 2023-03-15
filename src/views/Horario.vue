@@ -72,7 +72,7 @@
 
           </p>
           <p class="h6">
-            Para agregar una nueva materia, clickea en el boton "Nueva Materia" y
+            Para agregar una nueva materia, clickea en el boton "Agregar Materia" y
             selecciona la materia que quieras agregar.
           </p>
           <br>
@@ -83,7 +83,7 @@
               variant="outline-warning"
               class="boton-horario col-12"
             >
-              Nueva Materia
+              Agregar Materia
             </button>
             <!-- acá va el modal de materias -->
             <b-modal
@@ -97,7 +97,7 @@
             Selecciona la facultad, carrera, semestre y año de la materia que quieras agregar.
             En la parte inferior se listaran las comisiones disponibles para que selecciones.
 
-            Nota: si desea seleccionar materias de distintas facultades o años. Agregue las materias del mismo año. De ok. Y luego clickee nuevamente "Nueva Materia".
+            Nota: si desea seleccionar materias de distintas facultades o años. Agregue las materias del mismo año. De ok. Y luego clickee nuevamente "Agregar Materia".
             </h6>
             <br>
             <br>
@@ -198,7 +198,7 @@
               variant="outline-info"
               class="boton-horario col-12 mb-2"
             >
-              Nueva Actividad
+              Agregar Actividad
             </button>
 
             <b-modal 
