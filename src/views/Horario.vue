@@ -191,7 +191,10 @@
               centered
               title="Seleccione una carrera"
             >
-              <!-- Selección de Carreras -->
+            Si desea seleccionar materias de distintas facultades o años. Agregue las materias del mismo año. De ok. Y luego clickee nuevamente Nueva Materia.
+            <br>
+            <br>
+            <!-- Selección de Carreras -->
               <b-row class="d-flex flex-column">
                 <b-col class="d-flex" cols="12">
                   <p class="h6">Facultad</p>
@@ -300,7 +303,17 @@
         </p>
 
         <br>
-        <p class="h5">Margen minimo entre materias (minutos)</p>
+        <p class="h5">Cantidad de horarios (Max: 20)</p>
+        <input 
+        v-model="cantHorarios" 
+        type="number"
+        class="form-control"/>
+      <br>
+      
+
+        
+
+        <p class="h5">Margen minimo entre materias (Minutos)</p>
         <!-- <template>
   <div>
       <label for="range-2">Example range with min and max</label>
@@ -386,6 +399,7 @@ export default {
       nuevaActividadFin:"",
       selectedHorario: {},
       parentAndChilds: {},
+      parentAndChildsList: [],
       idComisionesSelected : [],
       selectedMateriasArray: [],
       diasSemana: ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"],
@@ -600,29 +614,59 @@ export default {
 
         console.log("margen minimo:" + this.margenMinimo);
       }
+
+      if(this.cantHorarios == undefined){
+        this.cantHorarios = 10;
+      }
       console.log("mostrarActividadesCheckbox:" + this.mostrarActividadesCheckbox);
 
-      var body = {materias:[], actividades: this.actividadesBody, cantSolucionesBuscadas: 15, margenMinimo: this.margenMinimo, mostrarActividades: this.mostrarActividadesCheckbox};
+      var body = {materias:[], actividades: this.actividadesBody, cantSolucionesBuscadas: this.cantHorarios, margenMinimo: this.margenMinimo, mostrarActividades: this.mostrarActividadesCheckbox};
 
       let dictMateriasAux = {};
 
       let comisionesAux = [];
 
-      for(let idPadre in this.parentAndChilds){
+      //go through parentAndChildsList dict and do the same than below
+      for(let idParentAndChilds in this.parentAndChildsList){
+        let dictMateriasAux = {};
+
+        let comisionesAux = [];
+      
+        let parentAndChildsObjectComplete = this.parentAndChildsList[idParentAndChilds];
+        let facultad = parentAndChildsObjectComplete.facultad;
+        let carrera = parentAndChildsObjectComplete.carrera;
+        let anio = parentAndChildsObjectComplete.anio;
+        let periodo = parentAndChildsObjectComplete.periodo;
+        let parentAndChilds = parentAndChildsObjectComplete.parentAndChilds;
+        let materias = parentAndChildsObjectComplete.materias;
+        console.log("materias: " + materias);
+        for(let idPadre in parentAndChilds){
               
-        valueBar = valueBar + 10;
-        for(let i = 0; i <  this.parentAndChilds[idPadre].length; i++){ //recorremos cada comision de 1 materia
+              valueBar = valueBar + 10;
+              for(let i = 0; i <  parentAndChilds[idPadre].length; i++){ //recorremos cada comision de 1 materia
+      
+                comisionesAux.push(parentAndChilds[idPadre][i].child.name); 
+                
+              }
+      
+                dictMateriasAux[parentAndChilds[idPadre][0].child.materia] = comisionesAux;
+                comisionesAux = [];
+            }
+      
+            //remove from dictMateriasAux the keys that don't match with materias list
+            console.log("before");
+            console.log(dictMateriasAux);
+            for(let key in dictMateriasAux){
+              if(!materias.includes(key)){
+                delete dictMateriasAux[key];
+              }
+            }
+            console.log("after");
+            console.log(dictMateriasAux);
 
-          comisionesAux.push(this.parentAndChilds[idPadre][i].child.name); 
-          
-        }
-
-          dictMateriasAux[this.parentAndChilds[idPadre][0].child.materia] = comisionesAux;
-          comisionesAux = [];
+        body.materias.push({facultad: facultad, carrera: carrera, anio: anio, periodo: periodo, dictMaterias: dictMateriasAux});
+      
       }
-
-      body.materias.push({facultad: this.seleccionFacu, carrera: this.seleccionCareer, anio: this.seleccionAnio, periodo: this.seleccionPeriodo, dictMaterias: dictMateriasAux});
-
       
 
       console.log(body);
@@ -651,6 +695,12 @@ export default {
 
       valueBar = 95
       this.changeValueBar(valueBar);
+
+      //Check that if body.materias is empty. If it is, then show an alert and return
+      if(body.materias.length == 0){
+        alert("No se seleccionaron materias");
+        return;
+      }
 
       const res = await http.post('/horario', body);
 
@@ -691,6 +741,7 @@ export default {
       // Limpio las variables para no tener que hacer F5
 
       this.parentAndChilds = {};
+      this.parentAndChildsList = [];
       this.itemsMateriasComisiones = [];
       this.itemsMateriasComisionesParent = [];
       this.itemsMateriasComisionesSeleccionadas = [];
@@ -711,10 +762,14 @@ export default {
     confirmarComisionesSeleccionadas: function(){
 
       this.parentAndChilds = {};
+      var materiaComisiones = [];
       
       for(let i=0; i< this.idComisionesSelected.length; i++){ //length = 3
         let child = this.itemsMateriasComisionesParent[this.idComisionesSelected[i]]; // this.idComisionesSelected[i] = 2 , child = {}
-
+        //only add unique materias to the list
+        if(!materiaComisiones.includes(child.materia)){
+          materiaComisiones.push(child.materia);
+        }
         if(this.parentAndChilds[child.pid] == undefined){
           this.parentAndChilds[child.pid] = [];
         }
@@ -817,11 +872,37 @@ export default {
       
       */
 
+      //save in parentAndChilds list the current parent and childs
 
+      //facultad: this.seleccionFacu,
+      //career: this.seleccionCareer,
+      //anio: this.seleccionAnio,
+      //periodo: this.seleccionPeriodo,
+      //parentAndChilds: this.parentAndChilds
+
+      //I need to create a new object with the current parent and childs
+      //then push it to the parentAndChildsList
+      //the next object need to get the current parent and childs and
+      //remove all objects 
+
+
+      //make copy of parentAndChilds
+      let parentAndChildsAux = this.parentAndChilds;
+      let parentAndChildsObjectComplete = {
+        facultad: this.seleccionFacu,
+        carrera: this.seleccionCareer,
+        anio: this.seleccionAnio,
+        periodo: this.seleccionPeriodo,
+        parentAndChilds: parentAndChildsAux,
+        materias: materiaComisiones
+      }
+      this.parentAndChildsList.push(parentAndChildsObjectComplete);
+      console.log("parentAndChildsList: " + this.parentAndChildsList);
+      console.log("parentAndChilds: " + this.parentAndChilds);
+      console.log("materialComisiones: " + materiaComisiones);
+      console.log(this.parentAndChilds);
       console.log("OK CLICKED");
       console.log(this.idComisionesSelected);
-
-
 
 
       
