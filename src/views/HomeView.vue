@@ -8,15 +8,18 @@
 
         <div class="container-i-1 col-12 ms-3 mb-2">
           <p class="descripcion col-12">
-            <br />
             UNCalendario es una herramienta que te permitirá crear tu horario en
             función de tus actividades y tiempo disponible. De manera que podrás
             gestionar las materias que deseas cursar este cuatrimestre y
             combinar sus horarios para poder elaborar tu calendario de manera
             personalizada.
+
+            
             <!-- <br />Aquí te dejamos un video con la explicación de como funciona. -->
             <br />
             <br />
+            Esta pagina surgio como proyecto para el cumplimiento de las horas de compromiso social de la
+            FCEFyN de la Universidad Nacional de Córdoba en el taller "programando futuros".
             Esta versión de la página es una versión beta. Muchas de las
             funcionalidades tienen cosas que pulir, como las interfaces de
             usuario, pero la funcionalidad principal está completa. Si tenés
@@ -26,6 +29,7 @@
             <br />
             <br />
             Gracias !
+
           </p>
 
           

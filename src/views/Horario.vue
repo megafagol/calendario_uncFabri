@@ -330,7 +330,8 @@
         <input 
         v-model="cantHorarios" 
         type="number"
-        class="form-control"/>
+        class="form-control"
+        value="5"/>
       <br>
       
 
@@ -638,7 +639,7 @@ export default {
       if(this.margenMinimo == undefined){
         console.log("margen minimo:" + this.margenMinimo);
 
-        this.margenMinimo = 15;
+        this.margenMinimo = 0;
 
         console.log("margen minimo:" + this.margenMinimo);
       }
