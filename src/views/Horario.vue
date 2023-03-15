@@ -8,7 +8,7 @@
     />
     <div class="container col-xxl-12">
       <div class="container-1-linea col-2">
-        <div class="container-h2 mt-4 col-12">
+        <!-- <div class="container-h2 mt-4 col-12">
           <h3 class="h2">Nuevo Horario:</h3>
         </div>
 
@@ -56,124 +56,26 @@
             </div>
           </b-dropdown-item>
         </b-dropdown>
-        <!-- Nombre Tabla -->
+         Nombre Tabla -->
 
-        <p class="h3 text-capitalize">{{ selectedHorario.nombre }}</p>
+        <!-- <p class="h3 text-capitalize">{{ selectedHorario.nombre }}</p> -->
 
-        <hr />
+      <br>
+      <h2>Nuevo horario</h2>
 
         <div class="containerbotones col-12">
-          <p class="h5">
-            Personalizá tus actividades y materias según tus
-            tiempos.
+          <p class="h6">
+            Para generar tus horarios deberas agregar nuevas materias y actividades.
+
+            Estas se tendran en cuenta al momento de generar las combinaciones posibles
+            de horarios sin que las materias se superpongan.
+
           </p>
-
-          <div class="containeract my-3">
-            <!-- creador de actividad -->
-            <button
-              v-b-modal.modal-Actividad
-              variant="outline-info"
-              class="boton-horario col-12 mb-2"
-            >
-              Nueva Actividad
-            </button>
-
-            <b-modal 
-              id="modal-Actividad" 
-              ref="modal-Actividad"
-              size="lg"
-              centered 
-              title="Actividad"
-            >
-              <p class="h4">Agregue una actividad</p>
-              <div class="input-group mb-3" bg-secondary>
-                <div class="input-group-prepend">
-                  <br>
-                  <p class="h6"> Dia </p>
-                  <b-form-select
-                    :value="seleccionDia"
-                    :options="diasSemana"
-                    @change="changeSelectedDia"
-                    size="sm"
-                    class="mt-3 drowdown-items"
-                  >
-                  </b-form-select>
-                  <br>
-                  <br>
-                  <p class="h6">Actividad</p>
-                  <input
-                    type="text"
-                    class="form-control"
-                    v-model="nuevaActividadMateria"
-                    v-on:keyup.enter="agregarActividad"
-                  />
-                  <br>
-                  <p class="h6">Descripcion</p>
-                  <input
-                    type="text"
-                    class="form-control"
-                    v-model="nuevaActividadAula"
-                    v-on:keyup.enter="agregarActividad"
-                  />
-                  <br>
-                  <p class="h5">Hora inicio</p>
-                  <input 
-                  v-model="nuevaActividadInicio" 
-                  type="time"
-                  class="form-control" />
-                  <p class="h5">Hora fin</p>
-                  <input 
-                  v-model="nuevaActividadFin" 
-                  type="time" 
-                  class="form-control" />
-                  <b-button
-                    id="basic-addon"
-                    class="input-group-text bi bi-plus-circle-fill"
-                    variant="outline"
-                    @click="agregarActividad"
-                  >
-                  </b-button>
-                </div>
-
-                <b-list class="">
-                  <b-item v-for="item of actividades" :key="item.nombre">
-                    <div class="d-flex justify-content-between">
-                      <div>{{item.dia}} | {{ item.materia }} - {{item.aula}} - {{item.inicio}} - {{item.fin}}</div>
-
-                      <div>
-                        <b-button
-                          variant="danger"
-                          class="btn-sm"
-                          @click="eliminarActividad"
-                          >X</b-button
-                        >
-                      </div>
-                    </div>
-                  </b-item>
-                </b-list>
-
-                <!-- <b-list class="">
-                  <b-item v-for="item of this.actividades" :key="item.nuevaActividadMateria">
-                    <div class="d-flex justify-content-between">
-                      <div>- {{ item.nuevaActividadMateria }}</div>
-                      <div>
-                        <b-button
-                          variant="danger"
-                          class="btn-sm"
-                          @click="eliminarActividad"
-                          >X</b-button
-                        >
-                      </div>
-                    </div>
-                  </b-item>
-                </b-list> -->
-              </div>
-              <template #modal-footer>
-                <button v-b-modal.modal-close_visit @click="hideModalActividad" class="btn btn-danger btn-sm m-1">Cancel</button>
-                <button v-b-modal.modal-close_visit @click="confirmarActividadesSeleccionadas" class="btn btn-success btn-sm m-1">Ok</button>
-              </template>
-            </b-modal>
-          </div>
+          <p class="h6">
+            Para agregar una nueva materia, clickea en el boton "Nueva Materia" y
+            selecciona la materia que quieras agregar.
+          </p>
+          <br>
           <!-- cierre container act -->
           <div class="containermateria mb-4">
             <button
@@ -189,9 +91,14 @@
               ref="modal-materia"
               size="lg"
               centered
-              title="Seleccione una carrera"
+              title="Seleccione facultad, carrera, semestre y año."
             >
-            Si desea seleccionar materias de distintas facultades o años. Agregue las materias del mismo año. De ok. Y luego clickee nuevamente Nueva Materia.
+            <h6>
+            Selecciona la facultad, carrera, semestre y año de la materia que quieras agregar.
+            En la parte inferior se listaran las comisiones disponibles para que selecciones.
+
+            Nota: si desea seleccionar materias de distintas facultades o años. Agregue las materias del mismo año. De ok. Y luego clickee nuevamente "Nueva Materia".
+            </h6>
             <br>
             <br>
             <!-- Selección de Carreras -->
@@ -283,6 +190,122 @@
             </b-modal>
           </div>
           <!--cierre container materias--  -->
+
+          <div class="containeract my-3">
+            <!-- creador de actividad -->
+            <button
+              v-b-modal.modal-Actividad
+              variant="outline-info"
+              class="boton-horario col-12 mb-2"
+            >
+              Nueva Actividad
+            </button>
+
+            <b-modal 
+              id="modal-Actividad" 
+              ref="modal-Actividad"
+              size="lg"
+              centered 
+              title="Actividad"
+            >
+              <p class="h4">Agregue una actividad</p>
+              <p class="h6">
+                Una actividad es un bloque de tiempo en el que no puedes cursar
+                ninguna materia. Por ejemplo: si tenes un trabajo de 8 a 12hs, deberias
+                agregar una actividad de 8 a 12hs. O simplemente queres tener un horario libre o 
+                un dia libre. En tales casos agrega una actividad y no generaremos horarios
+                que se superpongan con la actividad.
+
+              </p>
+              <div class="input-group mb-3" bg-secondary>
+                <div class="input-group-prepend">
+                  <br>
+                  <p class="h6"> Dia </p>
+                  <b-form-select
+                    :value="seleccionDia"
+                    :options="diasSemana"
+                    @change="changeSelectedDia"
+                    size="sm"
+                    class="mt-3 drowdown-items"
+                  >
+                  </b-form-select>
+                  <br>
+                  <br>
+                  <p class="h6">Actividad</p>
+                  <input
+                    type="text"
+                    class="form-control"
+                    v-model="nuevaActividadMateria"
+                    v-on:keyup.enter="agregarActividad"
+                  />
+                  <br>
+                  <p class="h6">Descripcion</p>
+                  <input
+                    type="text"
+                    class="form-control"
+                    v-model="nuevaActividadAula"
+                    v-on:keyup.enter="agregarActividad"
+                  />
+                  <br>
+                  <p class="h5">Hora inicio</p>
+                  <input 
+                  v-model="nuevaActividadInicio" 
+                  type="time"
+                  class="form-control" />
+                  <p class="h5">Hora fin</p>
+                  <input 
+                  v-model="nuevaActividadFin" 
+                  type="time" 
+                  class="form-control" />
+                  <b-button
+                    id="basic-addon"
+                    class="input-group-text bi bi-plus-circle-fill"
+                    variant="outline"
+                    @click="agregarActividad"
+                  >
+                  </b-button>
+                </div>
+
+                <b-list class="">
+                  <b-item v-for="item of actividades" :key="item.nombre">
+                    <div class="d-flex justify-content-between">
+                      <div>{{item.dia}} | {{ item.materia }} - {{item.aula}} - {{item.inicio}} - {{item.fin}}</div>
+
+                      <div>
+                        <b-button
+                          variant="danger"
+                          class="btn-sm"
+                          @click="eliminarActividad"
+                          >X</b-button
+                        >
+                      </div>
+                    </div>
+                  </b-item>
+                </b-list>
+
+                <!-- <b-list class="">
+                  <b-item v-for="item of this.actividades" :key="item.nuevaActividadMateria">
+                    <div class="d-flex justify-content-between">
+                      <div>- {{ item.nuevaActividadMateria }}</div>
+                      <div>
+                        <b-button
+                          variant="danger"
+                          class="btn-sm"
+                          @click="eliminarActividad"
+                          >X</b-button
+                        >
+                      </div>
+                    </div>
+                  </b-item>
+                </b-list> -->
+              </div>
+              <template #modal-footer>
+                <button v-b-modal.modal-close_visit @click="hideModalActividad" class="btn btn-danger btn-sm m-1">Cancel</button>
+                <button v-b-modal.modal-close_visit @click="confirmarActividadesSeleccionadas" class="btn btn-success btn-sm m-1">Ok</button>
+              </template>
+            </b-modal>
+          </div>
+          <!-- cierre actividad -->
         </div>
       </div>
 
@@ -327,9 +350,14 @@
         class="form-control" />
         <br>
 
-        <p class="h5">Mostrar actividades en el excel final</p>
+        <!-- <p class="h5">Mostrar actividades en el excel final</p>
         <input type="checkbox" id="checkbox" v-model="mostrarActividadesCheckbox">
-        
+         -->
+        <label class="checkbox-container" style="height: 24px;">
+          <span class="h5" style="margin-right: 10px;">Mostrar actividades en el excel final</span>
+          <input type="checkbox" id="checkbox" v-model="mostrarActividadesCheckbox">
+          <span class="checkmark" style="margin-top: -6px;"></span>
+        </label>
         <b-row>
             <blockquote class="blockquote text-center">
               <!-- <button class="boton-modal pdf col-4">PDF</button> -->
@@ -1409,6 +1437,24 @@ h3 {
   border-radius: 5px;
   background-color: #ddc77a;
   color: #2c5f66;
+}
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.checkmark {
+  position: absolute;
+  top: 60%;
+  transform: translateY(-50%);
+  right: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #eee;
+  border-radius: 50%;
+  margin-left: 10px;
 }
 
 .scrollable {

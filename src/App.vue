@@ -10,8 +10,8 @@
 
       <div class="divnav col-4">
        
-        <router-link class="rutaHorario" to="/horarios"> Horarios</router-link>
-        <a class="cafecito2" href="https://cafecito.app/" target="_blank"
+        <!-- <router-link class="rutaHorario" to="/horarios"> Horarios</router-link> -->
+        <a class="cafecito2" href="https://cafecito.app/uncalendar" target="_blank"
           ><b>¡Donaciones!</b></a
         >
       </div>

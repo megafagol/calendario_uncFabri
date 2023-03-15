@@ -14,9 +14,22 @@
             gestionar las materias que deseas cursar este cuatrimestre y
             combinar sus horarios para poder elaborar tu calendario de manera
             personalizada.
-            <br />Aquí te dejamos un video con la explicación de como funciona.
+            <!-- <br />Aquí te dejamos un video con la explicación de como funciona. -->
+            <br />
+            <br />
+            Esta versión de la página es una versión beta. Muchas de las
+            funcionalidades tienen cosas que pullir, como las interfaces de
+            usuario, pero la funcionalidad principal está completa. Si tenés
+            alguna sugerencia o querés reportar algún bug hacelo a este correo:
+            calendarunc@gmail.com
+
+            <br />
+            <br />
+            Gracias !
           </p>
-          <div col-12>
+
+          
+          <!-- <div col-12>
             <iframe
               class="tutorialVid"
               src="https://www.youtube.com/embed/kH4BhWgh3Nk"
@@ -25,7 +38,7 @@
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowfullscreen
             ></iframe>
-          </div>
+          </div> -->
         </div>
 
         <div id="container-button" class="container-button mx-0">
