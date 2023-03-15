@@ -602,7 +602,7 @@ export default {
       }
       console.log("mostrarActividadesCheckbox:" + this.mostrarActividadesCheckbox);
 
-      var body = {materias:[], actividades: this.actividadesBody, cantSolucionesBuscadas: 5, margenMinimo: this.margenMinimo, mostrarActividades: this.mostrarActividadesCheckbox};
+      var body = {materias:[], actividades: this.actividadesBody, cantSolucionesBuscadas: 15, margenMinimo: this.margenMinimo, mostrarActividades: this.mostrarActividadesCheckbox};
 
       let dictMateriasAux = {};
 
