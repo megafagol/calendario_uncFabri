@@ -8,7 +8,7 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Horario,
+    component: () => import(/* webpackChunkName: "horarios" */ '../views/Horario.vue')
   },
   {
     path: '/Horarios',
